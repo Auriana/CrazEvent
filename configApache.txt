@@ -1,0 +1,44 @@
+fichier host
+
+127.0.0.1 crazevent.com
+
+
+ajouter /alias/localhost.conf
+
+#####   
+## localhost   
+## DOMAINE principal   
+#####   
+NameVirtualHost localhost    
+
+<VirtualHost localhost>    
+    DocumentRoot C:/wamp/www/  
+    ServerName localhost   
+</VirtualHost>
+
+
+ajouter /alias/crazevent.com.conf
+
+#####   
+## crazevent.com  
+## DOMAINE de crazevent   
+#####   
+NameVirtualHost crazevent.com   
+
+<VirtualHost crazevent.com>    
+    DocumentRoot C:/wamp/www/crazevent/  
+    ServerName crazevent.com   
+</VirtualHost>
+
+
+ajouter à la racine de crazevent .htaccess
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* index.php/$0 [PT,L]
+
+
+modifier httpd.conf
+
+uncomment LoadModule rewrite_module modules/mod_rewrite.so 
