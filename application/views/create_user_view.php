@@ -14,20 +14,21 @@
 <body>
     <div class="container">
 
-        <form class="form-horizontal" role="form">
+        <?php echo validation_errors(); ?>
+        <?php echo form_open('verify_create_user', 'class="form-horizontal" role="form"'); ?>
             <div class="col-md-6">
 
                 <div class="form-group">
                     <label for="inputFirstName" class="col-sm-4 control-label">Prénom</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputFirstName" placeholder="Entre ton prénom">
+                        <input type="text" class="form-control" id="inputFirstName" name="inputFirstName" placeholder="Entre ton prénom">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputSurname" class="col-sm-4 control-label">Nom de famille</label>
+                    <label for="inputPassword" class="col-sm-4 control-label">Mot de passe</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputSurname" placeholder="Entre ton nom de famille">
+                        <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Entre ton mot de passe">
                     </div>
                 </div>
 
@@ -52,7 +53,7 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary btn-lg">Inscription</button>
+                <button type="submit" value="login" class="btn btn-primary btn-lg">Inscription</button>
 
             </div>
         </form>

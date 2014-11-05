@@ -8,6 +8,7 @@ class Create_User extends CI_Controller {
 
  function index()
  {
+   $this->load->helper(array('form'));
    $this->load->view('create_user_view');
  }
 
