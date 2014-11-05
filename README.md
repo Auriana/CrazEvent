@@ -11,3 +11,6 @@ git clone git@github.com:Auriana/CrazEvent .
 ```
 The final dot is mandatory if you want to avoid to clone the root directory `CrazEvent`.
 Then you can add this repo to your GitHub desktop interface with a simple drag and drop.
+
+Finally, a MySql database must be running when you test the application. The credentials must be the same as provided in the file `application\config\database.php`. By default the username is `root` and password is `root` likewise.
+A `crazevent` database must be running as well. The deployement script will be soon available.
