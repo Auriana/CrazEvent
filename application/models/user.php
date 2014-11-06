@@ -32,16 +32,7 @@ Class User extends CI_Model
          'email' => $email,
          'is_admin' => false
      );
-     $query = $this -> db -> insert('user', $data);
-     
-     if($query == TRUE)
-     {
-        return true;
-     }
-     else
-     {
-         return false;
-     }
+     return $this -> db -> insert('user', $data);
   }
 }
 ?>
