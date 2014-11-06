@@ -3,10 +3,10 @@ Class User extends CI_Model
 {
  function login($email, $password)
  {
-   $this -> db -> select('id, email, firstname, surname');
+   $this -> db -> select('id, email, first_name, surname');
    $this -> db -> from('users');
    $this -> db -> where('email', $email);
-   $this -> db -> where('password', $password);
+   $this -> db -> where('password', MD5($password));
    $this -> db -> limit(1);
  
    $query = $this -> db -> get();
@@ -30,7 +30,7 @@ Class User extends CI_Model
          'birthdate' => $birthdate,
          'region' => $region,
          'email' => $email,
-         'is_admin' => FALSE
+         'is_admin' => false
      );
      $query = $this -> db -> insert('user', $data);
      
