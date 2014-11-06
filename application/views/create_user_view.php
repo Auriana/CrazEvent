@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Craz'Event</title>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/bootstrap.min.css'; ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/bootstrap-theme.min.css'; ?>">
     <script src="<?php echo asset_url().'js/bootstrap.min.js'; ?>"></script>
@@ -24,6 +26,13 @@
                         <input type="text" class="form-control" id="inputFirstName" name="inputFirstName" placeholder="Entre ton prénom">
                     </div>
                 </div>
+                
+                <div class="form-group">
+                    <label for="inputSurname" class="col-sm-4 control-label">Nom de famille</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="inputSurname" name="inputSurname" placeholder="Entre ton nom de famille">
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label for="inputPassword" class="col-sm-4 control-label">Mot de passe</label>
@@ -35,21 +44,21 @@
                 <div class="form-group">
                     <label for="inputBirthdate" class="col-sm-4 control-label">Date de naissance</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputBirthdate" placeholder="Entre ta date de naissance">
+                        <input type="date" class="form-control" id="inputBirthdate" name="inputBirthdate" placeholder="Entre ta date de naissance">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputPlace" class="col-sm-4 control-label">Région</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputPlace" placeholder="Entre ta région">
+                        <input type="text" class="form-control" id="inputRegion" name="inputRegion" placeholder="Entre ta région">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputMail" class="col-sm-4 control-label">Adresse e-mail</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputMail" placeholder="Entre ton adresse e-mail">
+                        <input type="email" class="form-control" id="inputMail" name="inputMail" placeholder="Entre ton adresse e-mail">
                     </div>
                 </div>
 
@@ -59,12 +68,6 @@
         </form>
 
     </div>
-    <!-- /container -->
-    </div>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

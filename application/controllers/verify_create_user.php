@@ -14,8 +14,12 @@ class Verify_Create_User extends CI_Controller {
    $this->load->library('form_validation');
  
    $this->form_validation->set_rules('inputFirstName', 'inputFirstName', 'trim|required|xss_clean');
+   $this->form_validation->set_rules('inputSurname', 'inputSurname', 'trim|required|xss_clean');
    $this->form_validation->set_rules('inputPassword', 'inputPassword', 'trim|required|xss_clean');
- 
+   $this->form_validation->set_rules('inputBirthdate', 'inputBirthdate', 'required|xss_clean');
+   $this->form_validation->set_rules('inputRegion', 'inputRegion', 'xss_clean');
+   $this->form_validation->set_rules('inputMail', 'inputMail', 'trim|required|xss_clean');
+     
    if($this->form_validation->run() == FALSE)
    {
      //Field validation failed.  User redirected to create_user page
@@ -39,11 +43,15 @@ class Verify_Create_User extends CI_Controller {
  function create_user()
  {
    //Field validation succeeded.  Validate against database
-   $username = $this->input->post('inputFirstName');
+   $firstname = $this->input->post('inputFirstName');
+   $surname = $this->input->post('inputSurname');
    $password = $this->input->post('inputPassword');
+   $birthdate = $this->input->post('inputBirthdate');
+   $region = $this->input->post('inputRegion');
+   $email = $this->input->post('inputMail');
  
    //query the database
-   $result = $this->user->create_user($username, $password);
+   $result = $this->user->create_user($firstname, $surname, $password, $birthdate, $region, $email);
  
    if($result)
    {
