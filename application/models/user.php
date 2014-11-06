@@ -20,36 +20,19 @@ Class User extends CI_Model
      return false;
    }
  }
-  
-    /*
- function creat_user($username, $password, $birthdate, $city, $email)
+     
+ function create_user($firstname, $surname, $password, $birthdate, $region, $email)
  {
      $data = array(
-         'username' => $username,
-         'password' => $password,
+         'first_name' => $firstname,
+         'surname' => $surname,
+         'password' => MD5($password),
          'birthdate' => $birthdate,
-         'city' => $city,
-         'email' => $email
+         'region' => $region,
+         'email' => $email,
+         'is_admin' => FALSE
      );
-     $query = $this -> db -> insert($data);
-     
-     if($query -> num_rows() == 1)
-     {
-        return $query->result();
-     }
-     else
-     {
-         return false;
-     }
-  } */
-     
-    function create_user($username, $password)
- {
-     $data = array(
-         'username' => $username,
-         'password' => $password
-     );
-     $query = $this -> db -> insert('users', $data);
+     $query = $this -> db -> insert('user', $data);
      
      if($query == TRUE)
      {
