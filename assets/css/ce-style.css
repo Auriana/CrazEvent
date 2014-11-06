@@ -7,3 +7,7 @@
 .page-header {
 	margin-top: 80px!important;
 }
+
+.navbar-fixed-top {
+	position: static!important;
+}
