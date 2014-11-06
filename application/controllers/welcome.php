@@ -5,7 +5,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
         //if user is logged in : redirection to home page
-        if($this->session->userdata('logged_in'))
+        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
         {
             redirect('home', 'refresh');
         }

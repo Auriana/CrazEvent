@@ -57,7 +57,7 @@ class Verify_Login extends CI_Controller {
            $this->session->set_userdata('logged_in', $sess_array);
        }
    } else {
-       $this->form_validation->set_message('check_database', 'Invalid username or password');
+       $this->form_validation->set_message('login', 'Invalid email or password');
    }
      
    return $result;

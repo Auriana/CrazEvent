@@ -1,6 +1,4 @@
-<div class="container">
-
-    <?php echo validation_errors(); ?>
+	<?php echo validation_errors(); ?>
     <?php echo form_open('verify_login', 'class="form-horizontal" role="form"'); ?>
         <div class="col-md-6">
 
@@ -24,5 +22,3 @@
 
         </div>
     </form>
-
-</div>

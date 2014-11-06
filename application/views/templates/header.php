@@ -16,6 +16,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/bootstrap-theme.min.css'; ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/ce-style.css'; ?>">
 	</head>
+	
 	<body role="document">
 		
 		<!-- Fixed navbar -->
@@ -39,9 +40,9 @@
 						<li><a href="#MesNotifications">Mes notifications</a></li>
 						<li><a href="#MesNotifications">Mon profil</a></li>
 				
-					</ul>-->
+					</ul>
 				</div><!--/.nav-collapse -->
-			</div>
-		</div>
+			</div><!-- /.container -->
+		</div><!-- /.navbar -->
 
 		<div class="container theme-showcase" role="main">

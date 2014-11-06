@@ -30,7 +30,7 @@ Class User extends CI_Model
          'birthdate' => $birthdate,
          'region' => $region,
          'email' => $email,
-         'is_admin' => FALSE
+         'is_admin' => false
      );
      return $this -> db -> insert('user', $data);
   }
