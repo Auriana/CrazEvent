@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Verify_Create_User extends CI_Controller {
+class Verify_Login extends CI_Controller {
  
  function __construct()
  {
@@ -18,8 +18,8 @@ class Verify_Create_User extends CI_Controller {
  
    if($this->form_validation->run() == FALSE)
    {
-     //Field validation failed.  User redirected to create_user page
-     $this->load->view('pages/welcome');
+     //Field validation failed.  User redirected to welcome page
+     $this->load->view('pages/welcome_view');
    }
    else
    {
@@ -29,7 +29,7 @@ class Verify_Create_User extends CI_Controller {
      if ($login) {
         redirect('home', 'refresh');
      } else {
-        $this->load->view('pages/welcome');
+        $this->load->view('pages/welcome_view');
      }
    }
  
