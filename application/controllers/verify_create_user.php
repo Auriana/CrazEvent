@@ -23,7 +23,7 @@ class Verify_Create_User extends CI_Controller {
    if($this->form_validation->run() == FALSE)
    {
      //Field validation failed.  User redirected to create_user page
-     $this->load->view('pages/create_user_view');
+     redirect('create_user', 'refresh');
    }
    else
    {
