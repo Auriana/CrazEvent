@@ -3,9 +3,9 @@
         <div class="col-md-6">
 
             <div class="form-group">
-                <label for="inputMail" class="col-sm-4 control-label">Email</label>
+                <label for="inputEmail" class="col-sm-4 control-label">Email</label>
                 <div class="col-sm-8">
-                    <input type="email" class="form-control" id="inputMail" name="inputMail" placeholder="Entre ton email">
+                    <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Entre ton email">
                 </div>
             </div>
 

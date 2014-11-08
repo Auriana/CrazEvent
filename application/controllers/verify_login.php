@@ -13,13 +13,13 @@ class Verify_Login extends CI_Controller {
    //This method will have the credentials validation
    $this->load->library('form_validation');
  
-   $this->form_validation->set_rules('inputMail', 'inputMail', 'trim|required|xss_clean');
+   $this->form_validation->set_rules('inputEmail', 'inputEmail', 'trim|required|xss_clean');
    $this->form_validation->set_rules('inputPassword', 'inputPassword', 'trim|required|xss_clean');
  
    if($this->form_validation->run() == FALSE)
    {
      //Field validation failed.  User redirected to welcome page
-     $this->load->view('pages/welcome_view');
+     redirect('welcome', 'refresh');
    }
    else
    {
@@ -29,7 +29,7 @@ class Verify_Login extends CI_Controller {
      if ($login) {
         redirect('home', 'refresh');
      } else {
-        $this->load->view('pages/welcome_view');
+        redirect('welcome', 'refresh');
      }
    }
  

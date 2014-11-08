@@ -1,21 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Craz'Event</title>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/bootstrap.min.css'; ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/bootstrap-theme.min.css'; ?>">
-    <script src="<?php echo asset_url().'js/bootstrap.min.js'; ?>"></script>
-</head>
-
-<body>
-    <div class="container">
-
         <?php echo validation_errors(); ?>
         <?php echo form_open('verify_create_user', 'class="form-horizontal" role="form"'); ?>
             <div class="col-md-6">
@@ -56,9 +38,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputMail" class="col-sm-4 control-label">Adresse e-mail</label>
+                    <label for="inputEmail" class="col-sm-4 control-label">Adresse e-mail</label>
                     <div class="col-sm-8">
-                        <input type="email" class="form-control" id="inputMail" name="inputMail" placeholder="Entre ton adresse e-mail">
+                        <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Entre ton adresse e-mail">
                     </div>
                 </div>
 
@@ -66,8 +48,3 @@
 
             </div>
         </form>
-
-    </div>
-</body>
-
-</html>
