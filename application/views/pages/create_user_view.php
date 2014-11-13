@@ -36,14 +36,11 @@ function validateForm() {
 }
 </script>
 
-<h3>Crée ton compte</h3>
-<br>
-
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'verify_create_user', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
 <div class="col-md-6 white-bloc centred">
 	<h1 class="text-centred">
-		Insère tes données
+		Crée ton compte
 	</h1>
     <div class="form-group">
         <label for="inputFirstName" class="col-sm-4 control-label">Prénom</label>

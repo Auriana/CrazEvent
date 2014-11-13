@@ -24,6 +24,21 @@ body {
 	border-radius: 12px;
 }
 
+.white-font {
+	color: #fff;
+}
+
+.col-2-blocs {
+	margin-bottom: 4%;
+	margin-left: 4%;
+	margin-right: 4%
+}
+
+.small-marg {
+	margin-bottom: 20px;
+}
+
+
 .page-header {
 	margin-top: 80px!important;
 }
@@ -74,6 +89,18 @@ a:hover {
 	color: #0072c2;
 }
 
+a.event-link {
+	color: #ff1f45!important;
+	line-height: 1.8em;
+	font-size: 16px;
+}
+
 h1 {
 	color: #ff1f45;
+}
+
+h2 {
+	font-size: 26px;
+	color: #888;
+	margin-top: 6px;
 }
