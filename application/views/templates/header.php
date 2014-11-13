@@ -41,7 +41,7 @@
 						<li><a href="#MesContacts">Mes contacts</a></li>
 						<li><a href="#MesNotifications">Mes notifications</a></li>
 						<li><a href="#MesNotifications">Mon profil</a></li>
-				
+						<li><a href="home/logout">Déconnexion</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!-- /.container -->
