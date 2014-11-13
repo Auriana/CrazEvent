@@ -8,20 +8,19 @@ class Create_Event extends CI_Controller {
 
     function index()
     {
-        //if user is logged in : redirection to home page
         if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
         {
-            redirect('home', 'refresh');
-        }
-        //else propose create user form
-        else
-        {  
             $data['title'] = 'Créer évènement';
 
             $this->load->helper(array('form'));
             $this->load->view('templates/header', $data);
             $this->load->view('pages/create_event_view');
             $this->load->view('templates/footer');
+        }
+        //if user is not logged in : redirection to login
+        else
+        {  
+            redirect('home', 'refresh');
         }
     }
 
