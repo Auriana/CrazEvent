@@ -16,7 +16,7 @@ class Create_User extends CI_Controller {
         //else propose create user form
         else
         {  
-            $data['title'] = 'Create User';
+            $data['title'] = 'Inscription';
 
             $this->load->helper(array('form'));
             $this->load->view('templates/header', $data);

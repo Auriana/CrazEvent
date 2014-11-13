@@ -17,7 +17,7 @@ class Search extends CI_Controller {
         //if user is not logged in : redirection to welcome page
         if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
         {
-            $data['title'] = 'Search User';
+            $data['title'] = 'Rechercher utilisateur';
             $session_data = $this->session->userdata('logged_in');
 
             $this->load->helper(array('form'));

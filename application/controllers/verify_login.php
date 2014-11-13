@@ -16,7 +16,7 @@ class Verify_Login extends CI_Controller {
  
    if($this->form_validation->run() == FALSE) {
      //Field validation failed.  User redirected to create_user page
-     $this->load->view('pages/welcome_view');
+        //redirect('welcome', 'refresh'); //TODO
    } else {
      //Log in the user
      $login = $this->login();
