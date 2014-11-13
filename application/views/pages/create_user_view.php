@@ -36,6 +36,9 @@ function validateForm() {
 }
 </script>
 
+<h3>Crée ton compte</h3>
+<br>
+
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'verify_create_user', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
 <div class="col-md-6">

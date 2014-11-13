@@ -29,7 +29,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Craz'event</a>
+					<a class="navbar-brand" href="/home">Craz'event</a>
 				</div>
 				<div class="navbar-collapse collapse">
 					<!-- Menu navigation -->
