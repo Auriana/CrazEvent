@@ -38,8 +38,10 @@ function validateForm() {
 
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'verify_create_user', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
-<div class="col-md-6">
-
+<div class="col-md-6 white-bloc centred">
+	<h1 class="text-centred">
+		Insère tes données
+	</h1>
     <div class="form-group">
         <label for="inputFirstName" class="col-sm-4 control-label">Prénom</label>
         <div class="col-sm-8">
@@ -88,7 +90,11 @@ function validateForm() {
         </div>
     </div>
 
-    <button type="submit" value="login" class="btn btn-primary btn-lg">Inscription</button>
+	<div class="form-group">
+		<div class="col-sm-offset-4 col-sm-8">
+    		<button type="submit" value="login" class="btn btn-default btn-lg">Je m'inscris !</button>
+		</div>
+	</div>
 
 </div>
 </form>

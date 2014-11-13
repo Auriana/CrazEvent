@@ -28,6 +28,7 @@
 				<a class ="centred" href="<?php echo base_url().'create_user'; ?>">...Sinon, inscris-toi!</a>
 			</section>
 			<section>
+				
 			</section>
         </div>
     </form>
