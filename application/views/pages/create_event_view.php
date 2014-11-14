@@ -143,7 +143,7 @@ $(document).ready(function(){
 
 </div>
 <div class="clearer"></div>
-<button type="button" class="btn btn-primary btn-lg">Créer l'événement</button>
+<button type="submit" class="btn btn-primary btn-lg">Créer l'événement</button>
 
 </div>
 </form>

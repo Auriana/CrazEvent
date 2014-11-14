@@ -3,6 +3,7 @@ Class Event extends CI_Model
 {
 
    function create_event($name, $private, $description, $activities, $keywords, $checklistItems, $invitationSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline, $date, $place, $organizer, $duration, $individualPropositionSuggestionAllowed, $region) {
+       //insertion of Event
        $data = array(
            'name' => $eventName,
            'private' => $eventPrivate,
@@ -18,8 +19,34 @@ Class Event extends CI_Model
            'individual_proposition_suggestion_allowed' => $individualPropositionSuggestionAllowed,
            'region' => $region
        );
-       return $this -> db -> insert('event', $data);
+       $insertionResult = $this -> db -> insert('event', $data);
+       $eventId = $this->db->insert_id();
        
+        //insertion of MandatoryCheckListItems
+       if($insertionResult == true) {
+           $data = array();
+           foreach ($checklistItems as $checklistItem){
+               $data[] = array(
+                    'content' => $checklistItem,
+                    'event_id' => $eventId
+               );
+           }
+           $insertionResult = $this -> db -> insert_batch('mandatory_checklist_item', $data);
+
+            //insertion of Activities
+           if($insertionResult == true) {
+               $data = array();
+               foreach ($checklistItems as $checklistItem){
+                   $data[] = array(
+                        'activity_id' => ,
+                        'event_id' => $eventId
+                   );
+               }
+               $insertionResult = $this -> db -> insert_batch('activity_specification', $data) == FALSE) {
+           }
+       }
+       
+       return $insertionResult;
        //TODO : insertion activities, keywords, checklist
     }
     

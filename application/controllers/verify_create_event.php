@@ -48,7 +48,7 @@ class Verify_Create_User extends CI_Controller {
    $i = 1;
    while(($formValue = $this->input->post($formInputName + $i++, TRUE)) != false) {
        if($formValue != '') {
-           $array[$i] = $formValue;
+           $array[] = $formValue;
        }
    }
    return $array;
@@ -65,7 +65,7 @@ class Verify_Create_User extends CI_Controller {
      
    if($this->input->post('privatePublic', TRUE) == 'private') {
        $eventPrivate = 1;
-   else {
+   } else {
        $eventPrivate = 0;
    }
        
@@ -76,37 +76,37 @@ class Verify_Create_User extends CI_Controller {
    $eventInvitationSuggestionAllowed = $this->input->post('inputInvitationAllowed', TRUE);
    $eventIndividualPropositionSuggestionAllowed = $this->input->post('inputIndividualPropositionAllowed', TRUE);
        
-   if($this->input->post('inputMaxParticipant', TRUE)) == '') {
+   if($this->input->post('inputMaxParticipant', TRUE) == '') {
        $eventMaxParticipant = null;
    } else {
        $eventMaxParticipant = $this->input->post('inputMaxParticipant', TRUE);
    }
     
-   if($this->input->post('inputMinAge', TRUE)) == '') {
+   if($this->input->post('inputMinAge', TRUE) == '') {
        $eventMinAge = null;
    } else {
        $eventMinAge = $this->input->post('inputMinAge', TRUE);
    }
        
-   if($this->input->post('inputJoinDate', TRUE)) == '') {
+   if($this->input->post('inputJoinDate', TRUE) == '') {
        $eventInscriptionDeadline = null;
    } else {
        $eventInscriptionDeadline = $this->input->post('inputJoinDate', TRUE);
    }
        
-   if($this->input->post('inputDate') == '', TRUE)) {
+   if($this->input->post('inputDate', TRUE) == '') {
        $eventDate = null;
    } else {
        $eventDate = $this->input->post('inputDate', TRUE);
    }
        
-   if($this->input->post('inputDuration') == '', TRUE)) {
+   if($this->input->post('inputDuration', TRUE) == '') {
        $eventDuration = null;
    } else {
        $eventDuration = $this->input->post('inputDuration', TRUE);
    }
        
-   if($this->input->post('inputPlace') == '', TRUE)) {
+   if($this->input->post('inputPlace', TRUE) == '') {
        $eventPlace = null;
    } else {
        $eventPlace = $this->input->post('inputPlace', TRUE);
