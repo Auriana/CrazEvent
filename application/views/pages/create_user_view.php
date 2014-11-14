@@ -95,6 +95,9 @@ function validateForm() {
     		<button type="submit" value="login" class="btn btn-default btn-lg">Je m'inscris !</button>
 		</div>
 	</div>
+    
+    <div class="clearer"></div>
+    <a class ="centred" href="<?php echo base_url().'welcome'; ?>">Retour à l'acceuil</a>
 
 </div>
 </form>
