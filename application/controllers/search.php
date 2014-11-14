@@ -38,12 +38,16 @@ class Search extends CI_Controller {
         $region = $_GET['r'];
         
         $result = $this->user->search_user($firstname, $surname, $region);
+        
+        $session_data = $this->session->userdata('logged_in');
+        $id_user = $session_data['id'];
 
         echo "<table border='1'>
         <tr>
         <th>Prénom</th>
         <th>Nom de famille</th>
         <th>Région</th>
+        <th></th>
         </tr>";
 
         foreach($result as $row) {
@@ -51,9 +55,20 @@ class Search extends CI_Controller {
           echo "<td>" . $row -> firstname . "</td>";
           echo "<td>" . $row -> surname . "</td>";
           echo "<td>" . $row -> region . "</td>";
+            $friendship = $this->user->is_friend($id_user, $row -> id);
+            if ($friendship == 2) {
+                echo "<td></td>";
+            } else if ($friendship == 1) {
+                echo "<td>Est un contact!</td>";
+            } else {
+                echo "<td id='addContact" . $row -> id . "'><button onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
+            }
           echo "</tr>";
         }
         echo "</table>";
+    }
+    
+    function add_user($id_user, $id_contact) {
     }
 
 }
