@@ -19,49 +19,80 @@ $(document).ready(function(){
 });
 </script>
 
-<h3>Crée ton évènement</h3>
-
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'verify_create_event', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
+
 <div class="col-md-12 white-bloc centred">
 	<h1 class="text-centred">
-		Insère tes données
+		Crée ton événement
 	</h1>
 
     <div class="form-group">
         <label for="inputEventName" class="col-sm-4 control-label">*Nom de l'événement</label>
-        <div class="col-sm-8">
+        <div class="col-sm-6">
             <input type="text" class="form-control" id="inputEventName" placeholder="Entre le nom de ton événement">
         </div>
     </div>
 
     <div class="form-group">
-        <label class="radio-inline col-sm-4">
+        <label class="radio-inline col-sm-2 col-md-offset-4">
             <input type="radio" name="privatePublic" id="privateRadio" value="private" checked>
             *Privé
         </label>
-        <label class="radio-inline col-sm-4">
+        <label class="radio-inline col-sm-2">
             <input type="radio" name="privatePublic" id="publicRadio" value="public">
             *Public
         </label>
     </div>
+	
+	    <div class="form-group">
+        <label for="inputDate" class="col-sm-4 control-label">Date de début</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="inputDate" placeholder="">
+        </div>
+        <button type="button" class="btn btn-primary">Cal</button>
+    </div>
+    
+    <div class="form-group">
+        <label for="inputDuration" class="col-sm-4 control-label">Durée (jour)</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="inputDuration">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="inputPlace" class="col-sm-4 control-label">Lieu de début</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="inputPlace" placeholder="">
+        </div>
+        <button type="button" class="btn btn-primary">Cal</button>
+    </div>
+    
+    <div class="form-group">
+        <label for="inputRegion" class="col-sm-4 control-label">Région</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="inputRegion" placeholder="">
+        </div>
+    </div>
 
     <div class="form-group">
         <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>
-        <div id="activityContainer" class="col-sm-7">
+        <div id="activityContainer" class="col-sm-6">
             <input type="text" class="form-control" id="inputActivity1" placeholder="Entre une activité">
         </div>
         <button type="button" id="addActivity" class="btn btn-primary">+</button>
     </div>
 
     <div class="form-group">
-        <label>*Description</label>
-        <textarea class="form-control" rows="5" id="inputDescription"></textarea>
+        <label class="col-sm-4 control-label">*Description</label>
+		<div class="col-sm-6">
+        	<textarea class="form-control" rows="5" id="inputDescription"></textarea>
+		</div>
     </div>
 
     <div class="form-group">
         <label for="inputKeyWord" class="col-sm-4 control-label">Mot(s)-clé(s)</label>
-        <div id="keywordContainer" class="col-sm-7">
+        <div id="keywordContainer" class="col-sm-6">
             <input type="text" class="form-control" id="inputKeyWord1" placeholder="Entre un mot-clé">
         </div>
         <button type="button" id="addKeyword" class="btn btn-primary">+</button>
@@ -69,19 +100,23 @@ $(document).ready(function(){
 
     <div class="form-group">
         <label for="inputChecklist" class="col-sm-4 control-label">Checklist</label>
-        <div id="checklistContainer" class="col-sm-7">
+        <div id="checklistContainer" class="col-sm-6">
             <input type="text" class="form-control" id="inputChecklistItem1" placeholder="Entre une chose à faire/prendre">
         </div>
         <button type="button" id="addChecklistItem" class="btn btn-primary">+</button>
     </div>
 
     <div class="form-group">
-        <label  for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités</label>
+        <label for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités</label>
+		<div class="col-sm-2">
             <input type="checkbox" id="inputInvitationAllowed" value="">
+		</div>
     </div>
         <div class="form-group">
         <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de proposition individuelles</label>
+		<div class="col-sm-2">
             <input type="checkbox" id="inputIndividualPropositionAllowed" value="">
+		</div>
     </div>
     
     <div class="form-group">
@@ -100,50 +135,19 @@ $(document).ready(function(){
 
     <div class="form-group">
         <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
-        <div class="col-sm-7">
+        <div class="col-sm-6">
             <input type="text" class="form-control" id="inputJoinDate" placeholder="">
         </div>
         <button type="button" class="btn btn-primary">Cal</button>
     </div>
+	
+	<div class="form-group">
+		<div class="col-sm-offset-4 col-sm-6">
+    		<button type="button" class="btn btn-primary btn-lg">Créer l'événement</button>
+		</div>
+	</div>
 
 </div>
-
-<!-- Colonne 2 -->
-<div class="col-md-6">
-    <div class="form-group">
-        <label for="inputDate" class="col-sm-4 control-label">Date de début</label>
-        <div class="col-sm-7">
-            <input type="text" class="form-control" id="inputDate" placeholder="">
-        </div>
-        <button type="button" class="btn btn-primary">Cal</button>
-    </div>
-    
-    <div class="form-group">
-        <label for="inputDuration" class="col-sm-4 control-label">Durée (jour)</label>
-        <div class="col-sm-2">
-            <input type="text" class="form-control" id="inputDuration">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="inputPlace" class="col-sm-4 control-label">Lieu de début</label>
-        <div class="col-sm-7">
-            <input type="text" class="form-control" id="inputPlace" placeholder="">
-        </div>
-        <button type="button" class="btn btn-primary">Cal</button>
-    </div>
-    
-    <div class="form-group">
-        <label for="inputRegion" class="col-sm-4 control-label">Région</label>
-        <div class="col-sm-7">
-            <input type="text" class="form-control" id="inputRegion" placeholder="">
-        </div>
-    </div>
-
-
-</div>
-<div class="clearer"></div>
-<button type="button" class="btn btn-primary btn-lg">Créer l'événement</button>
 
 </div>
 </form>
