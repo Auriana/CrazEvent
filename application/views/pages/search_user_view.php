@@ -22,13 +22,31 @@ function searchUser() {
   xmlhttp.open("GET","search_user?f=" + firstname + "&s=" + surname + "&r=" + region ,true);
   xmlhttp.send();
 }
+
+function addContact(idUser, idContact) {
+    $.ajax({
+    type: "POST",
+    url: '/manage_user/add_contact',
+    dataType: 'json',
+    data: {arguments: [idUser, idContact]},
+
+    success: function (obj, textstatus) {
+                  if( !('error' in obj) ) {
+                      console.log("success");
+                  }
+                  else {
+                      console.log(obj.error);
+                  }
+            }
+});
+}
 </script>
 
 <h3>Recherche un utilisateur</h3>
 <br>
 
 
-<div class="col-md-6">
+<div class="col-md-6 white-bloc">
 
     <div class="form-group">
         <label for="inputFirstName" class="col-sm-4 control-label">Prénom</label>
@@ -56,8 +74,7 @@ function searchUser() {
 
     <button value="search" class="btn btn-default btn-lg" onClick="searchUser()">Recherche</button>
 
-</div>
-
 <div class="clearer"><br><b>Résultat de la recherche.</b>
-<div class="clearer" id="txtHint"></div>
+<div id="txtHint"></div>
+</div>
 </div>
