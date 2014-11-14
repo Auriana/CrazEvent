@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 13 Novembre 2014 à 12:46
--- Version du serveur :  5.6.17
+-- Généré le :  Ven 14 Novembre 2014 à 15:19
+-- Version du serveur :  5.6.20
 -- Version de PHP :  5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -19,6 +19,49 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `crazevent`
 --
+CREATE SCHEMA IF NOT EXISTS `crazevent` DEFAULT CHARACTER SET utf8;
+USE `crazevent`;
+
+DELIMITER $$
+--
+-- Procédures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_friendship`(id_user int, id_contact int)
+BEGIN
+if (id_user = id_contact) then
+	select 'error';
+elseif (id_user < id_contact) then
+	insert friendship(user_id1, user_id2) values(id_user, id_contact);
+	select * from friendship where user_id1 = id_user AND user_id2 = id_contact;
+else
+	insert friendship(user_id1, user_id2) values(id_contact, id_user);
+	select * from friendship where user_id1 = id_contact AND user_id2 = id_user;
+end if;
+END$$
+
+--
+-- Fonctions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `is_friendship`(id_user int, id_contact int) RETURNS int(11)
+BEGIN
+if (id_user = id_contact) then
+	return 2;
+elseif (id_user < id_contact) then
+	if (select exists(select * from friendship where user_id1 = id_user AND user_id2 = id_contact)) then
+		return 1;
+	else
+		return 0;
+	end if;
+else
+	if (select exists(select * from friendship where user_id1 = id_contact AND user_id2 = id_user)) then
+		return 1;
+	else
+		return 0;
+	end if;
+end if;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
