@@ -58,8 +58,11 @@ Class User extends CI_Model
     function is_friend($id_user, $id_contact)
     {
         $query = $this->db->query("select is_friendship(" . $id_user . ", " . $id_contact . ")");
+        
+        $row = $query->row_array();
+        
+        return $row["is_friendship(" . $id_user . ", " . $id_contact . ")"];
 
-        return $query->result();
     }
     
 }

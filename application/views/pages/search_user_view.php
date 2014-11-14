@@ -32,7 +32,7 @@ function addContact(idUser, idContact) {
 
     success: function (obj, textstatus) {
                   if( !('error' in obj) ) {
-                      console.log("success");
+                      $('#addContact' + idContact).html('Est un contact!');
                   }
                   else {
                       console.log(obj.error);
