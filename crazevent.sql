@@ -39,6 +39,35 @@ else
 end if;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_keyword`(eventID INT, keywordContent VARCHAR(45))
+BEGIN
+	DECLARE keywordID INT DEFAULT -1;    
+    SELECT id INTO keywordID FROM keyword WHERE content = keywordContent;
+    
+    -- insertion of keyowrd if it doesn't exist
+	IF(keywordID = -1) THEN
+		INSERT INTO keyword VALUES(NULL, keywordContent);
+        SELECT LAST_INSERT_ID() INTO keywordID;
+    END IF;
+    
+    -- association of event and keyword
+    INSERT INTO keyword_specification (event_id, keyword_id) VALUES (eventID, keywordID);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_activity`(eventID INT, activityContent VARCHAR(45))
+BEGIN
+	DECLARE activityID INT DEFAULT -1;    
+    SELECT id INTO activityID FROM activity WHERE content = activityContent;
+    
+    -- insertion of activity if it doesn't exist
+	IF(activityID = -1) THEN
+		INSERT INTO activity VALUES(NULL, activityContent);
+        SELECT LAST_INSERT_ID() INTO activityID;
+    END IF;
+    
+    -- association of event and activity
+    INSERT INTO activity_specification (event_id, activity_id) VALUES (eventID, activityID);
+END$$
 --
 -- Fonctions
 --
