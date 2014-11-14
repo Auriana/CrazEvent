@@ -11,7 +11,7 @@ class Home extends CI_Controller {
         //if user is not logged in : redirection to welcome page
         if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
         {
-            $data['title'] = 'Home';
+            $data['title'] = 'Accueil';
             $session_data = $this->session->userdata('logged_in');
             $data['firstname'] = $session_data['firstname'];
 

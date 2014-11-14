@@ -2,27 +2,22 @@
  
 class Verify_Login extends CI_Controller {
  
- function __construct()
- {
+ function __construct() {
    parent::__construct();
    $this->load->model('user','',TRUE);
  }
  
- function index()
- {
+ function index() {
    //This method will have the credentials validation
    $this->load->library('form_validation');
  
    $this->form_validation->set_rules('inputEmail', 'inputEmail', 'trim|required|xss_clean');
    $this->form_validation->set_rules('inputPassword', 'inputPassword', 'trim|required|xss_clean');
  
-   if($this->form_validation->run() == FALSE)
-   {
-     //Field validation failed.  User redirected to welcome page
-     redirect('welcome', 'refresh');
-   }
-   else
-   {
+   if($this->form_validation->run() == FALSE) {
+     //Field validation failed.  User redirected to create_user page
+        //redirect('welcome', 'refresh'); //TODO
+   } else {
      //Log in the user
      $login = $this->login();
      //Go to private area
@@ -35,8 +30,7 @@ class Verify_Login extends CI_Controller {
  
  }
  
- function login()
- {
+ function login() {
    //Field validation succeeded.  Validate against database
    $email = $this->input->post('inputEmail');
    $password = $this->input->post('inputPassword');

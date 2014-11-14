@@ -12,7 +12,7 @@ class Welcome extends CI_Controller {
         //else propose login form
         else
         {         
-            $data['title'] = "Welcome";
+            $data['title'] = "Bienvenue";
         
             $this->load->helper(array('form'));
             $this->load->view('templates/header', $data);
