@@ -22,32 +22,30 @@
 		<!-- Fixed navbar -->
 		<div id="navbar-bloc">
 		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			
-				<div class="container">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="/home">
-								<img src="<?php echo asset_url().'img/crazevent_small.png'; ?>" alt="Craz'event" />
-						</a>
-					</div>
-					<div class="navbar-collapse collapse">
-						<!-- Menu navigation -->
-						<ul class="nav navbar-nav">
-						<!-- search through the appli here -->
-							<li><a href="#MonAgenda">Mon agenda</a></li>
-							<li><a href="#MesContacts">Mes contacts</a></li>
-							<li><a href="#MesNotifications">Mes notifications</a></li>
-							<li><a href="#MesNotifications">Mon profil</a></li>
-							<li><a href="home/logout">Déconnexion</a></li>
-						</ul>
-					</div><!--/.nav-collapse -->
-				</div><!-- /.container -->
-			
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/home">
+							<img src="<?php echo asset_url().'img/crazevent_small.png'; ?>" alt="Craz'event" />
+					</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<!-- Menu navigation -->
+					<ul class="nav navbar-nav">
+					<!-- search through the appli here -->
+						<li><a href="#MonAgenda">Mon agenda</a></li>
+						<li><a href="#MesContacts">Mes contacts</a></li>
+						<li><a href="#MesNotifications">Mes notifications</a></li>
+						<li><a href="#MesNotifications">Mon profil</a></li>
+						<li><a href="<?php echo base_url().'home/logout'; ?>">Déconnexion</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!-- /.container -->
 		</div><!-- /.navbar -->
 		</div><!-- /.navbar-bloc -->
 		<div class="container theme-showcase" role="main">

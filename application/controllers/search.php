@@ -55,10 +55,13 @@ class Search extends CI_Controller {
           echo "<td>" . $row -> firstname . "</td>";
           echo "<td>" . $row -> surname . "</td>";
           echo "<td>" . $row -> region . "</td>";
-            if ($this->user->is_friend($id_user, $row -> id) == 1) {
-                echo "<td>Craz'</td>";
+            $friendship = $this->user->is_friend($id_user, $row -> id);
+            if ($friendship == 2) {
+                echo "<td></td>";
+            } else if ($friendship == 1) {
+                echo "<td>Est un contact!</td>";
             } else {
-                echo "<td><button onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
+                echo "<td id='addContact" . $row -> id . "'><button onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
             }
           echo "</tr>";
         }

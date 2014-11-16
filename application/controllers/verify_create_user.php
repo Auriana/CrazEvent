@@ -31,7 +31,8 @@ class Verify_Create_User extends CI_Controller {
      $creation = $this -> create_user();
      //Go to private area
      if ($creation == TRUE) {
-        redirect('welcome', 'refresh');
+         login($email = $this->input->post('inputEmail'), $password = $this->input->post('inputPassword'));
+        redirect('home', 'refresh');
      } else {
         //TODO redirect to error page
          //redirect('user_guide', 'refresh');
