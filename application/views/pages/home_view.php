@@ -9,7 +9,7 @@
 				Mes prochains événements
 			</h2>
 			<ul>
-				<li><a class="event-link" href="#">Evenement 1</a></li>
+				<li><a class="event-link" href="details_event">Evenement 1</a></li>
 				<li><a class="event-link" href="#">Evenement 2</a></li>
 			</ul>
 		</div>

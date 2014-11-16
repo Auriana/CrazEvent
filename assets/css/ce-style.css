@@ -49,12 +49,27 @@ body {
 	position: static!important;
 }
 
+#navbar-bloc {
+	background-image: url(http://crazevent.com/assets/img/round_border.png)!important;
+	background-position: bottom;
+	background-repeat: repeat-x;
+	margin-bottom: 50px!important;
+}
+
 .navbar {
 	min-height: 85px!important;
 	background-color: #fff!important;
 	background-image: none!important;
 	border: none!important;
-	margin-bottom: 50px!important;
+	
+}
+
+.navbar li a {
+	text-shadow: none!important;
+}
+
+.navbar li a:hover {
+	color: #ff1f45!important;
 }
 
 .btn-default {
