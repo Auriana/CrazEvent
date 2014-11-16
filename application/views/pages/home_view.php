@@ -20,15 +20,17 @@
 			<p>
 				Pas encore d'événement ici, <a href="create_event">crée-en un</a> !
 			</p>
+			<p>
+				Ou <a href="search/user">Rechercher un utilisateur</a>
+			</p>
 		</div>
 	</div>
 	
 	<div class="row">
 		<div class="col-md-5 white-bloc col-2-blocs">
 			<h2>
-				En attendant
+				Nouveaux événements 
 			</h2>
-			<a href="search/user">Rechercher un utilisateur</a>
 		</div>
 		<div class="col-md-5 white-bloc col-2-blocs">
 			<h2>
