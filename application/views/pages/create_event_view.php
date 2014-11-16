@@ -54,15 +54,15 @@ $(document).ready(function(){
 	
     <div class="form-group">
         <label for="inputDate" class="col-sm-4 control-label">Date de début</label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" name="inputDate" id="inputDate" placeholder="">
+        <div class="col-sm-2">
+            <input type="date" class="form-control" name="inputDate" id="inputDate" placeholder="">
         </div>
-        <button type="button" class="btn btn-primary">Cal</button>
+        <!--<button type="button" class="btn btn-primary">Cal</button>-->
     </div>
     
     <div class="form-group">
         <label for="inputDuration" class="col-sm-4 control-label">Durée (jour)</label>
-        <div class="col-sm-2">
+        <div class="col-sm-1">
             <input type="text" class="form-control" name="inputDuration" id="inputDuration">
         </div>
     </div>
@@ -71,8 +71,8 @@ $(document).ready(function(){
         <label for="inputPlace" class="col-sm-4 control-label">Lieu de début</label>
         <div class="col-sm-6">
             <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="">
+			<span id="birthdateError"></span>
         </div>
-        <button type="button" class="btn btn-primary">Cal</button>
     </div>
     
     <div class="form-group">
@@ -119,7 +119,8 @@ $(document).ready(function(){
             <input type="checkbox" name="inputInvitationAllowed" id="inputInvitationAllowed" value="">
 		</div>
     </div>
-        <div class="form-group">
+    
+	<div class="form-group">
         <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
 		<div class="col-sm-2">
             <input type="checkbox" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" value="">
@@ -128,25 +129,25 @@ $(document).ready(function(){
     
     <div class="form-group">
         <label for="inputMaxParticipant" class="col-sm-4 control-label">Nombre maximum de participants</label>
-        <div class="col-sm-2">
+        <div class="col-sm-1">
             <input type="text" class="form-control" name="inputMaxParticipant" id="inputMaxParticipant">
         </div>
     </div>
     
     <div class="form-group">
         <label for="inputMinAge" class="col-sm-4 control-label">Age minimal requis</label>
-        <div class="col-sm-2">
+        <div class="col-sm-1">
             <input type="text" class="form-control" name="inputMinAge" id="inputMinAge">
         </div>
     </div>
 
     <div class="form-group">
         <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="">
+        <div class="col-sm-2">
+            <input type="date" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="">
         </div>
-        <button type="button" class="btn btn-primary">Cal</button>
-    </div
+        <!--<button type="button" class="btn btn-primary">Cal</button>-->
+    </div>
 	
 	<div class="form-group">
 		<div class="col-sm-offset-4 col-sm-6">
