@@ -26,14 +26,16 @@ Class Event extends CI_Model
        $eventId = $this->db->insert_id();
        
        //insertion of MandatoryCheckListItems
-       $data = array();
-       foreach ($checklistItems as $checklistItem){
-           $data[] = array(
-                'content' => $checklistItem,
-                'event_id' => $eventId
-           );
-       }       
-       $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
+       if(!empty($checklistItems)) {
+           $data = array();
+           foreach ($checklistItems as $checklistItem){
+               $data[] = array(
+                    'content' => $checklistItem,
+                    'event_id' => $eventId
+               );
+           }       
+           $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
+       }
 
         //insertion of Activities
        foreach ($activities as $activity){
