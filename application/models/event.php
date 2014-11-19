@@ -68,6 +68,41 @@ Class Event extends CI_Model
 		 }
 	}
     
+    function get_event_activities($id) {
+		
+        $this->db->select('content');
+        $this->db->from('activity');
+        $this->db->join('activity_specification', 'activity_specification.activity_id = activity.id', 'inner');
+        $this->db->where('activity_specification.event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
+    function get_event_keywords($id) {
+		
+        $this->db->select('content');
+        $this->db->from('keyword');
+        $this->db->join('keyword_specification', 'keyword_specification.keyword_id = keyword.id', 'inner');
+        $this->db->where('keyword_specification.event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
+    function get_event_checklist($id) {
+		
+        $this->db->select('content');
+        $this->db->from('mandatory_checklist_item');
+        $this->db->where('event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
     function get_new_events() {
         $this -> db -> select('id, name');
         $this -> db -> from('event');
