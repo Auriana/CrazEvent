@@ -31,6 +31,9 @@
 			<h2>
 				Nouveaux événements 
 			</h2>
+            <ul>
+				<?php echo $new_events; ?>
+			</ul>
 		</div>
 		<div class="col-md-5 white-bloc col-2-blocs">
 			<h2>

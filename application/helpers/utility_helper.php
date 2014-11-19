@@ -37,4 +37,24 @@ if ( ! function_exists('login')) {
 	}
 }
 
+if ( ! function_exists('get_new_events')) {
+    function get_new_events() {
+         
+        // Get a reference to the controller object
+        $CI = get_instance();
+        $CI->load->model('event','',TRUE);
+
+        //query the database
+        $result = $CI->event->get_new_events();
+        $events_infos = "";
+        if ($result) {
+            foreach($result as $row) {
+                $events_infos = $events_infos . "<li><a class='event-link' href='details_event/index/" . $row -> id . "'>" . $row -> name . "</a></li>";
+            }
+        }
+
+        return $events_infos;
+	}
+}
+
 ?>

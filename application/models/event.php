@@ -50,5 +50,13 @@ Class Event extends CI_Model
        return $insertionResult; //TODO : je sais pas si on retourne true ou false
     }
     
+    function get_new_events() {
+        $this -> db -> select('id, name');
+        $this -> db -> from('event');
+        
+        $query = $this -> db -> get();
+
+        return $query->result();
+    }
 }
 ?>
