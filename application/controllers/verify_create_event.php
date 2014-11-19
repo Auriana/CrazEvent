@@ -55,7 +55,7 @@ class Verify_Create_Event extends CI_Controller {
     
     /*
     * retrieve an array from a form with an unkown number of input field that give the same kind of data
-    * The input fields must be numbered stating with 1.
+    * The input fields must be numbered starting with 1.
     */
  function get_array_from_form($formInputName) {
    $array = array();
