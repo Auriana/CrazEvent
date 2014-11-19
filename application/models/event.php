@@ -144,7 +144,7 @@ Class Event extends CI_Model
         foreach($searchKeywords as $searchKeyword) {
             
             //search for events with their simple attributes
-            $this -> db -> select('*');
+            $this -> db -> select('id, name');
             $this -> db -> from('event');
             $this -> db -> or_like('name', $searchKeyword);
             $this -> db -> or_like('description', $searchKeyword);

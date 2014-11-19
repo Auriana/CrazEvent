@@ -100,29 +100,12 @@ class Search extends CI_Controller {
         $result = $this->event->search_event($searchWords);
 
         $resultTable = "";
-        $resultTable .= "<table border='1'>
-        <tr>
-            <th>Nom</th>
-            <th>Privé</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Lieu</th>
-            <th>Inscription jusqu'à</th>
-            <th>Durée en jours</th>
-        </tr>";
+        $resultTable .= "<ul>";
 
         foreach($result as $row) {
-          $resultTable .=  "<tr>"
-                        ."<td>" . $row -> name . "</td>"
-                        ."<td>" . $row -> private . "</td>"
-                        ."<td>" . $row -> description . "</td>"
-                        ."<td>" . $row -> start_date . "</td>"
-                        ."<td>" . $row -> start_place . "</td>"
-                        ."<td>" . $row -> inscription_deadline . "</td>"
-                        ."<td>" . $row -> duration . "</td>"
-                        ."</tr>";
+          $resultTable .= '<li><a href="../details_event/index/'.$row -> id.'">'. $row -> name . '</li>';
         }
-        $resultTable .= "</table>";
+        $resultTable .= "</ul>";
         
         echo $resultTable;
     }
