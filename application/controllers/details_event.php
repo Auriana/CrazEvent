@@ -45,6 +45,8 @@ class Details_Event extends CI_Controller {
         foreach($keywords as $keyword) {
             $infoEvent['eventKeywords'][] = $keyword->content;
         }
+        
+        $infoEvent['eventParticipants'] = $this->event->get_event_participants($id);
 
         return $infoEvent;
 		

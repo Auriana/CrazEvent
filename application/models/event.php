@@ -92,6 +92,17 @@ Class Event extends CI_Model
         return $query->result();
     }
     
+    function get_event_participants($id) {
+        $this->db->select('firstname, surname');
+        $this->db->from('user');
+        $this->db->join('participation', 'participation.user_id = user.id', 'inner');
+        $this->db->where('participation.event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
     function get_event_checklist($id) {
 		
         $this->db->select('content');
@@ -110,6 +121,65 @@ Class Event extends CI_Model
         $query = $this -> db -> get();
 
         return $query->result();
+    }
+    
+    function get_all_events() {
+        $this -> db -> select('*');
+        $this -> db -> from('event');
+        
+        $query = $this -> db -> get();
+
+        return $query->result();
+    }
+    
+    /*
+    * we search for the keywords given in the : name, description, start_place, region, activities and keywords of events
+    * the searchKeywords can be a part of a word
+    */
+    function search_event($searchKeywords)
+    {
+        
+        $events = $this->get_all_events();
+        
+        foreach($searchKeywords as $searchKeyword) {
+            
+            //search for events with their simple attributes
+            $this -> db -> select('*');
+            $this -> db -> from('event');
+            $this -> db -> or_like('name', $searchKeyword);
+            $this -> db -> or_like('description', $searchKeyword);
+            $this -> db -> or_like('start_place', $searchKeyword);
+            $this -> db -> or_like('region', $searchKeyword);
+            
+            $result = $this -> db -> get() -> result();
+            
+            //strpos() doesn't like if search needle is empty
+            if($searchKeyword != '') {
+                foreach($events as $event) {
+
+                    //search for events with their activities
+                    $activities = $this->get_event_activities($event->id);
+                    foreach($activities as $activity) {
+                        if (strpos($activity->content, $searchKeyword) !== false && !in_array($event, $result)) {
+                            $result[] = $event;
+                            continue 2;
+                        }
+                    }
+
+                    //search for events with their keywords
+                    $keywords = $this->get_event_keywords($event->id);
+                    foreach($keywords as $keyword) {
+                        if (strpos($activity->content, $searchKeyword) !== false && !in_array($event, $result)) {
+                            $result[] = $event;
+                            continue 2;
+                        }
+                    }
+                }
+
+            }        
+        }
+
+        return $result;
     }
 }
 ?>

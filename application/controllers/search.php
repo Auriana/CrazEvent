@@ -5,6 +5,7 @@ class Search extends CI_Controller {
     {
          parent::__construct();
          $this->load->model('user','',TRUE);
+         $this->load->model('event','',TRUE);
     }
 
     function index()
@@ -63,6 +64,61 @@ class Search extends CI_Controller {
     }
     
     function add_user($id_user, $id_contact) {
+    }
+    
+    function event()
+    {
+        //if user is not logged in : redirection to welcome page
+        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
+        {
+            $data['title'] = 'Rechercher évènement';
+
+            $this->load->helper(array('form'));
+            $this->load->view('templates/header', $data);
+            $this->load->view('pages/search_event_view', $data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {  
+            redirect('welcome', 'refresh');
+        }
+    }
+
+    function search_event()
+    {
+        /*
+        * The words used for research are separated by spaces
+        */
+        $searchString = $_GET['s'];
+        $searchWords = explode(" ", $searchString);
+        $result = $this->event->search_event($searchWords);
+
+        $resultTable = "";
+        $resultTable .= "<table border='1'>
+        <tr>
+            <th>Nom</th>
+            <th>Privé</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Lieu</th>
+            <th>Inscription jusqu'à</th>
+            <th>Durée en jours</th>
+        </tr>";
+
+        foreach($result as $row) {
+          $resultTable .=  "<tr>"
+                        ."<td>" . $row -> name . "</td>"
+                        ."<td>" . $row -> private . "</td>"
+                        ."<td>" . $row -> description . "</td>"
+                        ."<td>" . $row -> start_date . "</td>"
+                        ."<td>" . $row -> start_place . "</td>"
+                        ."<td>" . $row -> inscription_deadline . "</td>"
+                        ."<td>" . $row -> duration . "</td>"
+                        ."</tr>";
+        }
+        $resultTable .= "</table>";
+        
+        echo $resultTable;
     }
 
 }

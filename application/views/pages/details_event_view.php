@@ -38,6 +38,15 @@
 		<li>Nombre maximum de participants: <?php echo $event->participant_max_nbr; ?></li>	
 		<li>Age minimal requis : <?php echo $event->participant_minimum_age; ?></li>
 	</ul>
+    <ul class="bloc-info">
+		<b>Participants</b>
+        <?php
+            foreach ($eventParticipants as $participant)
+            {
+                echo '<li>'.$participant->firstname.' '.$participant->surname.'</li>';
+            }
+        ?>
+	</ul>
 	<ul class="bloc-info">
 		<b>Keywords</b>
         <?php
