@@ -92,6 +92,17 @@ Class Event extends CI_Model
         return $query->result();
     }
     
+    function get_event_participants($id) {
+        $this->db->select('firstname, surname');
+        $this->db->from('user');
+        $this->db->join('participation', 'participation.user_id = user.id', 'inner');
+        $this->db->where('participation.event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
     function get_event_checklist($id) {
 		
         $this->db->select('content');
