@@ -121,3 +121,8 @@ h2 {
 	color: #888;
 	margin-top: 6px;
 }
+
+.bloc-info {
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+}
