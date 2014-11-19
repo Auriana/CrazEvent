@@ -1,6 +1,30 @@
 /* Craz'event style 
 * Sarra Berich, Auriana Hug, Dominique Jollien, Stéphane Maillard
 */
+a {
+	color: #0072c2;
+}
+
+a:hover {
+	color: #0072c2;
+}
+
+a.event-link {
+	color: #ff1f45!important;
+	line-height: 1.8em;
+	font-size: 16px;
+}
+
+h1 {
+	color: #ff1f45;
+}
+
+h2 {
+	font-size: 26px;
+	color: #888;
+	margin-top: 6px;
+}
+
 
 .clearer {
 	clear: both;
@@ -98,31 +122,36 @@ body {
 	border-radius: 0px!important;
 }
 
-a {
-	color: #0072c2;
-}
-
-a:hover {
-	color: #0072c2;
-}
-
-a.event-link {
-	color: #ff1f45!important;
-	line-height: 1.8em;
-	font-size: 16px;
-}
-
-h1 {
-	color: #ff1f45;
-}
-
-h2 {
-	font-size: 26px;
-	color: #888;
-	margin-top: 6px;
-}
-
 .bloc-info {
 	border-bottom: 1px solid #ddd;
 	padding: 10px;
 }
+
+#txtHint {
+	width: 80%;
+	margin-top: 40px;
+}
+
+#addContact2 {
+	display: inline-block;
+	float: right;
+}
+
+ul.result_search {
+	padding: 0;
+}
+
+ul.result_search li {
+	padding: 7px 0;
+	list-style: none;	
+	border-bottom: 1px solid #ccc;
+}
+
+ul.result_search li:first-child {
+	border-top: 1px solid #ccc;
+}
+
+.small-btn {
+	padding: 0!important;
+}
+
