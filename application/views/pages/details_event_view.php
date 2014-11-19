@@ -23,7 +23,7 @@ function joinEvent(idUser, idEvent) {
 		<?php echo $event->name; ?>
 	</h1>
 	<h5>
-		
+		<?php echo ($event->private == 1 ? "Privé" : "Public" ); ?>
 	</h5>
 	<div id="link-answer">
         <?php echo $participation; ?>
