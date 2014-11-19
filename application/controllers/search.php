@@ -94,7 +94,8 @@ class Search extends CI_Controller {
         $result = $this->event->search_event($searchWords);
 
         $resultTable = "";
-        $resultTable .= "<ul>";
+		$resultTable .= "<h3>Résultat(s)</h3>";
+        $resultTable .= "<ul class='result_search'>";
 
         foreach($result as $row) {
           $resultTable .= '<li><a href="../details_event/index/'.$row -> id.'">'. $row -> name . '</li>';
