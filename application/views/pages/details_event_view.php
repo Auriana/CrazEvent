@@ -19,18 +19,22 @@
 	<ul class="bloc-info">
 		<b>Activités</b>
         <?php
-            foreach ($eventActivities as $activity)
-            {
-                echo '<li>'.$activity.'</li>';
+            if(isset($eventActivities)) {
+                foreach ($eventActivities as $activity)
+                {
+                    echo '<li>'.$activity.'</li>';
+                }
             }
         ?>
 	</ul>
 	<ul class="bloc-info">
 		<b>Checklist</b>
         <?php
-            foreach ($eventChecklist as $checklistItem)
-            {
-                echo '<li>'.$checklistItem.'</li>';
+            if(isset($eventChecklist)) {
+                foreach ($eventChecklist as $checklistItem)
+                {
+                    echo '<li>'.$checklistItem.'</li>';
+                }
             }
         ?>
 	</ul>
@@ -50,9 +54,11 @@
 	<ul class="bloc-info">
 		<b>Keywords</b>
         <?php
-            foreach ($eventKeywords as $keyword)
-            {
-                echo '<li>'.$keyword.'</li>';
+            if(isset($eventKeywords)) {
+                foreach ($eventKeywords as $keyword)
+                {
+                    echo '<li>'.$keyword.'</li>';
+                }
             }
         ?>
 	</ul>
