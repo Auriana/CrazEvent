@@ -20,7 +20,7 @@ class Details_Event extends CI_Controller {
             $info_event['id_user'] = $session_data['id'];
             $info_event['id_event'] = $id;
             if ($this -> event -> is_participation($session_data['id'], $id) == 0) {
-                if ($info_event['private'] == 1) {
+                if ($info_event['event']->private == 1) {
                     $info_event['participation'] = '<a id="joinEvent" href="#" onClick="joinEvent(' . $info_event['id_user'] . ', ' . $info_event['id_event'] . ')" alt="">Répondre à l\'invitation</a>';
                 } else {
                     $info_event['participation'] = '<a id="joinEvent" href="#" onClick="joinEvent(' . $info_event['id_user'] . ', ' . $info_event['id_event'] . ')" alt="">S\'inscrire</a>';
