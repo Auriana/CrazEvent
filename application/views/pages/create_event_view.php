@@ -1,7 +1,26 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
     function validateForm() {
-        return true; //TODO
+        var isValid = true;
+        if ($("#inputEventName").val() == "") {
+            $("#nameError").text("Le nom est obligatoire");
+            isValid = false;
+        } else {
+            $("#nameError").text("");
+        }
+        if ($("#inputDescription").val() == "") {
+            $("#descriptionError").text("La description est obligatoire");
+            isValid = false;
+        } else {
+            $("#descriptionError").text("");
+        }
+        if ($("#inputActivity1").val() == "") {
+            $("#activity1Error").text("Une activité au moins est requise");
+            isValid = false;
+        } else {
+            $("#activity1Error").text("");
+        }
+        return isValid;
     }
     
 $(document).ready(function(){
@@ -38,6 +57,7 @@ $(document).ready(function(){
         <label for="inputEventName" class="col-sm-4 control-label">*Nom de l'événement</label>
         <div class="col-sm-6">
             <input type="text" class="form-control" name="inputEventName" id="inputEventName" placeholder="Entre le nom de ton événement">
+            <span id="nameError"></span>
         </div>
     </div>
 
@@ -86,6 +106,7 @@ $(document).ready(function(){
         <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>
         <div id="activityContainer" class="col-sm-6">
             <input type="text" class="form-control" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
+            <span id="activity1Error"></span>
         </div>
         <button type="button" id="addActivity" class="btn btn-primary">+</button>
     </div>
@@ -94,6 +115,7 @@ $(document).ready(function(){
         <label class="col-sm-4 control-label">*Description</label>
 		<div class="col-sm-6">
         	<textarea class="form-control" rows="5" name="inputDescription" id="inputDescription"></textarea>
+            <span id="descriptionError"></span>
 		</div>
     </div>
 
