@@ -68,6 +68,16 @@ BEGIN
     -- association of event and activity
     INSERT INTO activity_specification (event_id, activity_id) VALUES (eventID, activityID);
 END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `join_event`(id_user int, id_event int)
+BEGIN
+
+insert participation(event_id, user_id) values(id_event, id_user);
+select * from participation where user_id = id_user AND event_id = id_event;
+
+END$$
+
+
 --
 -- Fonctions
 --
@@ -87,6 +97,15 @@ else
 	else
 		return 0;
 	end if;
+end if;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `is_participation`(id_user int, id_event int) RETURNS int(11)
+BEGIN
+if (select exists(select * from participation where user_id = id_user AND event_id = id_event)) then
+	return 1;
+else
+	return 0;
 end if;
 END$$
 
