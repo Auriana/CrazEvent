@@ -49,6 +49,24 @@ Class Event extends CI_Model
        
        return $insertionResult; //TODO : je sais pas si on retourne true ou false
     }
+	
+	function get_event($id) {
+		$this -> db ->select('name, private, invitation_suggestion_allowed, description, start_date, inscription_deadline, duration, start_place, participant_max_nbr, participant_minimum_age, organizer, individual_proposition_suggestion_allowed, region');
+		$this -> db -> from('event');
+		$this -> db -> where('id', $id); // en attendant, pour le test
+     	$this -> db -> limit(1);
+		
+		$query = $this -> db -> get();
+
+		 if($query -> num_rows() == 1)
+		 {
+		    return $query->result();
+		 }
+		 else
+		 {
+		   return false;
+		 }
+	}
     
     function get_new_events() {
         $this -> db -> select('id, name');
