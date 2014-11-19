@@ -26,14 +26,16 @@ Class Event extends CI_Model
        $eventId = $this->db->insert_id();
        
        //insertion of MandatoryCheckListItems
-       $data = array();
-       foreach ($checklistItems as $checklistItem){
-           $data[] = array(
-                'content' => $checklistItem,
-                'event_id' => $eventId
-           );
-       }       
-       $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
+       if(!empty($checklistItems)) {
+           $data = array();
+           foreach ($checklistItems as $checklistItem){
+               $data[] = array(
+                    'content' => $checklistItem,
+                    'event_id' => $eventId
+               );
+           }       
+           $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
+       }
 
         //insertion of Activities
        foreach ($activities as $activity){
@@ -68,6 +70,52 @@ Class Event extends CI_Model
 		 }
 	}
     
+    function get_event_activities($id) {
+		
+        $this->db->select('content');
+        $this->db->from('activity');
+        $this->db->join('activity_specification', 'activity_specification.activity_id = activity.id', 'inner');
+        $this->db->where('activity_specification.event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
+    function get_event_keywords($id) {
+		
+        $this->db->select('content');
+        $this->db->from('keyword');
+        $this->db->join('keyword_specification', 'keyword_specification.keyword_id = keyword.id', 'inner');
+        $this->db->where('keyword_specification.event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
+    function get_event_participants($id) {
+        $this->db->select('firstname, surname');
+        $this->db->from('user');
+        $this->db->join('participation', 'participation.user_id = user.id', 'inner');
+        $this->db->where('participation.event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
+    function get_event_checklist($id) {
+		
+        $this->db->select('content');
+        $this->db->from('mandatory_checklist_item');
+        $this->db->where('event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
     function get_new_events() {
         $this -> db -> select('id, name');
         $this -> db -> from('event');
@@ -77,13 +125,23 @@ Class Event extends CI_Model
         return $query->result();
     }
     
+
     function join_event($id_user, $id_event)
     {
         $query = $this->db->query("call join_event(" . $id_user . ", " . $id_event . ")");
+        return $query->result();
+    }
+    
+    function get_all_events() {
+        $this -> db -> select('*');
+        $this -> db -> from('event');
+        
+        $query = $this -> db -> get();
 
         return $query->result();
     }
     
+
     function is_participation($id_user, $id_event)
     {
         $query = $this->db->query("select is_participation(" . $id_user . ", " . $id_event . ")");
@@ -92,6 +150,55 @@ Class Event extends CI_Model
         
         return $row["is_participation(" . $id_user . ", " . $id_event . ")"];
 
+    }
+    /*
+    * we search for the keywords given in the : name, description, start_place, region, activities and keywords of events
+    * the searchKeywords can be a part of a word
+    */
+    function search_event($searchKeywords)
+    {
+        
+        $events = $this->get_all_events();
+        
+        foreach($searchKeywords as $searchKeyword) {
+            
+            //search for events with their simple attributes
+            $this -> db -> select('id, name');
+            $this -> db -> from('event');
+            $this -> db -> or_like('name', $searchKeyword);
+            $this -> db -> or_like('description', $searchKeyword);
+            $this -> db -> or_like('start_place', $searchKeyword);
+            $this -> db -> or_like('region', $searchKeyword);
+            
+            $result = $this -> db -> get() -> result();
+            
+            //strpos() doesn't like if search needle is empty
+            if($searchKeyword != '') {
+                foreach($events as $event) {
+
+                    //search for events with their activities
+                    $activities = $this->get_event_activities($event->id);
+                    foreach($activities as $activity) {
+                        if (strpos($activity->content, $searchKeyword) !== false && !in_array($event, $result)) {
+                            $result[] = $event;
+                            continue 2;
+                        }
+                    }
+
+                    //search for events with their keywords
+                    $keywords = $this->get_event_keywords($event->id);
+                    foreach($keywords as $keyword) {
+                        if (strpos($activity->content, $searchKeyword) !== false && !in_array($event, $result)) {
+                            $result[] = $event;
+                            continue 2;
+                        }
+                    }
+                }
+
+            }        
+        }
+
+        return $result;
     }
 }
 ?>

@@ -23,6 +23,9 @@
 			<p>
 				Ou <a href="search/user">Rechercher un utilisateur</a>
 			</p>
+            <p>
+				Ou <a href="search/event">Rechercher un évènement</a>
+			</p>
 		</div>
 	</div>
 	

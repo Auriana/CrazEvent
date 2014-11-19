@@ -13,6 +13,7 @@ class Details_Event extends CI_Controller {
         {
 			$data['title'] = 'Détails de l\évènement';
 			
+
 			$info_event = $this -> details($id);
             $session_data = $this->session->userdata('logged_in');
             
@@ -43,26 +44,26 @@ class Details_Event extends CI_Controller {
 	function details($id) {
       	$this->load->model('event','',TRUE);
 		
-		$info_event = array();
+        $infoEvent['event'] = $this->event->get_event($id)[0];
+        
+        $activities = $this->event->get_event_activities($id);
+        foreach($activities as $activity) {
+            $infoEvent['eventActivities'][] = $activity->content;
+        }
+        
+        $checklist = $this->event->get_event_checklist($id);
+        foreach($checklist as $checklistItem) {
+            $infoEvent['eventChecklist'][] = $checklistItem->content;
+        }
+        
+        $keywords = $this->event->get_event_keywords($id);
+        foreach($keywords as $keyword) {
+            $infoEvent['eventKeywords'][] = $keyword->content;
+        }
+        
+        $infoEvent['eventParticipants'] = $this->event->get_event_participants($id);
 
-        $result = $this->event->get_event($id);
-		foreach($result as $row) {
-			$info_event['name'] = $row -> name;
-			$info_event['private'] = $row -> private;
-			$info_event['invitation_suggestion_allowed'] = $row -> invitation_suggestion_allowed;
-			$info_event['description'] = $row -> description;
-			$info_event['start_date'] = $row -> start_date;
-			$info_event['inscription_deadline'] = $row -> inscription_deadline;
-			$info_event['duration'] = $row -> duration;
-			$info_event['start_place'] = $row -> start_place;
-			$info_event['participant_max_nbr'] = $row -> participant_max_nbr;
-			$info_event['participant_minimum_age'] = $row -> participant_minimum_age;
-			$info_event['organizer'] = $row -> organizer;
-			$info_event['individual_proposition_suggestion_allowed'] = $row -> individual_proposition_suggestion_allowed;
-			$info_event['region'] = $row -> region;
-		}
-		
-		return $info_event;
+        return $infoEvent;
 		
     }
 

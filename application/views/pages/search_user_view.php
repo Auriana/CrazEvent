@@ -41,16 +41,13 @@ function addContact(idUser, idContact) {
 });
 }
 </script>
-
-<h3>Recherche un utilisateur</h3>
-<br>
-
-
-<div class="col-md-6 white-bloc">
-
-    <div class="form-group">
+<div class="form-horizontal">
+<div class="col-md-6 white-bloc centred">
+	<h1 class="text-centred">Recherche un utilisateur</h1>
+	
+	<div class="form-group">
         <label for="inputFirstName" class="col-sm-4 control-label">Prénom</label>
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <input type="text" class="form-control" id="inputFirstName" name="inputFirstName" placeholder="Entre un prénom">
             <span id="firstNameError"></span>
         </div>
@@ -58,7 +55,7 @@ function addContact(idUser, idContact) {
 
     <div class="form-group">
         <label for="inputSurname" class="col-sm-4 control-label">Nom de famille</label>
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <input type="text" class="form-control" id="inputSurname" name="inputSurname" placeholder="Entre un nom de famille">
             <span id="surnameError"></span>
         </div>
@@ -66,15 +63,19 @@ function addContact(idUser, idContact) {
 
     <div class="form-group">
         <label for="inputRegion" class="col-sm-4 control-label">Région</label>
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <input type="text" class="form-control" id="inputRegion" name="inputRegion" placeholder="Entre une région">
             <span id="regionError"></span>
         </div>
     </div>
+	<div class="form-group">
+		<div class="col-sm-offset-4 col-sm-7">
+    		<button value="search" class="btn btn-default btn-lg" onClick="searchUser()">Recherche</button>
+		</div>
+	</div>
 
-    <button value="search" class="btn btn-default btn-lg" onClick="searchUser()">Recherche</button>
-
-<div class="clearer"><br><b>Résultat de la recherche.</b>
-<div id="txtHint"></div>
+<div class="clearer"></div>
+<div id="txtHint" class="centred"></div>
+		
 </div>
 </div>

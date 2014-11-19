@@ -5,6 +5,7 @@ class Search extends CI_Controller {
     {
          parent::__construct();
          $this->load->model('user','',TRUE);
+         $this->load->model('event','',TRUE);
     }
 
     function index()
@@ -42,33 +43,65 @@ class Search extends CI_Controller {
         $session_data = $this->session->userdata('logged_in');
         $id_user = $session_data['id'];
 
-        echo "<table border='1'>
-        <tr>
-        <th>Prénom</th>
-        <th>Nom de famille</th>
-        <th>Région</th>
-        <th></th>
-        </tr>";
+		echo "<h3>Résultat(s)</h3>";
+        echo "<ul class='result_search'>";
 
         foreach($result as $row) {
-          echo "<tr>";
-          echo "<td>" . $row -> firstname . "</td>";
-          echo "<td>" . $row -> surname . "</td>";
-          echo "<td>" . $row -> region . "</td>";
+          echo "<li>" . $row -> firstname . " " . $row -> surname . ", " . $row -> region;
             $friendship = $this->user->is_friend($id_user, $row -> id);
             if ($friendship == 2) {
-                echo "<td></td>";
+                echo "";
             } else if ($friendship == 1) {
-                echo "<td>Est un contact!</td>";
-            } else {
-                echo "<td id='addContact" . $row -> id . "'><button onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
+				 echo "<div class='info_contact'>Déjà un contact!</div>";
+			} else {
+                echo "<div id='addContact" . $row -> id . "'><button class='btn btn-default btn-xs' onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
+				echo "<div class='clearer'></div>";
+				echo "<div class='clearer'></div>";
             }
-          echo "</tr>";
+          echo "</li>";
         }
-        echo "</table>";
+        echo "</ul";
     }
     
     function add_user($id_user, $id_contact) {
+    }
+    
+    function event()
+    {
+        //if user is not logged in : redirection to welcome page
+        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
+        {
+            $data['title'] = 'Rechercher évènement';
+
+            $this->load->helper(array('form'));
+            $this->load->view('templates/header', $data);
+            $this->load->view('pages/search_event_view', $data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {  
+            redirect('welcome', 'refresh');
+        }
+    }
+
+    function search_event()
+    {
+        /*
+        * The words used for research are separated by spaces
+        */
+        $searchString = $_GET['s'];
+        $searchWords = explode(" ", $searchString);
+        $result = $this->event->search_event($searchWords);
+
+        $resultTable = "";
+        $resultTable .= "<ul>";
+
+        foreach($result as $row) {
+          $resultTable .= '<li><a href="../details_event/index/'.$row -> id.'">'. $row -> name . '</li>';
+        }
+        $resultTable .= "</ul>";
+        
+        echo $resultTable;
     }
 
 }
