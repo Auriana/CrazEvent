@@ -1,12 +1,32 @@
+<script>
+function joinEvent(idUser, idEvent) {
+    $.ajax({
+    type: "POST",
+    url: '/manage_user/join_event',
+    dataType: 'json',
+    data: {arguments: [idUser, idEvent]},
+
+    success: function (obj, textstatus) {
+                  if( !('error' in obj) ) {
+                      $('#link-answer').html('<p>Vous êtes inscrits</p>');
+                  }
+                  else {
+                      console.log(obj.error);
+                  }
+            }
+});
+}
+</script>
+
 <div class="col-md-12 white-bloc centred">
 	<h1 class="text-centred">
 		<?php echo $event->name; ?>
 	</h1>
 	<h5>
-		<?php echo ($event->private == 1 ? "Privé" : "Public" ); ?>
+		
 	</h5>
 	<div id="link-answer">
-		<a href="#" alt=""><?php echo ($event->private == 1 ? "Répondre à l'invitation" : "S'inscrire" ); ?></a>
+        <?php echo $participation; ?>
 	</div>
 	<p class="bloc-info"> 
 		<?php echo $event->description; ?>

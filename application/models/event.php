@@ -125,6 +125,13 @@ Class Event extends CI_Model
         return $query->result();
     }
     
+
+    function join_event($id_user, $id_event)
+    {
+        $query = $this->db->query("call join_event(" . $id_user . ", " . $id_event . ")");
+        return $query->result();
+    }
+    
     function get_all_events() {
         $this -> db -> select('*');
         $this -> db -> from('event');
@@ -134,6 +141,16 @@ Class Event extends CI_Model
         return $query->result();
     }
     
+
+    function is_participation($id_user, $id_event)
+    {
+        $query = $this->db->query("select is_participation(" . $id_user . ", " . $id_event . ")");
+        
+        $row = $query->row_array();
+        
+        return $row["is_participation(" . $id_user . ", " . $id_event . ")"];
+
+    }
     /*
     * we search for the keywords given in the : name, description, start_place, region, activities and keywords of events
     * the searchKeywords can be a part of a word
