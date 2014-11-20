@@ -17,7 +17,7 @@ class Home extends CI_Controller {
             $data['new_events'] = get_new_events();
 
             $this->load->helper(array('form'));
-            $this->load->view('templates/header', $data);
+            $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/home_view', $data);
             $this->load->view('templates/footer');
         }

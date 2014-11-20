@@ -10,7 +10,21 @@ class Manage_User extends CI_Controller {
 
     function index()
     {
-        
+        //if user is not logged in : redirection to welcome page
+        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
+        {
+            $data['title'] = 'Mon compte';
+            $session_data = $this->session->userdata('logged_in');
+            $data['user'] = $session_data;
+
+            $this->load->view('templates/header_logged_in', $data);
+            $this->load->view('pages/manage_user_view', $data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {  
+            redirect('welcome', 'refresh');
+        }
     }
     
     function add_contact()
@@ -53,6 +67,37 @@ class Manage_User extends CI_Controller {
                    $result = $this->event->join_event($id_user, $id_event);
                    
                    $aResult['result'] = 'success';
+               }
+        }
+
+        echo json_encode($aResult);
+    }
+    
+    function change_firstname()
+    {
+        $aResult = array();
+
+        if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
+
+        if( !isset($aResult['error']) ) {
+               if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 2) ) {
+                   $aResult['error'] = 'Error in arguments!';
+               }
+               else {
+                   $idUser = $_POST['arguments'][0];
+                   $newFirstname = $_POST['arguments'][1];
+                   
+                   $success = $this->user->change_firstname($idUser, $newFirstname);
+                   
+                   if ($success == 1) {
+                       $aResult['result'] = 'success';
+                       // update session data with the new firstname
+                       $newSessionData = $this->session->userdata('logged_in');
+                       $newSessionData['firstname'] = $newFirstname;
+                       $this->session->set_userdata('logged_in', $newSessionData);
+                   } else {
+                       $aResult['error'] = 'Error in update';
+                   }
                }
         }
 
