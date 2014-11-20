@@ -97,9 +97,9 @@ $(document).ready(function(){
     
     <div class="form-group">
         <label for="inputRegion" class="col-sm-4 control-label">Région</label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" id="inputRegion" placeholder="">
-        </div>
+        <select id="inputRegion" name="inputRegion">
+            <?php echo $regions; ?>
+        </select>
     </div>
 
     <div class="form-group">

@@ -17,6 +17,8 @@ class Create_User extends CI_Controller {
         else
         {  
             $data['title'] = 'Inscription';
+            
+            $data['regions'] = get_region_scrollbox();
 
             $this->load->helper(array('form'));
             $this->load->view('templates/header', $data);
