@@ -163,7 +163,7 @@ Class Event extends CI_Model
         foreach($searchKeywords as $searchKeyword) {
             
             //search for events with their simple attributes
-            $this -> db -> select('id, name');
+            $this -> db -> select('*');
             $this -> db -> from('event');
             $this -> db -> or_like('name', $searchKeyword);
             $this -> db -> or_like('description', $searchKeyword);
@@ -171,11 +171,10 @@ Class Event extends CI_Model
             $this -> db -> or_like('region', $searchKeyword);
             
             $result = $this -> db -> get() -> result();
-            
+
             //strpos() doesn't like if search needle is empty
             if($searchKeyword != '') {
                 foreach($events as $event) {
-
                     //search for events with their activities
                     $activities = $this->get_event_activities($event->id);
                     foreach($activities as $activity) {
@@ -188,7 +187,7 @@ Class Event extends CI_Model
                     //search for events with their keywords
                     $keywords = $this->get_event_keywords($event->id);
                     foreach($keywords as $keyword) {
-                        if (strpos($activity->content, $searchKeyword) !== false && !in_array($event, $result)) {
+                        if (strpos($keyword->content, $searchKeyword) !== false && !in_array($event, $result)) {
                             $result[] = $event;
                             continue 2;
                         }
