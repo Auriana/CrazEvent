@@ -53,9 +53,10 @@ Class Event extends CI_Model
     }
 	
 	function get_event($id) {
-		$this -> db ->select('name, private, invitation_suggestion_allowed, description, start_date, inscription_deadline, duration, start_place, participant_max_nbr, participant_minimum_age, organizer, individual_proposition_suggestion_allowed, region');
+		$this -> db ->select('name, private, invitation_suggestion_allowed, description, start_date, inscription_deadline, duration, start_place, participant_max_nbr, participant_minimum_age, organizer, individual_proposition_suggestion_allowed, region.content');
 		$this -> db -> from('event');
-		$this -> db -> where('id', $id); // en attendant, pour le test
+        $this->db->join('activity_specification', 'event.region_id = region.id', 'inner');
+		$this -> db -> where('id', $id);
      	$this -> db -> limit(1);
 		
 		$query = $this -> db -> get();
@@ -118,7 +119,7 @@ Class Event extends CI_Model
     
     function get_new_events() {
         $this -> db -> select('id, name');
-        $this -> db -> from('event');
+        $this -> db -> from('visible_event');
         
         $query = $this -> db -> get();
 
@@ -138,9 +139,9 @@ Class Event extends CI_Model
         return $query->result();
     }
     
-    function get_all_events() {
+    function get_all_participable_events() {
         $this -> db -> select('*');
-        $this -> db -> from('event');
+        $this -> db -> from('participable_event');
         
         $query = $this -> db -> get();
 
@@ -160,28 +161,28 @@ Class Event extends CI_Model
     /*
     * we search for the keywords given in the : name, description, start_place, region, activities and keywords of events
     * the searchKeywords can be a part of a word
+    * The research is done only on event you can participate to.
     */
     function search_event($searchKeywords)
     {
         
-        $events = $this->get_all_events();
+        $events = $this->get_all_participable_events();
         
         foreach($searchKeywords as $searchKeyword) {
             
             //search for events with their simple attributes
-            $this -> db -> select('id, name');
-            $this -> db -> from('event');
+            $this -> db -> select('*');
+            $this -> db -> from('participable_event');
             $this -> db -> or_like('name', $searchKeyword);
             $this -> db -> or_like('description', $searchKeyword);
             $this -> db -> or_like('start_place', $searchKeyword);
             $this -> db -> or_like('region', $searchKeyword);
             
             $result = $this -> db -> get() -> result();
-            
+
             //strpos() doesn't like if search needle is empty
             if($searchKeyword != '') {
                 foreach($events as $event) {
-
                     //search for events with their activities
                     $activities = $this->get_event_activities($event->id);
                     foreach($activities as $activity) {
@@ -194,7 +195,7 @@ Class Event extends CI_Model
                     //search for events with their keywords
                     $keywords = $this->get_event_keywords($event->id);
                     foreach($keywords as $keyword) {
-                        if (strpos($activity->content, $searchKeyword) !== false && !in_array($event, $result)) {
+                        if (strpos($keyword->content, $searchKeyword) !== false && !in_array($event, $result)) {
                             $result[] = $event;
                             continue 2;
                         }

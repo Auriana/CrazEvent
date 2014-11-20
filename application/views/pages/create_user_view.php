@@ -77,8 +77,9 @@ function validateForm() {
     <div class="form-group">
         <label for="inputRegion" class="col-sm-4 control-label">Région</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" id="inputRegion" name="inputRegion" placeholder="Entre ta région">
-            <span id="regionError"></span>
+            <select id="inputRegion" name="inputRegion">
+                <?php echo $regions; ?>
+            </select>
         </div>
     </div>
 

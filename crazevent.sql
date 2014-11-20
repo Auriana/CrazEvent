@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 14 Novembre 2014 à 15:19
--- Version du serveur :  5.6.20
+-- Généré le :  Jeu 20 Novembre 2014 à 11:55
+-- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `crazevent`
 --
-CREATE SCHEMA IF NOT EXISTS `crazevent` DEFAULT CHARACTER SET utf8;
-USE `crazevent`;
 
 DELIMITER $$
 --
@@ -39,21 +37,6 @@ else
 end if;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_keyword`(eventID INT, keywordContent VARCHAR(45))
-BEGIN
-	DECLARE keywordID INT DEFAULT -1;    
-    SELECT id INTO keywordID FROM keyword WHERE content = keywordContent;
-    
-    -- insertion of keyowrd if it doesn't exist
-	IF(keywordID = -1) THEN
-		INSERT INTO keyword VALUES(NULL, keywordContent);
-        SELECT LAST_INSERT_ID() INTO keywordID;
-    END IF;
-    
-    -- association of event and keyword
-    INSERT INTO keyword_specification (event_id, keyword_id) VALUES (eventID, keywordID);
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_activity`(eventID INT, activityContent VARCHAR(45))
 BEGIN
 	DECLARE activityID INT DEFAULT -1;    
@@ -69,6 +52,21 @@ BEGIN
     INSERT INTO activity_specification (event_id, activity_id) VALUES (eventID, activityID);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_keyword`(eventID INT, keywordContent VARCHAR(45))
+BEGIN
+	DECLARE keywordID INT DEFAULT -1;    
+    SELECT id INTO keywordID FROM keyword WHERE content = keywordContent;
+    
+    -- insertion of keyowrd if it doesn't exist
+	IF(keywordID = -1) THEN
+		INSERT INTO keyword VALUES(NULL, keywordContent);
+        SELECT LAST_INSERT_ID() INTO keywordID;
+    END IF;
+    
+    -- association of event and keyword
+    INSERT INTO keyword_specification (event_id, keyword_id) VALUES (eventID, keywordID);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `join_event`(id_user int, id_event int)
 BEGIN
 
@@ -77,6 +75,27 @@ select * from participation where user_id = id_user AND event_id = id_event;
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `visible_event`(userID INT)
+BEGIN
+-- public events
+SELECT *
+FROM event
+WHERE event.private = 0
+	OR event.id IN (
+		-- private events with participation
+		SELECT event.id
+        FROM event
+        INNER JOIN participation ON participation.event_id = event.id
+        WHERE event.private = 1 AND participation.user_id = userID
+	)
+    OR event.id IN (
+		-- private events with invitation
+		SELECT event.id
+        FROM event
+        INNER JOIN invitation ON invitation.event_id = event.id
+        WHERE event.private = 1 AND invitation.user_id = userID
+	);
+END$$
 
 --
 -- Fonctions
@@ -121,7 +140,18 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Contenu de la table `activity`
+--
+
+INSERT INTO `activity` (`id`, `content`) VALUES
+(1, 'Boire'),
+(2, 'Manger'),
+(3, 'taguer'),
+(4, 'théâtre'),
+(5, 'Treck');
 
 -- --------------------------------------------------------
 
@@ -157,10 +187,11 @@ CREATE TABLE IF NOT EXISTS `event` (
   `participant_minimum_age` int(11) DEFAULT '0',
   `organizer` int(11) NOT NULL,
   `individual_proposition_suggestion_allowed` tinyint(1) DEFAULT '0',
-  `region` varchar(45) NOT NULL,
+  `region_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKOrganization_idx` (`organizer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  KEY `FKOrganization_idx` (`organizer`),
+  KEY `fk_event_region_idx` (`region_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 -- --------------------------------------------------------
 
@@ -231,7 +262,19 @@ CREATE TABLE IF NOT EXISTS `keyword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Contenu de la table `keyword`
+--
+
+INSERT INTO `keyword` (`id`, `content`) VALUES
+(1, 'house party'),
+(2, 'TAG'),
+(3, 'feutre'),
+(4, 'marche'),
+(5, 'montagnes'),
+(6, 'paysage');
 
 -- --------------------------------------------------------
 
@@ -260,7 +303,7 @@ CREATE TABLE IF NOT EXISTS `mandatory_checklist_item` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `mandatoryCheckListItemUnique` (`content`,`event_id`),
   KEY `fk_mandatoryCheckListItem_event1_idx` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -275,6 +318,46 @@ CREATE TABLE IF NOT EXISTS `participation` (
   KEY `fk_event_has_user_user1_idx` (`user_id`),
   KEY `fk_event_has_user_event1_idx` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `region`
+--
+
+CREATE TABLE IF NOT EXISTS `region` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(60) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `content_UNIQUE` (`content`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+
+--
+-- Contenu de la table `region`
+--
+
+INSERT INTO `region` (`id`, `content`) VALUES
+(1, 'Aigle'),
+(20, 'Berne'),
+(19, 'Bienne'),
+(2, 'Echallens'),
+(17, 'Fribourg'),
+(11, 'Genève'),
+(13, 'La Chaux-de-Fonds'),
+(6, 'Lausanne'),
+(15, 'Martigny'),
+(10, 'Montreux'),
+(4, 'Morges'),
+(12, 'Neuchâtel'),
+(7, 'Nyon'),
+(3, 'Payerne'),
+(18, 'Romont'),
+(16, 'Sion'),
+(14, 'Ste-Croix'),
+(21, 'Vallée de Joux'),
+(9, 'Vallorbe'),
+(8, 'Vevey'),
+(5, 'Yverdon-les-Bains');
 
 -- --------------------------------------------------------
 
@@ -347,11 +430,13 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(100) NOT NULL,
   `birthdate` date NOT NULL,
   `email` varchar(45) NOT NULL,
-  `region` varchar(45) DEFAULT NULL,
+  `region_id` int(11) NOT NULL,
   `is_admin` tinyint(1) NOT NULL,
+  `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  UNIQUE KEY `email` (`email`),
+  KEY `fk_user_region_idx` (`region_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -385,6 +470,7 @@ ALTER TABLE `activity_specification`
 -- Contraintes pour la table `event`
 --
 ALTER TABLE `event`
+  ADD CONSTRAINT `fk_event_region` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FKOrganization` FOREIGN KEY (`organizer`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -460,6 +546,12 @@ ALTER TABLE `start_place_open_option`
 ALTER TABLE `start_place_open_option_agreeing_user`
   ADD CONSTRAINT `fk_startPlaceOpenOptions_has_user_openOption` FOREIGN KEY (`start_place_open_options_start_place`, `start_place_open_options_event_id`) REFERENCES `start_place_open_option` (`start_place`, `event_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_startPlaceOpenOptions_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `fk_user_region` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `user_inbox_message`

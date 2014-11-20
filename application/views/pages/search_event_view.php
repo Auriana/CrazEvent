@@ -23,22 +23,25 @@ function searchEvent() {
     
 </script>
 
-<h3>Recherche un évènement</h3>
-<br>
-
-
-<div class="col-md-6 white-bloc">
+<div class="form-horizontal">
+<div class="col-md-6 white-bloc centred">
+	<h1 class="text-centred">Recherche un évènement</h1>
 
     <div class="form-group">
-        <label for="inputSearchString" class="col-sm-4 control-label">Recherche</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" id="inputSearchString" name="inputSearchString" placeholder="recherche par mot-clés">
+        <label for="inputSearchString" class="col-sm-4 control-label">Mots-clés</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="inputSearchString" name="inputSearchString" placeholder="Mots-clés">
         </div>
     </div>
+	<div class="form-group">
+		<div class="col-sm-offset-4 col-sm-7">
+    		<button value="search" class="btn btn-default btn-lg" onClick="searchEvent()">Rechercher</button>
+		</div>
+	</div>
 
-    <button value="search" class="btn btn-default btn-lg" onClick="searchEvent()">Recherche</button>
-
-<div class="clearer"><br><b>Résultat de la recherche.</b>
-<div id="txtHint"></div>
+    
+<div class="clearer"></div>
+<div id="txtHint" class="centred"></div>
+		
 </div>
 </div>

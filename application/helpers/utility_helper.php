@@ -46,15 +46,35 @@ if ( ! function_exists('get_new_events')) {
 
         //query the database
         $result = $CI->event->get_new_events();
-        $events_infos = "";
+        $eventsInfos = "";
         if ($result) {
             foreach($result as $row) {
-                $events_infos = $events_infos . "<li><a class='event-link' href='details_event/index/" . $row -> id . "'>" . $row -> name . "</a></li>";
+                $eventsInfos .= "<li><a class='event-link' href='details_event/index/" . $row->id . "'>" . $row->name . "</a></li>";
             }
         }
 
-        return $events_infos;
+        return $eventsInfos;
 	}
 }
 
+if ( ! function_exists('get_region_scrollbox')) {
+    function get_region_scrollbox() {
+         
+        // Get a reference to the controller object
+        $CI = get_instance();
+        
+        //query the database
+        $CI->db->select('*');
+        $CI->db->from('region');
+        $result = $CI->db->get()->result();
+        $regionList = "";
+        if ($result) {
+            foreach($result as $row) {
+                $regionList .= '<option value="'.$row->id .'">'. $row->content .'</option>';
+            }
+        }
+
+        return $regionList;
+	}
+}
 ?>

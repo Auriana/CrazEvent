@@ -54,7 +54,7 @@ class Search extends CI_Controller {
             } else if ($friendship == 1) {
 				 echo "<div class='info_contact'>Déjà un contact!</div>";
 			} else {
-                echo "<div id='addContact" . $row -> id . "'><button class='btn btn-default btn-xs' onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
+                echo "<div class='list_contact' id='addContact" . $row -> id . "'><button class='btn btn-default btn-xs' onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
 				echo "<div class='clearer'></div>";
 				echo "<div class='clearer'></div>";
             }
@@ -94,7 +94,8 @@ class Search extends CI_Controller {
         $result = $this->event->search_event($searchWords);
 
         $resultTable = "";
-        $resultTable .= "<ul>";
+		$resultTable .= "<h3>Résultat(s)</h3>";
+        $resultTable .= "<ul class='result_search'>";
 
         foreach($result as $row) {
           $resultTable .= '<li><a href="../details_event/index/'.$row -> id.'">'. $row -> name . '</li>';
