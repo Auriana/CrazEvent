@@ -188,7 +188,7 @@ Class Event extends CI_Model
                     //search for events with their keywords
                     $keywords = $this->get_event_keywords($event->id);
                     foreach($keywords as $keyword) {
-                        if (strpos($activity->content, $searchKeyword) !== false && !in_array($event, $result)) {
+                        if (strpos($keyword->content, $searchKeyword) !== false && !in_array($event, $result)) {
                             $result[] = $event;
                             continue 2;
                         }
