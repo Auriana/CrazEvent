@@ -125,7 +125,11 @@ class Verify_Create_Event extends CI_Controller {
    }
      
    //query the database              
-   return $this->event->create_event($eventName, $eventPrivate, $eventDate, $eventDuration, $eventPlace, $eventRegion, $eventActivities, $eventDescription, $eventKeywords, $eventChecklistItems, $eventInvitationSuggestionAllowed, $eventIndividualPropositionSuggestionAllowed, $eventMaxParticipant, $eventMinAge, $eventInscriptionDeadline, $this->session->userdata('logged_in')['id']);
+   $eventId = $this->event->create_event($eventName, $eventPrivate, $eventDate, $eventDuration, $eventPlace, $eventRegion, $eventActivities, $eventDescription, $eventKeywords, $eventChecklistItems, $eventInvitationSuggestionAllowed, $eventIndividualPropositionSuggestionAllowed, $eventMaxParticipant, $eventMinAge, $eventInscriptionDeadline, $this->session->userdata('logged_in')['id']);
+     
+   //join the event
+   $this->event->join_event($this->session->userdata('logged_in')['id'], $eventId);
+     
  }
 }
 ?>

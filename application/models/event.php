@@ -2,6 +2,9 @@
 Class Event extends CI_Model
 {
 
+    /*
+    * Return created event id.
+    */
    function create_event($name, $private, $date, $duration, $place, $region, $activities, $description, $keywords, $checklistItems, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline, $organizer) {
        //insertion of Event
        $data = array(
@@ -49,7 +52,7 @@ Class Event extends CI_Model
 
        $this->db->trans_complete();
        
-       return $insertionResult; //TODO : je sais pas si on retourne true ou false
+       return $eventId;
     }
 	
 	function get_event($id) {
