@@ -125,11 +125,14 @@ class Verify_Create_Event extends CI_Controller {
    }
      
    //query the database              
-   $eventId = $this->event->create_event($eventName, $eventPrivate, $eventDate, $eventDuration, $eventPlace, $eventRegion, $eventActivities, $eventDescription, $eventKeywords, $eventChecklistItems, $eventInvitationSuggestionAllowed, $eventIndividualPropositionSuggestionAllowed, $eventMaxParticipant, $eventMinAge, $eventInscriptionDeadline, $this->session->userdata('logged_in')['id']);
+   $eventId = $this->event->create_event($eventName, $eventPrivate, $eventDate, $eventDuration, $eventPlace, $eventRegion, $eventActivities, $eventDescription,     $eventKeywords, $eventChecklistItems, $eventInvitationSuggestionAllowed, $eventIndividualPropositionSuggestionAllowed, $eventMaxParticipant, $eventMinAge, $eventInscriptionDeadline, $this->session->userdata('logged_in')['id']);
      
    //join the event
-   $this->event->join_event($this->session->userdata('logged_in')['id'], $eventId);
+   //there is no invitation to remove from us even if the event is private
+   //therfor join_public_event is used
+   $this->event->join_public_event($this->session->userdata('logged_in')['id'], $eventId);
      
+     return $eventId;
  }
 }
 ?>

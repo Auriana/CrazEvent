@@ -73,7 +73,7 @@ class Search extends CI_Controller {
             $data['title'] = 'Rechercher évènement';
 
             $this->load->helper(array('form'));
-            $this->load->view('templates/header', $data);
+            $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/search_event_view', $data);
             $this->load->view('templates/footer');
         }
@@ -89,7 +89,7 @@ class Search extends CI_Controller {
         */
         $searchString = $_GET['s'];
         $searchWords = explode(" ", $searchString);
-        $result = $this->event->search_event($session_data['id'], $searchWords);
+        $result = $this->event->search_event($this->session->userdata('logged_in')['id'], $searchWords);
 
         $resultTable = "";
 		$resultTable .= "<h3>Résultat(s)</h3>";
