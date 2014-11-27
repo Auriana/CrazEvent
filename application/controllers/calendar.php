@@ -4,6 +4,7 @@ class Calendar extends CI_Controller {
     function __construct()
     {
          parent::__construct();
+        $this->load->model('user','',TRUE);
     }
     
     function index()
@@ -12,10 +13,14 @@ class Calendar extends CI_Controller {
         if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
         {
             $data['title'] = 'Agenda';
-            $session_data = $this->session->userdata('logged_in');
-            $data['calendar'] = $this->draw_calendar(date("n"),date("Y"));
-            $data['selectedMonth'] = date("n");
-            $data['selectedYear'] = date("Y");
+            if($this->input->post('inputMonth') != false && $this->input->post('inputYear') != false) {
+                $data['selectedMonth'] = $this->input->post('inputMonth');
+                $data['selectedYear'] = $this->input->post('inputYear'); 
+            } else {
+                $data['selectedMonth'] = date("n");
+                $data['selectedYear'] = date("Y");
+            }
+            $data['calendar'] = $this->draw_calendar($data['selectedMonth'],$data['selectedYear']);
 
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);
@@ -30,6 +35,14 @@ class Calendar extends CI_Controller {
     
         /* draws a calendar */
     function draw_calendar($month,$year){
+        
+        $currentYear = date("Y");
+        $currentMonth = date("n");
+        $currentDay = date("d");
+        
+        //get user's event for the month
+        $events = $this->user->get_registered_event($this->session->userdata('logged_in')["id"],$month,$year);
+        
 
         /* draw table */
         $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';
@@ -56,13 +69,26 @@ class Calendar extends CI_Controller {
 
         /* keep going with days.... */
         for($list_day = 1; $list_day <= $days_in_month; $list_day++):
-            $calendar.= '<td class="calendar-day">';
+            if($year == $currentYear && $month == $currentMonth && $list_day == $currentDay) {
+                $calendar.= '<td class="calendar-day-current">';
+            } else {
+                $calendar.= '<td class="calendar-day">';
+            }
                 /* add in the day number */
                 $calendar.= '<div class="day-number">'.$list_day.'</div>';
 
-                /** QUERY THE DATABASE FOR AN ENTRY FOR THIS DAY !!  IF MATCHES FOUND, PRINT THEM !! **/
-                $calendar.= str_repeat('<p>prout</p>',3);
-                //get_registered_event()  //TODO
+                //display user's event for the day
+                foreach($events as $eventKey => $event) {
+                    $eventDate = new DateTime($event->start_date);
+                    $eventDay = intval(date_format($eventDate, 'd'));
+                    if($eventDay > $list_day) {
+                        break;
+                    } else {
+                        $eventTime = date_format($eventDate, 'H:i');
+                        $calendar.= '<p><a href="details_event/index/'.$event->id.'">'.$eventTime.' : '.$event->name.'</a></p>';
+                        unset($events[$eventKey]);
+                    }
+                }
 
             $calendar.= '</td>';
             if($running_day == 6):

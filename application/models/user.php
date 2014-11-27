@@ -37,11 +37,12 @@ Class User extends CI_Model
 
     function search_user($firstname, $surname, $region)
     {
-        $this->db->select('id, email, firstname, surname, region');
+        $this->db->select('user.id, email, firstname, surname, region.content AS region');
         $this->db->from('user');
+        $this->db->join('region', 'region.id = user.region_id', 'inner');
         $this->db->like('firstname', $firstname);
         $this->db->like('surname', $surname);
-        $this->db->like('region', $region);
+        $this->db->like('region.content', $region);
         
         $query = $this->db->get();
 
@@ -83,9 +84,10 @@ Class User extends CI_Model
         $this->db->select('*');
         $this->db->from('participation');
         $this->db->join('event', 'participation.event_id = event.id', 'inner');
-        $this->db->where('participation.user_id',1);
-        $this->db->where('MONTH(start_date)',$month);
-        $this->db->where('YEAR(start_date)',$year);
+        $this->db->where('participation.user_id', $id_user);
+        $this->db->where('MONTH(start_date)', $month);
+        $this->db->where('YEAR(start_date)', $year);
+        $this->db->order_by('start_date', 'asc');
         return $this->db->get()->result();
     }
 }

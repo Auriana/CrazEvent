@@ -161,7 +161,7 @@ Class Event extends CI_Model
 
     }
     /*
-    * we search for the keywords given in the : name, description, start_place, activities and keywords of events
+    * we search for the keywords given in the : name, description, start_place, region, activities and keywords of events
     * the searchKeywords can be a part of a word
     * The research is done only on event you can participate to.
     */
@@ -176,9 +176,11 @@ Class Event extends CI_Model
             //search for events with their simple attributes
             $this -> db -> select('*');
             $this -> db -> from('visible_event');
+            $this -> db -> join('region', 'visible_event.region_id = region.id', 'inner');
             $this -> db -> or_like('name', $searchKeyword);
             $this -> db -> or_like('description', $searchKeyword);
             $this -> db -> or_like('start_place', $searchKeyword);
+            $this -> db -> or_like('region.content', $searchKeyword);
             
             $result = $this -> db -> get() -> result();
 
@@ -207,6 +209,7 @@ Class Event extends CI_Model
             }        
         }
 
+        print_r($result);
         return $result;
     }
 }

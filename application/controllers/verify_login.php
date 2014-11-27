@@ -13,13 +13,14 @@ class Verify_Login extends CI_Controller {
  
    $this->form_validation->set_rules('inputEmail', 'inputEmail', 'trim|required|xss_clean');
    $this->form_validation->set_rules('inputPassword', 'inputPassword', 'trim|required|xss_clean');
- 
+     
    if($this->form_validation->run() == FALSE) {
      //Field validation failed.  User redirected to create_user page
         //redirect('welcome', 'refresh'); //TODO
    } else {
      //Log in the user
      $login = $this->login();
+       
      //Go to private area
      if ($login) {
         redirect('home', 'refresh');
@@ -31,7 +32,7 @@ class Verify_Login extends CI_Controller {
  }
  
  function login() {
-     login($email = $this->input->post('inputEmail'), $password = $this->input->post('inputPassword'));
+     return login($email = $this->input->post('inputEmail'), $password = $this->input->post('inputPassword'));
      /*
    //Field validation succeeded.  Validate against database
    $email = $this->input->post('inputEmail');
