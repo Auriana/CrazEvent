@@ -129,9 +129,9 @@ Class Event extends CI_Model
     }
     
 
-    function join_event($id_user, $id_event)
+    function join_public_event($id_user, $id_event)
     {
-        $query = $this->db->query("call join_event(" . $id_user . ", " . $id_event . ")");
+        $query = $this->db->query("call join_public_event(" . $id_user . ", " . $id_event . ")");
         return $query->result();
     }
     
