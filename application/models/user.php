@@ -65,16 +65,28 @@ Class User extends CI_Model
 
     }
     
-    function change_firstname($idUser, $newFirstname)
+    function change_firstname($id_user, $newFirstname)
     {
         $data = array(
             'firstname' => $newFirstname
         );
-        $this->db->where('id', $idUser);
+        $this->db->where('id', $id_user);
         $this->db->update('user', $data);
         // if the update is successful, return 1
         return $this->db->affected_rows();
     }
     
+    /*
+    * get events where user is a participant
+    */
+    function get_registered_event($id_user, $month, $year) {
+        $this->db->select('*');
+        $this->db->from('participation');
+        $this->db->join('event', 'participation.event_id = event.id', 'inner');
+        $this->db->where('participation.user_id',1);
+        $this->db->where('MONTH(start_date)',$month);
+        $this->db->where('YEAR(start_date)',$year);
+        return $this->db->get()->result();
+    }
 }
 ?>

@@ -15,6 +15,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/bootstrap.min.css'; ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/bootstrap-theme.min.css'; ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/ce-style.css'; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/ce-calendar-style.css'; ?>">
 	</head>
 	
 	<body role="document">
@@ -38,7 +39,7 @@
 					<!-- Menu navigation -->
 					<ul class="nav navbar-nav">
 					<!-- search through the appli here -->
-						<li><a href="#MonAgenda">Mon agenda</a></li>
+						<li><a href="<?php echo base_url().'calendar'; ?>">Mon agenda</a></li>
 						<li><a href="#MesContacts">Mes contacts</a></li>
 						<li><a href="#MesNotifications">Mes notifications</a></li>
 						<li><a href="<?php echo base_url().'manage_user'; ?>">Mon profil</a></li>
