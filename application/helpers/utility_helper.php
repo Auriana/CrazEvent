@@ -28,6 +28,9 @@ if ( ! function_exists('login')) {
                     'surname' => $row->surname
                 );
                 $CI->session->set_userdata('logged_in', $sess_array);
+                
+                //parametrize database
+                $CI->db->query("SET @connected_user_id := " . $row->id);
             }
         }
 
@@ -38,14 +41,14 @@ if ( ! function_exists('login')) {
 }
 
 if ( ! function_exists('get_new_events')) {
-    function get_new_events() {
+    function get_new_events($id_user) {
          
         // Get a reference to the controller object
         $CI = get_instance();
         $CI->load->model('event','',TRUE);
 
         //query the database
-        $result = $CI->event->get_new_events();
+        $result = $CI->event->get_participable_events($id_user);
         $eventsInfos = "";
         if ($result) {
             foreach($result as $row) {

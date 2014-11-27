@@ -31,10 +31,13 @@ class Verify_Login extends CI_Controller {
  }
  
  function login() {
+     login($email = $this->input->post('inputEmail'), $password = $this->input->post('inputPassword'));
+     /*
    //Field validation succeeded.  Validate against database
    $email = $this->input->post('inputEmail');
    $password = $this->input->post('inputPassword');
- 
+     
+
    //query the database
    $result = $this->user->login($email, $password);
  
@@ -49,12 +52,16 @@ class Verify_Login extends CI_Controller {
                'surname' => $row->surname
            );
            $this->session->set_userdata('logged_in', $sess_array);
+           
+           
        }
+       
    } else {
        $this->form_validation->set_message('login', 'Invalid email or password');
    }
      
    return $result;
+*/
  }
 }
 ?>

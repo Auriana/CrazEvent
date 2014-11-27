@@ -17,7 +17,7 @@ Class Event extends CI_Model
            'participant_minimum_age' => $minAge,
            'organizer' => $organizer,
            'individual_proposition_suggestion_allowed' => $individualPropositionSuggestionAllowed,
-           'region' => $region
+           'region_id' => $region
        );
        
        $this->db->trans_start();
@@ -55,8 +55,8 @@ Class Event extends CI_Model
 	function get_event($id) {
 		$this -> db ->select('name, private, invitation_suggestion_allowed, description, start_date, inscription_deadline, duration, start_place, participant_max_nbr, participant_minimum_age, organizer, individual_proposition_suggestion_allowed, region.content');
 		$this -> db -> from('event');
-        $this->db->join('activity_specification', 'event.region_id = region.id', 'inner');
-		$this -> db -> where('id', $id);
+        $this->db->join('region', 'event.region_id = region.id', 'inner');
+		$this -> db -> where('event.id', $id);
      	$this -> db -> limit(1);
 		
 		$query = $this -> db -> get();
@@ -117,13 +117,12 @@ Class Event extends CI_Model
         return $query->result();
     }
     
-    function get_new_events() {
-        $this -> db -> select('id, name');
-        $this -> db -> from('visible_event');
+    function get_visible_events($id_user) {        
+        $this->db->query("SET @connected_user_id := " . $id_user);
         
-        $query = $this -> db -> get();
-
-        return $query->result();
+        $this -> db -> select("*");
+        $this->db->from("visible_event");
+        return $this->db->get()->result();
     }
     
 
@@ -133,13 +132,12 @@ Class Event extends CI_Model
         return $query->result();
     }
     
-    function get_all_participable_events() {
-        $this -> db -> select('*');
-        $this -> db -> from('participable_event');
+    function get_participable_events($id_user) {        
+        $this->db->query("SET @connected_user_id := " . $id_user);
         
-        $query = $this -> db -> get();
-
-        return $query->result();
+        $this -> db -> select("*");
+        $this->db->from("participable_event");
+        return $this->db->get()->result();
     }
     
 
@@ -157,10 +155,11 @@ Class Event extends CI_Model
     * the searchKeywords can be a part of a word
     * The research is done only on event you can participate to.
     */
-    function search_event($searchKeywords)
-    {
+    function search_event($id_user, $searchKeywords)
+    {        
+        $this->db->query("SET @connected_user_id := " . $id_user);
         
-        $events = $this->get_all_participable_events();
+        $events = $this->get_participable_events($id_user);
         
         foreach($searchKeywords as $searchKeyword) {
             

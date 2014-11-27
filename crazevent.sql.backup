@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 27 Novembre 2014 à 10:01
+-- Généré le :  Jeu 20 Novembre 2014 à 11:55
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -75,14 +75,31 @@ select * from participation where user_id = id_user AND event_id = id_event;
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `visible_event`(userID INT)
+BEGIN
+-- public events
+SELECT *
+FROM event
+WHERE event.private = 0
+	OR event.id IN (
+		-- private events with participation
+		SELECT event.id
+        FROM event
+        INNER JOIN participation ON participation.event_id = event.id
+        WHERE event.private = 1 AND participation.user_id = userID
+	)
+    OR event.id IN (
+		-- private events with invitation
+		SELECT event.id
+        FROM event
+        INNER JOIN invitation ON invitation.event_id = event.id
+        WHERE event.private = 1 AND invitation.user_id = userID
+	);
+END$$
+
 --
 -- Fonctions
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `conected_user_id`() RETURNS int(11)
-BEGIN
-RETURN @connected_user_id;
-END$$
-
 CREATE DEFINER=`root`@`localhost` FUNCTION `is_friendship`(id_user int, id_contact int) RETURNS int(11)
 BEGIN
 if (id_user = id_contact) then
@@ -174,16 +191,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   PRIMARY KEY (`id`),
   KEY `FKOrganization_idx` (`organizer`),
   KEY `fk_event_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
-
---
--- Contenu de la table `event`
---
-
-INSERT INTO `event` (`id`, `name`, `private`, `invitation_suggestion_allowed`, `description`, `start_date`, `inscription_deadline`, `duration`, `start_place`, `participant_max_nbr`, `participant_minimum_age`, `organizer`, `individual_proposition_suggestion_allowed`, `region_id`) VALUES
-(2, 'test', 1, 0, 'test', '2014-11-27 18:00:00', '2014-11-27 11:00:00', 1, NULL, NULL, 0, 1, 0, 19),
-(9, 'test 2', 0, 0, NULL, '2014-11-27 17:00:00', '2014-11-27 23:00:00', 1, NULL, NULL, 0, 1, 0, 16),
-(13, 'test 3', 1, 0, NULL, '2014-11-27 14:00:00', '2014-11-27 17:00:00', 1, NULL, NULL, 0, 1, 0, 11);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 -- --------------------------------------------------------
 
@@ -244,14 +252,6 @@ CREATE TABLE IF NOT EXISTS `invitation` (
   KEY `fk_invitation_event1_idx` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Contenu de la table `invitation`
---
-
-INSERT INTO `invitation` (`user_id`, `event_id`) VALUES
-(1, 2),
-(3, 13);
-
 -- --------------------------------------------------------
 
 --
@@ -303,29 +303,8 @@ CREATE TABLE IF NOT EXISTS `mandatory_checklist_item` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `mandatoryCheckListItemUnique` (`content`,`event_id`),
   KEY `fk_mandatoryCheckListItem_event1_idx` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
--- --------------------------------------------------------
-
---
--- Doublure de structure pour la vue `participable_event`
---
-CREATE TABLE IF NOT EXISTS `participable_event` (
-`id` int(11)
-,`name` varchar(45)
-,`private` tinyint(1)
-,`invitation_suggestion_allowed` tinyint(1)
-,`description` longtext
-,`start_date` datetime
-,`inscription_deadline` datetime
-,`duration` int(11)
-,`start_place` varchar(255)
-,`participant_max_nbr` int(11)
-,`participant_minimum_age` int(11)
-,`organizer` int(11)
-,`individual_proposition_suggestion_allowed` tinyint(1)
-,`region_id` int(11)
-);
 -- --------------------------------------------------------
 
 --
@@ -457,15 +436,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `fk_user_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Contenu de la table `user`
---
-
-INSERT INTO `user` (`id`, `firstname`, `surname`, `password`, `birthdate`, `email`, `region_id`, `is_admin`, `active`) VALUES
-(1, 'Dominique', 'Jollien', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-22', 'dominiquejollien@hotmail.com', 16, 0, 0),
-(3, 'popo', 'a', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-22', 'popo@popo.com', 1, 0, 0);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -484,45 +455,6 @@ CREATE TABLE IF NOT EXISTS `user_inbox_message` (
   KEY `FKRecepient_idx` (`recipient`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Doublure de structure pour la vue `visible_event`
---
-CREATE TABLE IF NOT EXISTS `visible_event` (
-`id` int(11)
-,`name` varchar(45)
-,`private` tinyint(1)
-,`invitation_suggestion_allowed` tinyint(1)
-,`description` longtext
-,`start_date` datetime
-,`inscription_deadline` datetime
-,`duration` int(11)
-,`start_place` varchar(255)
-,`participant_max_nbr` int(11)
-,`participant_minimum_age` int(11)
-,`organizer` int(11)
-,`individual_proposition_suggestion_allowed` tinyint(1)
-,`region_id` int(11)
-);
--- --------------------------------------------------------
-
---
--- Structure de la vue `participable_event`
---
-DROP TABLE IF EXISTS `participable_event`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `participable_event` AS select `subquery`.`id` AS `id`,`subquery`.`name` AS `name`,`subquery`.`private` AS `private`,`subquery`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`subquery`.`description` AS `description`,`subquery`.`start_date` AS `start_date`,`subquery`.`inscription_deadline` AS `inscription_deadline`,`subquery`.`duration` AS `duration`,`subquery`.`start_place` AS `start_place`,`subquery`.`participant_max_nbr` AS `participant_max_nbr`,`subquery`.`participant_minimum_age` AS `participant_minimum_age`,`subquery`.`organizer` AS `organizer`,`subquery`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`subquery`.`region_id` AS `region_id` from `visible_event` `subquery` where ((`subquery`.`start_date` >= now()) and (`subquery`.`inscription_deadline` >= now()));
-
--- --------------------------------------------------------
-
---
--- Structure de la vue `visible_event`
---
-DROP TABLE IF EXISTS `visible_event`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `visible_event` AS select `event`.`id` AS `id`,`event`.`name` AS `name`,`event`.`private` AS `private`,`event`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`event`.`description` AS `description`,`event`.`start_date` AS `start_date`,`event`.`inscription_deadline` AS `inscription_deadline`,`event`.`duration` AS `duration`,`event`.`start_place` AS `start_place`,`event`.`participant_max_nbr` AS `participant_max_nbr`,`event`.`participant_minimum_age` AS `participant_minimum_age`,`event`.`organizer` AS `organizer`,`event`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`event`.`region_id` AS `region_id` from `event` where ((`event`.`private` = 0) or `event`.`id` in (select `event`.`id` from (`event` join `participation` on((`participation`.`event_id` = `event`.`id`))) where ((`event`.`private` = 1) and (`participation`.`user_id` = `conected_user_id`()))) or `event`.`id` in (select `event`.`id` from (`event` join `invitation` on((`invitation`.`event_id` = `event`.`id`))) where ((`event`.`private` = 1) and (`invitation`.`user_id` = `conected_user_id`()))));
-
 --
 -- Contraintes pour les tables exportées
 --
@@ -538,8 +470,8 @@ ALTER TABLE `activity_specification`
 -- Contraintes pour la table `event`
 --
 ALTER TABLE `event`
-  ADD CONSTRAINT `FKOrganization` FOREIGN KEY (`organizer`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_event_region` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_event_region` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FKOrganization` FOREIGN KEY (`organizer`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `event_disscussion_thread_message`

@@ -66,8 +66,7 @@ class Search extends CI_Controller {
     function add_user($id_user, $id_contact) {
     }
     
-    function event()
-    {
+    function event() {
         //if user is not logged in : redirection to welcome page
         if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
         {
@@ -84,14 +83,13 @@ class Search extends CI_Controller {
         }
     }
 
-    function search_event()
-    {
+    function search_event() {
         /*
         * The words used for research are separated by spaces
         */
         $searchString = $_GET['s'];
         $searchWords = explode(" ", $searchString);
-        $result = $this->event->search_event($searchWords);
+        $result = $this->event->search_event($session_data['id'], $searchWords);
 
         $resultTable = "";
 		$resultTable .= "<h3>Résultat(s)</h3>";

@@ -14,7 +14,7 @@ class Home extends CI_Controller {
             $data['title'] = 'Accueil';
             $session_data = $this->session->userdata('logged_in');
             $data['firstname'] = $session_data['firstname'];
-            $data['new_events'] = get_new_events();
+            $data['new_events'] = get_new_events($session_data['id']);
 
             $this->load->helper(array('form'));
             $this->load->view('templates/header', $data);
