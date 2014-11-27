@@ -57,12 +57,13 @@ class Manage_User extends CI_Controller {
         if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
 
         if( !isset($aResult['error']) ) {
-               if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 2) ) {
+               if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 3) ) {
                    $aResult['error'] = 'Error in arguments!';
                }
                else {
                    $id_user = $_POST['arguments'][0];
                    $id_event = $_POST['arguments'][1];
+                   $private = $_POST['arguments'][2];
                    
                    $result = $this->event->join_event($id_user, $id_event);
                    

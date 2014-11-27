@@ -1,10 +1,10 @@
 <script>
-function joinEvent(idUser, idEvent) {
+function joinEvent(idUser, idEvent, private) {
     $.ajax({
     type: "POST",
     url: '/manage_user/join_event',
     dataType: 'json',
-    data: {arguments: [idUser, idEvent]},
+    data: {arguments: [idUser, idEvent, private]},
 
     success: function (obj, textstatus) {
                   if( !('error' in obj) ) {

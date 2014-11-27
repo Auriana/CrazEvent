@@ -10,6 +10,8 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+CREATE SCHEMA IF NOT EXISTS `crazevent` DEFAULT CHARACTER SET utf8;
+USE `crazevent`;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -67,7 +69,17 @@ BEGIN
     INSERT INTO keyword_specification (event_id, keyword_id) VALUES (eventID, keywordID);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `join_event`(id_user int, id_event int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `join_private_event`(id_user int, id_event int)
+BEGIN
+
+delete from invitation where user_id = id_user AND event_id = id_event;
+
+insert participation(event_id, user_id) values(id_event, id_user);
+select * from participation where user_id = id_user AND event_id = id_event;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `join_public_event`(id_user int, id_event int)
 BEGIN
 
 insert participation(event_id, user_id) values(id_event, id_user);
@@ -123,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Contenu de la table `activity`
@@ -134,7 +146,9 @@ INSERT INTO `activity` (`id`, `content`) VALUES
 (2, 'Manger'),
 (3, 'taguer'),
 (4, 'théâtre'),
-(5, 'Treck');
+(5, 'Treck'),
+(6, 'Saut à ski'),
+(7, 'fondue');
 
 -- --------------------------------------------------------
 
@@ -161,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   `name` varchar(45) NOT NULL,
   `private` tinyint(1) NOT NULL,
   `invitation_suggestion_allowed` tinyint(1) DEFAULT '0',
-  `description` longtext,
+  `description` longtext NOT NULL,
   `start_date` datetime DEFAULT NULL,
   `inscription_deadline` datetime DEFAULT NULL,
   `duration` int(11) DEFAULT '1',
@@ -174,16 +188,14 @@ CREATE TABLE IF NOT EXISTS `event` (
   PRIMARY KEY (`id`),
   KEY `FKOrganization_idx` (`organizer`),
   KEY `fk_event_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Contenu de la table `event`
 --
 
 INSERT INTO `event` (`id`, `name`, `private`, `invitation_suggestion_allowed`, `description`, `start_date`, `inscription_deadline`, `duration`, `start_place`, `participant_max_nbr`, `participant_minimum_age`, `organizer`, `individual_proposition_suggestion_allowed`, `region_id`) VALUES
-(2, 'test', 1, 0, 'test', '2014-11-27 18:00:00', '2014-11-27 11:00:00', 1, NULL, NULL, 0, 1, 0, 19),
-(9, 'test 2', 0, 0, NULL, '2014-11-27 17:00:00', '2014-11-27 23:00:00', 1, NULL, NULL, 0, 1, 0, 16),
-(13, 'test 3', 1, 0, NULL, '2014-11-27 14:00:00', '2014-11-27 17:00:00', 1, NULL, NULL, 0, 1, 0, 11);
+(2, 'test', 1, 0, 'test', '2014-11-27 18:00:00', '2014-11-27 11:00:00', 1, NULL, NULL, 0, 1, 0, 19);
 
 -- --------------------------------------------------------
 
@@ -243,14 +255,6 @@ CREATE TABLE IF NOT EXISTS `invitation` (
   KEY `fk_invitation_user1_idx` (`user_id`),
   KEY `fk_invitation_event1_idx` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `invitation`
---
-
-INSERT INTO `invitation` (`user_id`, `event_id`) VALUES
-(1, 2),
-(3, 13);
 
 -- --------------------------------------------------------
 
@@ -452,12 +456,12 @@ CREATE TABLE IF NOT EXISTS `user` (
   `birthdate` date NOT NULL,
   `email` varchar(45) NOT NULL,
   `region_id` int(11) NOT NULL,
-  `is_admin` tinyint(1) NOT NULL,
-  `active` tinyint(1) NOT NULL,
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `fk_user_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Contenu de la table `user`
@@ -465,7 +469,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `firstname`, `surname`, `password`, `birthdate`, `email`, `region_id`, `is_admin`, `active`) VALUES
 (1, 'Dominique', 'Jollien', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-22', 'dominiquejollien@hotmail.com', 16, 0, 0),
-(3, 'popo', 'a', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-22', 'popo@popo.com', 1, 0, 0);
+(3, 'popo', 'a', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-22', 'popo@popo.com', 1, 0, 0),
+(4, 'Calixte', 'Maillard', '81dc9bdb52d04dc20036dbd8313ed055', '1111-11-11', 'calixte@heig.ch', 7, 0, 1),
+(5, 'Simone', 'Righittho', '81dc9bdb52d04dc20036dbd8313ed055', '1111-11-11', 'simone@heig.ch', 18, 0, 1);
 
 -- --------------------------------------------------------
 

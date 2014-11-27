@@ -7,6 +7,7 @@ Class User extends CI_Model
      $this->db->from('user');
      $this->db->where('email', $email);
      $this->db->where('password', MD5($password));
+     $this->db->where('active', 1);
      $this->db->limit(1);
 
      $query = $this->db->get();
@@ -29,8 +30,7 @@ Class User extends CI_Model
            'password' => MD5($password),
            'birthdate' => $birthdate,
            'region_id' => $region,
-           'email' => $email,
-           'is_admin' => false
+           'email' => $email
        );
        return $this->db->insert('user', $data);
     }
