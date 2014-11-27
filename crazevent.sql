@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Contenu de la table `activity`
@@ -148,7 +148,8 @@ INSERT INTO `activity` (`id`, `content`) VALUES
 (4, 'théâtre'),
 (5, 'Treck'),
 (6, 'Saut à ski'),
-(7, 'fondue');
+(7, 'fondue'),
+(8, 'Snow');
 
 -- --------------------------------------------------------
 
@@ -163,6 +164,14 @@ CREATE TABLE IF NOT EXISTS `activity_specification` (
   KEY `fk_activity_has_event_event1_idx` (`event_id`),
   KEY `fk_activity_has_event_activity1_idx` (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `activity_specification`
+--
+
+INSERT INTO `activity_specification` (`activity_id`, `event_id`) VALUES
+(7, 15),
+(8, 16);
 
 -- --------------------------------------------------------
 
@@ -188,14 +197,16 @@ CREATE TABLE IF NOT EXISTS `event` (
   PRIMARY KEY (`id`),
   KEY `FKOrganization_idx` (`organizer`),
   KEY `fk_event_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Contenu de la table `event`
 --
 
 INSERT INTO `event` (`id`, `name`, `private`, `invitation_suggestion_allowed`, `description`, `start_date`, `inscription_deadline`, `duration`, `start_place`, `participant_max_nbr`, `participant_minimum_age`, `organizer`, `individual_proposition_suggestion_allowed`, `region_id`) VALUES
-(2, 'test', 1, 0, 'test', '2014-11-27 18:00:00', '2014-11-27 11:00:00', 1, NULL, NULL, 0, 1, 0, 19);
+(2, 'test', 1, 0, 'test', '2014-11-27 18:00:00', '2014-11-27 11:00:00', 1, NULL, NULL, 0, 1, 0, 19),
+(15, 'Balade', 1, 0, 'petit moment détente', '2014-11-05 00:00:00', NULL, NULL, NULL, NULL, NULL, 5, 0, 1),
+(16, 'séjour', 0, 0, 'sport d''hiver', '2014-11-06 00:00:00', NULL, 2, 'Marseille', NULL, NULL, 5, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -266,7 +277,7 @@ CREATE TABLE IF NOT EXISTS `keyword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Contenu de la table `keyword`
@@ -278,7 +289,10 @@ INSERT INTO `keyword` (`id`, `content`) VALUES
 (3, 'feutre'),
 (4, 'marche'),
 (5, 'montagnes'),
-(6, 'paysage');
+(6, 'paysage'),
+(7, 'ski'),
+(8, 'snow'),
+(9, 'hiver');
 
 -- --------------------------------------------------------
 
@@ -293,6 +307,15 @@ CREATE TABLE IF NOT EXISTS `keyword_specification` (
   KEY `fk_event_has_keyword_keyword1_idx` (`keyword_id`),
   KEY `fk_event_has_keyword_event1_idx` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `keyword_specification`
+--
+
+INSERT INTO `keyword_specification` (`event_id`, `keyword_id`) VALUES
+(16, 7),
+(16, 8),
+(16, 9);
 
 -- --------------------------------------------------------
 
@@ -343,6 +366,14 @@ CREATE TABLE IF NOT EXISTS `participation` (
   KEY `fk_event_has_user_user1_idx` (`user_id`),
   KEY `fk_event_has_user_event1_idx` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `participation`
+--
+
+INSERT INTO `participation` (`event_id`, `user_id`) VALUES
+(15, 5),
+(16, 5);
 
 -- --------------------------------------------------------
 
@@ -518,7 +549,7 @@ CREATE TABLE IF NOT EXISTS `visible_event` (
 --
 DROP TABLE IF EXISTS `participable_event`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `participable_event` AS select `subquery`.`id` AS `id`,`subquery`.`name` AS `name`,`subquery`.`private` AS `private`,`subquery`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`subquery`.`description` AS `description`,`subquery`.`start_date` AS `start_date`,`subquery`.`inscription_deadline` AS `inscription_deadline`,`subquery`.`duration` AS `duration`,`subquery`.`start_place` AS `start_place`,`subquery`.`participant_max_nbr` AS `participant_max_nbr`,`subquery`.`participant_minimum_age` AS `participant_minimum_age`,`subquery`.`organizer` AS `organizer`,`subquery`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`subquery`.`region_id` AS `region_id` from `visible_event` `subquery` where ((`subquery`.`start_date` >= now()) and (`subquery`.`inscription_deadline` >= now()));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `participable_event` AS select `subquery`.`id` AS `id`,`subquery`.`name` AS `name`,`subquery`.`private` AS `private`,`subquery`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`subquery`.`description` AS `description`,`subquery`.`start_date` AS `start_date`,`subquery`.`inscription_deadline` AS `inscription_deadline`,`subquery`.`duration` AS `duration`,`subquery`.`start_place` AS `start_place`,`subquery`.`participant_max_nbr` AS `participant_max_nbr`,`subquery`.`participant_minimum_age` AS `participant_minimum_age`,`subquery`.`organizer` AS `organizer`,`subquery`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`subquery`.`region_id` AS `region_id` from `visible_event` `subquery` where (((`subquery`.`start_date` >= now()) and (`subquery`.`inscription_deadline` >= now())) or isnull(`subquery`.`start_date`) or isnull(`subquery`.`inscription_deadline`));
 
 -- --------------------------------------------------------
 
