@@ -65,5 +65,16 @@ Class User extends CI_Model
 
     }
     
+    function change_firstname($idUser, $newFirstname)
+    {
+        $data = array(
+            'firstname' => $newFirstname
+        );
+        $this->db->where('id', $idUser);
+        $this->db->update('user', $data);
+        // if the update is successful, return 1
+        return $this->db->affected_rows();
+    }
+    
 }
 ?>

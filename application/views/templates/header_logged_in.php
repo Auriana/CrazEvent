@@ -41,7 +41,7 @@
 						<li><a href="#MonAgenda">Mon agenda</a></li>
 						<li><a href="#MesContacts">Mes contacts</a></li>
 						<li><a href="#MesNotifications">Mes notifications</a></li>
-						<li><a href="#MesNotifications">Mon profil</a></li>
+						<li><a href="<?php echo base_url().'manage_user'; ?>">Mon profil</a></li>
 						<li><a href="<?php echo base_url().'home/logout'; ?>">Déconnexion</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->

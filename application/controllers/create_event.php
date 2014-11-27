@@ -15,7 +15,7 @@ class Create_Event extends CI_Controller {
             $data['regions'] = get_region_scrollbox();
 
             $this->load->helper(array('form'));
-            $this->load->view('templates/header', $data);
+            $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/create_event_view');
             $this->load->view('templates/footer');
         }

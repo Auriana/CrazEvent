@@ -132,7 +132,14 @@ Class Event extends CI_Model
         return $query->result();
     }
     
-    function get_participable_events($id_user) {        
+    function join_private_event($id_user, $id_event)
+    {
+        $query = $this->db->query("call join_private_event(" . $id_user . ", " . $id_event . ")");
+        return $query->result();
+    }
+    
+    function get_participable_events($id_user) {
+        
         $this->db->query("SET @connected_user_id := " . $id_user);
         
         $this -> db -> select("*");

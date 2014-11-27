@@ -30,7 +30,7 @@ class Details_Event extends CI_Controller {
             }
 			
             $this->load->helper(array('form'));
-            $this->load->view('templates/header', $data);
+            $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/details_event_view', $info_event);
             $this->load->view('templates/footer');
         }

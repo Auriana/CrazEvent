@@ -22,7 +22,7 @@ class Search extends CI_Controller {
             $session_data = $this->session->userdata('logged_in');
 
             $this->load->helper(array('form'));
-            $this->load->view('templates/header', $data);
+            $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/search_user_view', $data);
             $this->load->view('templates/footer');
         }
