@@ -14,7 +14,7 @@ class Details_Event extends CI_Controller {
 			$data['title'] = 'Détails de l\évènement';
 			
 
-			$info_event = $this -> details($id);
+			$info_event = $this->event->get_details($id);
             $session_data = $this->session->userdata('logged_in');
             
             $info_event['id_user'] = $session_data['id'];
@@ -40,33 +40,6 @@ class Details_Event extends CI_Controller {
             redirect('home', 'refresh');
         }
     }
-	
-	function details($id) {
-      	$this->load->model('event','',TRUE);
-		
-        $infoEvent['event'] = $this->event->get_event($id)[0];
-        
-        $activities = $this->event->get_event_activities($id);
-        foreach($activities as $activity) {
-            $infoEvent['eventActivities'][] = $activity->content;
-        }
-        
-        $checklist = $this->event->get_event_checklist($id);
-        foreach($checklist as $checklistItem) {
-            $infoEvent['eventChecklist'][] = $checklistItem->content;
-        }
-        
-        $keywords = $this->event->get_event_keywords($id);
-        foreach($keywords as $keyword) {
-            $infoEvent['eventKeywords'][] = $keyword->content;
-        }
-        
-        $infoEvent['eventParticipants'] = $this->event->get_event_participants($id);
-
-        return $infoEvent;
-		
-    }
-
 }
 
 ?>

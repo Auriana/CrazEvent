@@ -62,7 +62,10 @@ if ( ! function_exists('get_new_events')) {
 
 if ( ! function_exists('get_region_scrollbox')) {
     function get_region_scrollbox() {
-         
+        return get_region_scrollbox_with_selected("");
+	}
+    function get_region_scrollbox_with_selected($selectedRegionContent) {
+                 
         // Get a reference to the controller object
         $CI = get_instance();
         
@@ -73,11 +76,14 @@ if ( ! function_exists('get_region_scrollbox')) {
         $regionList = "";
         if ($result) {
             foreach($result as $row) {
-                $regionList .= '<option value="'.$row->id .'">'. $row->content .'</option>';
+                if(strcmp($row->content,$selectedRegionContent) == 0) {
+                    $regionList .= '<option value="'.$row->id .'" selected>'. $row->content .'</option>';
+                } else {
+                    $regionList .= '<option value="'.$row->id .'">'. $row->content .'</option>';
+                }
             }
         }
-
         return $regionList;
-	}
+    }
 }
 ?>

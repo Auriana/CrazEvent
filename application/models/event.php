@@ -55,7 +55,7 @@ Class Event extends CI_Model
        return $eventId;
     }
     
-   function edit_event($id, $name, $private, $date, $duration, $place, $region, $activities, $description, $keywords, $checklistItems, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline) {
+   function update_event($eventId, $name, $private, $date, $duration, $place, $region, $activities, $description, $keywords, $checklistItems, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline) {
        //insertion of Event
        $data = array(
            'name' => $name,
@@ -74,7 +74,7 @@ Class Event extends CI_Model
        
        $this->db->trans_start();
        
-       $this->db->where('id', $id);
+       $this->db->where('id', $eventId);
        $this->db->update('event', $data);
        
        //insertion of MandatoryCheckListItems
@@ -86,21 +86,21 @@ Class Event extends CI_Model
                     'event_id' => $eventId
                );
            }
-           $this->db->where('id', $id);
+           $this->db->where('event_id', $eventId);
            $this->db->delete('mandatory_checklist_item');
            
            $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
        }
 
         //insertion of Activities
-       $this->db->where('event_id', $id);
+       $this->db->where('event_id', $eventId);
        $this->db->delete('activity_specification');
        foreach ($activities as $activity){
            $insertionResult = $this->db->query("call insert_activity(" . $eventId . ", '" . $activity . "')");
        }
 
        //insertion of Keywords
-       $this->db->where('event_id', $id);
+       $this->db->where('event_id', $eventId);
        $this->db->delete('keyword_specification');
        foreach ($keywords as $keyword){
            $insertionResult = $this->db->query("call insert_keyword(" . $eventId . ", '" . $keyword . "')");
@@ -110,7 +110,7 @@ Class Event extends CI_Model
     }
 	
 	function get_event($id) {
-		$this -> db ->select('name, private, invitation_suggestion_allowed, description, start_date, inscription_deadline, duration, start_place, participant_max_nbr, participant_minimum_age, organizer, individual_proposition_suggestion_allowed, region.content');
+		$this -> db ->select('event.id AS id, name, private, invitation_suggestion_allowed, description, start_date, inscription_deadline, duration, start_place, participant_max_nbr, participant_minimum_age, organizer, individual_proposition_suggestion_allowed, region.content AS region');
 		$this -> db -> from('event');
         $this->db->join('region', 'event.region_id = region.id', 'inner');
 		$this -> db -> where('event.id', $id);
@@ -264,6 +264,29 @@ Class Event extends CI_Model
         }
 
         return $result;
+    }
+    
+    function get_details($id) {		
+        $infoEvent['event'] = $this->event->get_event($id)[0];
+        
+        $activities = $this->event->get_event_activities($id);
+        foreach($activities as $activity) {
+            $infoEvent['eventActivities'][] = $activity->content;
+        }
+        
+        $checklist = $this->event->get_event_checklist($id);
+        foreach($checklist as $checklistItem) {
+            $infoEvent['eventChecklist'][] = $checklistItem->content;
+        }
+        
+        $keywords = $this->event->get_event_keywords($id);
+        foreach($keywords as $keyword) {
+            $infoEvent['eventKeywords'][] = $keyword->content;
+        }
+        
+        $infoEvent['eventParticipants'] = $this->event->get_event_participants($id);
+
+        return $infoEvent;
     }
 }
 ?>

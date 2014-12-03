@@ -21,6 +21,7 @@ class Verify_Create_Event extends CI_Controller {
    $this->form_validation->set_rules('inputEmail', 'inputEmail', 'trim|required|xss_clean');
    */
     
+     /*
     //Create new event
      $creation = $this->create_event();
      
@@ -31,6 +32,7 @@ class Verify_Create_Event extends CI_Controller {
         //TODO redirect to error page
          //redirect('user_guide', 'refresh');
      }
+     */
      
      /*
    if($this->form_validation->run() == FALSE) {
@@ -132,7 +134,83 @@ class Verify_Create_Event extends CI_Controller {
    //therfor join_public_event is used
    $this->event->join_public_event($this->session->userdata('logged_in')['id'], $eventId);
      
-     return $eventId;
+     //return $eventId;
+      if ($eventId == TRUE) {
+        redirect('welcome', 'refresh');
+     } else {
+         echo 'erreur à la création';
+        //TODO redirect to error page
+         //redirect('user_guide', 'refresh');
+     }
  }
+    
+    function update_event($id) {
+    /*
+    * extract the event data from the form
+    */
+   $eventName = $this->input->post('inputEventName', TRUE);
+     
+   if($this->input->post('privatePublic', TRUE) == 'private') {
+       $eventPrivate = 1;
+   } else {
+       $eventPrivate = 0;
+   }
+     
+   if($this->input->post('inputDate', TRUE) == '') {
+       $eventDate = null;
+   } else {
+       $eventDate = $this->input->post('inputDate', TRUE);
+   }
+     
+   if($this->input->post('inputDuration', TRUE) == '') {
+       $eventDuration = null;
+   } else {
+       $eventDuration = $this->input->post('inputDuration', TRUE);
+   }
+     
+   if($this->input->post('inputPlace', TRUE) == '') {
+       $eventPlace = null;
+   } else {
+       $eventPlace = $this->input->post('inputPlace', TRUE);
+   }
+
+   $eventRegion = $this->input->post('inputRegion', TRUE);       
+   $eventActivities = $this->get_array_from_form('inputActivity');
+   $eventDescription = $this->input->post('inputDescription', TRUE);
+   $eventKeywords = $this->get_array_from_form('inputKeyword');
+   $eventChecklistItems = $this->get_array_from_form('inputChecklistItem');
+   $eventInvitationSuggestionAllowed = isset($_POST['inputInvitationAllowed']);
+   $eventIndividualPropositionSuggestionAllowed = isset($_POST['inputIndividualPropositionAllowed']);
+       
+   if($this->input->post('inputMaxParticipant', TRUE) == '') {
+       $eventMaxParticipant = null;
+   } else {
+       $eventMaxParticipant = $this->input->post('inputMaxParticipant', TRUE);
+   }
+    
+   if($this->input->post('inputMinAge', TRUE) == '') {
+       $eventMinAge = null;
+   } else {
+       $eventMinAge = $this->input->post('inputMinAge', TRUE);
+   }
+       
+   if($this->input->post('inputJoinDate', TRUE) == '') {
+       $eventInscriptionDeadline = null;
+   } else {
+       $eventInscriptionDeadline = $this->input->post('inputJoinDate', TRUE);
+   }
+     
+   //query the database              
+   $eventId = $this->event->update_event($id, $eventName, $eventPrivate, $eventDate, $eventDuration, $eventPlace, $eventRegion, $eventActivities, $eventDescription,     $eventKeywords, $eventChecklistItems, $eventInvitationSuggestionAllowed, $eventIndividualPropositionSuggestionAllowed, $eventMaxParticipant, $eventMinAge, $eventInscriptionDeadline);
+     
+     //return $eventId;
+      if ($eventId == TRUE) {
+        redirect('welcome', 'refresh');
+     } else {
+         echo 'erreur à la modification';
+        //TODO redirect to error page
+         //redirect('user_guide', 'refresh');
+     }
+    }
 }
 ?>
