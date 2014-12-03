@@ -52,7 +52,7 @@ if ( ! function_exists('get_new_events')) {
         $eventsInfos = "";
         if ($result) {
             foreach($result as $row) {
-                $eventsInfos .= "<li><a class='event-link' href='details_event/index/" . $row->id . "'>" . $row->name . "</a></li>";
+                $eventsInfos .= "<li><a class='event-link' href='details_event/index/" . $row->eventId . "'>" . $row->name . "</a></li>";
             }
         }
 

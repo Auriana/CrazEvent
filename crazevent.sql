@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 27 Novembre 2014 à 10:01
+-- Généré le :  Mer 03 Décembre 2014 à 21:12
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Contenu de la table `activity`
@@ -149,7 +149,8 @@ INSERT INTO `activity` (`id`, `content`) VALUES
 (5, 'Treck'),
 (6, 'Saut à ski'),
 (7, 'fondue'),
-(8, 'Snow');
+(8, 'Snow'),
+(9, 'Raclette');
 
 -- --------------------------------------------------------
 
@@ -171,7 +172,8 @@ CREATE TABLE IF NOT EXISTS `activity_specification` (
 
 INSERT INTO `activity_specification` (`activity_id`, `event_id`) VALUES
 (7, 15),
-(8, 16);
+(8, 16),
+(9, 17);
 
 -- --------------------------------------------------------
 
@@ -197,16 +199,16 @@ CREATE TABLE IF NOT EXISTS `event` (
   PRIMARY KEY (`id`),
   KEY `FKOrganization_idx` (`organizer`),
   KEY `fk_event_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 --
 -- Contenu de la table `event`
 --
 
 INSERT INTO `event` (`id`, `name`, `private`, `invitation_suggestion_allowed`, `description`, `start_date`, `inscription_deadline`, `duration`, `start_place`, `participant_max_nbr`, `participant_minimum_age`, `organizer`, `individual_proposition_suggestion_allowed`, `region_id`) VALUES
-(2, 'test', 1, 0, 'test', '2014-11-27 18:00:00', '2014-11-27 11:00:00', 1, NULL, NULL, 0, 1, 0, 19),
-(15, 'Balade', 1, 0, 'petit moment détente', '2014-11-05 00:00:00', NULL, NULL, NULL, NULL, NULL, 5, 0, 1),
-(16, 'séjour', 0, 0, 'sport d''hiver', '2014-11-06 00:00:00', NULL, 2, 'Marseille', NULL, NULL, 5, 0, 2);
+(15, 'Balade', 1, 0, 'petit moment détente', '2014-11-05 02:00:00', NULL, NULL, NULL, NULL, NULL, 5, 0, 1),
+(16, 'séjour', 0, 0, 'sport d''hiver', '2014-11-05 01:00:00', NULL, 2, 'Marseille', NULL, NULL, 5, 0, 2),
+(17, 'Raclette des IL', 1, 1, 'Raclette des IL', '2015-12-19 00:00:00', '2015-12-16 00:00:00', 1, 'H06', 40, 18, 6, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -277,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `keyword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Contenu de la table `keyword`
@@ -292,7 +294,12 @@ INSERT INTO `keyword` (`id`, `content`) VALUES
 (6, 'paysage'),
 (7, 'ski'),
 (8, 'snow'),
-(9, 'hiver');
+(9, 'hiver'),
+(10, 'Raclette'),
+(11, 'Fromage'),
+(12, 'Patate'),
+(13, 'Repas'),
+(14, 'IL');
 
 -- --------------------------------------------------------
 
@@ -315,7 +322,12 @@ CREATE TABLE IF NOT EXISTS `keyword_specification` (
 INSERT INTO `keyword_specification` (`event_id`, `keyword_id`) VALUES
 (16, 7),
 (16, 8),
-(16, 9);
+(16, 9),
+(17, 10),
+(17, 11),
+(17, 12),
+(17, 13),
+(17, 14);
 
 -- --------------------------------------------------------
 
@@ -330,7 +342,14 @@ CREATE TABLE IF NOT EXISTS `mandatory_checklist_item` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `mandatoryCheckListItemUnique` (`content`,`event_id`),
   KEY `fk_mandatoryCheckListItem_event1_idx` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `mandatory_checklist_item`
+--
+
+INSERT INTO `mandatory_checklist_item` (`id`, `content`, `event_id`) VALUES
+(1, 'Payer 20 CHF', 17);
 
 -- --------------------------------------------------------
 
@@ -338,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `mandatory_checklist_item` (
 -- Doublure de structure pour la vue `participable_event`
 --
 CREATE TABLE IF NOT EXISTS `participable_event` (
-`id` int(11)
+`eventId` int(11)
 ,`name` varchar(45)
 ,`private` tinyint(1)
 ,`invitation_suggestion_allowed` tinyint(1)
@@ -373,7 +392,10 @@ CREATE TABLE IF NOT EXISTS `participation` (
 
 INSERT INTO `participation` (`event_id`, `user_id`) VALUES
 (15, 5),
-(16, 5);
+(16, 5),
+(15, 6),
+(16, 6),
+(17, 6);
 
 -- --------------------------------------------------------
 
@@ -492,17 +514,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `fk_user_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id`, `firstname`, `surname`, `password`, `birthdate`, `email`, `region_id`, `is_admin`, `active`) VALUES
-(1, 'Dominique', 'Jollien', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-22', 'dominiquejollien@hotmail.com', 16, 0, 0),
-(3, 'popo', 'a', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-22', 'popo@popo.com', 1, 0, 0),
 (4, 'Calixte', 'Maillard', '81dc9bdb52d04dc20036dbd8313ed055', '1111-11-11', 'calixte@heig.ch', 7, 0, 1),
-(5, 'Simone', 'Righittho', '81dc9bdb52d04dc20036dbd8313ed055', '1111-11-11', 'simone@heig.ch', 18, 0, 1);
+(5, 'Simone', 'Righittho', '81dc9bdb52d04dc20036dbd8313ed055', '1111-11-11', 'simone@heig.ch', 18, 0, 1),
+(6, 'Dominique', 'Jollien', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-22', 'dominiquejollien@hotmail.com', 15, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -527,7 +548,7 @@ CREATE TABLE IF NOT EXISTS `user_inbox_message` (
 -- Doublure de structure pour la vue `visible_event`
 --
 CREATE TABLE IF NOT EXISTS `visible_event` (
-`id` int(11)
+`eventId` int(11)
 ,`name` varchar(45)
 ,`private` tinyint(1)
 ,`invitation_suggestion_allowed` tinyint(1)
@@ -549,7 +570,7 @@ CREATE TABLE IF NOT EXISTS `visible_event` (
 --
 DROP TABLE IF EXISTS `participable_event`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `participable_event` AS select `subquery`.`id` AS `id`,`subquery`.`name` AS `name`,`subquery`.`private` AS `private`,`subquery`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`subquery`.`description` AS `description`,`subquery`.`start_date` AS `start_date`,`subquery`.`inscription_deadline` AS `inscription_deadline`,`subquery`.`duration` AS `duration`,`subquery`.`start_place` AS `start_place`,`subquery`.`participant_max_nbr` AS `participant_max_nbr`,`subquery`.`participant_minimum_age` AS `participant_minimum_age`,`subquery`.`organizer` AS `organizer`,`subquery`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`subquery`.`region_id` AS `region_id` from `visible_event` `subquery` where (((`subquery`.`start_date` >= now()) and (`subquery`.`inscription_deadline` >= now())) or isnull(`subquery`.`start_date`) or isnull(`subquery`.`inscription_deadline`));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `participable_event` AS select `subquery`.`eventId` AS `eventId`,`subquery`.`name` AS `name`,`subquery`.`private` AS `private`,`subquery`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`subquery`.`description` AS `description`,`subquery`.`start_date` AS `start_date`,`subquery`.`inscription_deadline` AS `inscription_deadline`,`subquery`.`duration` AS `duration`,`subquery`.`start_place` AS `start_place`,`subquery`.`participant_max_nbr` AS `participant_max_nbr`,`subquery`.`participant_minimum_age` AS `participant_minimum_age`,`subquery`.`organizer` AS `organizer`,`subquery`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`subquery`.`region_id` AS `region_id` from `visible_event` `subquery` where (((`subquery`.`start_date` >= now()) and (`subquery`.`inscription_deadline` >= now())) or isnull(`subquery`.`start_date`) or isnull(`subquery`.`inscription_deadline`));
 
 -- --------------------------------------------------------
 
@@ -558,7 +579,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `visible_event`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `visible_event` AS select `event`.`id` AS `id`,`event`.`name` AS `name`,`event`.`private` AS `private`,`event`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`event`.`description` AS `description`,`event`.`start_date` AS `start_date`,`event`.`inscription_deadline` AS `inscription_deadline`,`event`.`duration` AS `duration`,`event`.`start_place` AS `start_place`,`event`.`participant_max_nbr` AS `participant_max_nbr`,`event`.`participant_minimum_age` AS `participant_minimum_age`,`event`.`organizer` AS `organizer`,`event`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`event`.`region_id` AS `region_id` from `event` where ((`event`.`private` = 0) or `event`.`id` in (select `event`.`id` from (`event` join `participation` on((`participation`.`event_id` = `event`.`id`))) where ((`event`.`private` = 1) and (`participation`.`user_id` = `conected_user_id`()))) or `event`.`id` in (select `event`.`id` from (`event` join `invitation` on((`invitation`.`event_id` = `event`.`id`))) where ((`event`.`private` = 1) and (`invitation`.`user_id` = `conected_user_id`()))));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `visible_event` AS select `event`.`id` AS `eventId`,`event`.`name` AS `name`,`event`.`private` AS `private`,`event`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`event`.`description` AS `description`,`event`.`start_date` AS `start_date`,`event`.`inscription_deadline` AS `inscription_deadline`,`event`.`duration` AS `duration`,`event`.`start_place` AS `start_place`,`event`.`participant_max_nbr` AS `participant_max_nbr`,`event`.`participant_minimum_age` AS `participant_minimum_age`,`event`.`organizer` AS `organizer`,`event`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`event`.`region_id` AS `region_id` from `event` where ((`event`.`private` = 0) or `event`.`id` in (select `event`.`id` from (`event` join `participation` on((`participation`.`event_id` = `event`.`id`))) where ((`event`.`private` = 1) and (`participation`.`user_id` = `CONECTED_USER_ID`()))) or `event`.`id` in (select `event`.`id` from (`event` join `invitation` on((`invitation`.`event_id` = `event`.`id`))) where ((`event`.`private` = 1) and (`invitation`.`user_id` = `CONECTED_USER_ID`()))));
 
 --
 -- Contraintes pour les tables exportées

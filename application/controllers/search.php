@@ -96,7 +96,7 @@ class Search extends CI_Controller {
         $resultTable .= "<ul class='result_search'>";
 
         foreach($result as $row) {
-          $resultTable .= '<li><a href="../details_event/index/'.$row -> id.'">'. $row -> name . '</li>';
+          $resultTable .= '<li><a href="../details_event/index/'.$row -> eventId.'">'. $row -> name . '</li>';
         }
         $resultTable .= "</ul>";
         
