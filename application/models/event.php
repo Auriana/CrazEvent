@@ -54,6 +54,60 @@ Class Event extends CI_Model
        
        return $eventId;
     }
+    
+   function edit_event($id, $name, $private, $date, $duration, $place, $region, $activities, $description, $keywords, $checklistItems, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline) {
+       //insertion of Event
+       $data = array(
+           'name' => $name,
+           'private' => $private,
+           'invitation_suggestion_allowed' =>  $invitationSuggestionAllowed,
+           'description' => $description,
+           'start_date' => $date,
+           'inscription_deadline' => $inscriptionDeadline,
+           'duration' => $duration,
+           'start_place' => $place,
+           'participant_max_nbr' => $maxParticipant,
+           'participant_minimum_age' => $minAge,
+           'individual_proposition_suggestion_allowed' => $individualPropositionSuggestionAllowed,
+           'region_id' => $region
+       );
+       
+       $this->db->trans_start();
+       
+       $this->db->where('id', $id);
+       $this->db->update('event', $data);
+       
+       //insertion of MandatoryCheckListItems
+       if(!empty($checklistItems)) {
+           $data = array();
+           foreach ($checklistItems as $checklistItem){
+               $data[] = array(
+                    'content' => $checklistItem,
+                    'event_id' => $eventId
+               );
+           }
+           $this->db->where('id', $id);
+           $this->db->delete('mandatory_checklist_item');
+           
+           $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
+       }
+
+        //insertion of Activities
+       $this->db->where('event_id', $id);
+       $this->db->delete('activity_specification');
+       foreach ($activities as $activity){
+           $insertionResult = $this->db->query("call insert_activity(" . $eventId . ", '" . $activity . "')");
+       }
+
+       //insertion of Keywords
+       $this->db->where('event_id', $id);
+       $this->db->delete('keyword_specification');
+       foreach ($keywords as $keyword){
+           $insertionResult = $this->db->query("call insert_keyword(" . $eventId . ", '" . $keyword . "')");
+       }
+
+       $this->db->trans_complete();
+    }
 	
 	function get_event($id) {
 		$this -> db ->select('name, private, invitation_suggestion_allowed, description, start_date, inscription_deadline, duration, start_place, participant_max_nbr, participant_minimum_age, organizer, individual_proposition_suggestion_allowed, region.content');
