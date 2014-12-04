@@ -172,7 +172,7 @@ $(document).ready(function(){
     <div class="form-group">
         <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>
         <div id="activityContainer" class="col-sm-6">
-            <input type="text" class="form-control" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
+            <input type="text" class="form-control inputActivity" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
             <span id="activity1Error"></span>
             <button type="button" class="btn btn-primary removeActivity" id="removeActivity1" class="btn btn-primary">-</button>
         </div>

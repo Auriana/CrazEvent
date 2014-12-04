@@ -22,6 +22,13 @@ function joinEvent(idUser, idEvent, private) {
 	<h1 class="text-centred">
 		<?php echo $event->name; ?>
 	</h1>
+        <?php
+        if($event->organizer == $id_user) {
+            echo '<h5>
+                    <a href="'.base_url().'manage_event/index/'.$event->id.'">Modifier l\'évènement</a>
+                </h5>';
+        }
+    ?>
 	<h5>
 		<?php echo ($event->private == 1 ? "Privé" : "Public" ); ?>
 	</h5>

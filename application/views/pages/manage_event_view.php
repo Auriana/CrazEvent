@@ -112,14 +112,13 @@ $(document).ready(function(){
 });
 </script>
 
-<?php echo validation_errors(); print_r($event);?>
+<?php echo validation_errors();?>
 <?php echo form_open( 'verify_create_event/update_event/'. $event->id, 'name="eventUpdate" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
 
 <div class="col-md-12 white-bloc centred">
 	<h1 class="text-centred">
-		Crée ton événement
+		Modifie ton événement
 	</h1>
-
     <div class="form-group">
         <label for="inputEventName" class="col-sm-4 control-label">*Nom de l'événement</label>
         <div class="col-sm-6">
