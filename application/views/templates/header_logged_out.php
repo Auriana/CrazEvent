@@ -45,4 +45,3 @@
 			</div><!-- /.container -->
 		</div><!-- /.navbar -->
 		</div><!-- /.navbar-bloc -->
-		<div class="container theme-showcase" role="main">
