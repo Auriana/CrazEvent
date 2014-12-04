@@ -288,5 +288,10 @@ Class Event extends CI_Model
 
         return $infoEvent;
     }
+    
+    function cancel($id) {
+        $this->db->where('id', $id);
+        $this->db->delete('event');
+    }
 }
 ?>
