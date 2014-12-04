@@ -3,8 +3,9 @@ Class User extends CI_Model
 {
  function login($email, $password)
  {
-     $this->db->select('id, email, firstname, surname');
+     $this->db->select('user.id, email, firstname, surname, region.content AS region');
      $this->db->from('user');
+     $this->db->join('region', 'region.id = user.region_id', 'inner');
      $this->db->where('email', $email);
      $this->db->where('password', MD5($password));
      $this->db->where('active', 1);
@@ -70,6 +71,39 @@ Class User extends CI_Model
     {
         $data = array(
             'firstname' => $newFirstname
+        );
+        $this->db->where('id', $id_user);
+        $this->db->update('user', $data);
+        // if the update is successful, return 1
+        return $this->db->affected_rows();
+    }
+    
+    function change_surname($id_user, $newSurname)
+    {
+        $data = array(
+            'surname' => $newSurname
+        );
+        $this->db->where('id', $id_user);
+        $this->db->update('user', $data);
+        // if the update is successful, return 1
+        return $this->db->affected_rows();
+    }
+    
+    function change_password($id_user, $newPassword)
+    {
+        $data = array(
+            'password' => MD5($newPassword)
+        );
+        $this->db->where('id', $id_user);
+        $this->db->update('user', $data);
+        // if the update is successful, return 1
+        return $this->db->affected_rows();
+    }
+    
+    function change_region($id_user, $newRegion)
+    {
+        $data = array(
+            'region_id' => $newRegion
         );
         $this->db->where('id', $id_user);
         $this->db->update('user', $data);
