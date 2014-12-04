@@ -22,7 +22,7 @@ function searchEvent() {
 }
     
 </script>
-
+<div class="container theme-showcase" role="main">
 <div class="form-horizontal">
 <div class="col-md-6 white-bloc centred">
 	<h1 class="text-centred">Recherche un évènement</h1>

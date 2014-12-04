@@ -17,7 +17,7 @@ function joinEvent(idUser, idEvent, private) {
 });
 }
 </script>
-
+<div class="container theme-showcase" role="main">
 <div class="col-md-12 white-bloc centred">
 	<h1 class="text-centred">
 		<?php echo $event->name; ?>
