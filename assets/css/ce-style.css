@@ -30,8 +30,8 @@ h2 {
 }
 
 .centred {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: auto!important;
+  margin-right: auto!important;
   float: none;
 }
 
@@ -150,3 +150,27 @@ ul.result_search li:first-child {
 	border-top: 1px solid #ccc;
 }
 
+.form-login {
+	margin-left : 0px!important;
+	margin-right: 0px!important;
+}
+
+.intro-header {
+    padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+    padding-bottom: 50px;
+    text-align: center;
+    color: #f8f8f8;
+    background: url(assets/img/birthday.jpg) no-repeat center center;
+    background-size: cover;
+}
+
+.intro-message > h1 {
+    margin: 0;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-size: 5em;
+}
+
+.content-section-a {
+    padding: 50px 0;
+    background-color: #f8f8f8;
+}

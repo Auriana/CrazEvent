@@ -14,7 +14,11 @@
         } else {
             $("#descriptionError").text("");
         }
-        if ($("#inputActivity1").val() == "") {
+        var activities = "";
+        $( ".inputActivity" ).each(function( index ) {
+            activities = activities + $(this).val();
+        });
+        if (activities == "") {
             $("#activity1Error").text("Une activité au moins est requise");
             isValid = false;
         } else {
@@ -27,27 +31,90 @@ $(document).ready(function(){
     /*
     * script to handle form control
     */
-    var activityNbr = 1;
-    var keywordNbr = 1;
-    var checklistItemNbr = 1;
+    var activityNbr = $('.inputActivity').length;
+    var keywordNbr = $('.inputKeyword').length;
+    var checklistItemNbr = $('.inputChecklistItem').length;
     $("#addActivity").click(function(){
         ++activityNbr;
-        $("#activityContainer").append("<input type='text' class='form-control' id='inputActivity" + activityNbr + "' name='inputActivity" + activityNbr + "' placeholder='Entre une activité'>");
+        $("#activityContainer").append("<input type='text' class='form-control inputActivity' id='inputActivity" + activityNbr + "' name='inputActivity" + activityNbr + "' placeholder='Entre une activité'>");
+        $("#activityContainer").append('<button type="button" class="btn btn-primary removeActivity" id="removeActivity' + activityNbr + '" class="btn btn-primary">-</button>');
+    });
+    $('body').on('click', '.removeActivity', function() {
+        var deletedActivityNbr = $(this).attr('id').substring(14);
+        
+        //delete the activity
+        $("#inputActivity" + deletedActivityNbr).remove();
+        $(this).remove();
+        
+        //renumber the other activites
+        --activityNbr;
+        var indexActivity = activityNbr;
+        $( ".inputActivity" ).each(function( index ) {
+            $(this).attr('id', "inputActivity" + indexActivity);
+            $(this).attr('name', "inputActivity" + indexActivity);
+            --indexActivity;
+        });
+        indexActivity = activityNbr;
+        $( ".removeActivity" ).each(function( index ) {
+            $(this).attr('id', "removeActivity" + indexActivity--);
+        });
     });
     $("#addKeyword").click(function(){
         ++keywordNbr;
-        $("#keywordContainer").append("<input type='text' class='form-control' id='inputKeyword" + keywordNbr + "' name='inputKeyword" + keywordNbr + "' placeholder='Entre un mot-clé'>");
+        $("#keywordContainer").append("<input type='text' class='form-control inputKeyword' id='inputKeyword" + keywordNbr + "' name='inputKeyword" + keywordNbr + "' placeholder='Entre un mot-clé'>");
+        $("#keywordContainer").append('<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword' + keywordNbr + '" class="btn btn-primary">-</button>');
+    });
+    $('body').on('click', '.removeKeyword', function() {
+        var deletedKeywordNbr = $(this).attr('id').substring(13);
+        
+        //delete the keyword
+        $("#inputKeyword" + deletedKeywordNbr).remove();
+        $(this).remove();
+        
+        //renumber the other keywords
+        --keywordNbr;
+        var indexKeyword = keywordNbr;
+        $( ".inputKeyword" ).each(function( index ) {
+            $(this).attr('id', "inputKeyword" + indexKeyword);
+            $(this).attr('name', "inputKeyword" + indexKeyword);
+            --indexKeyword;
+        });
+        indexKeyword = keywordNbr;
+        $( ".removeKeyword" ).each(function( index ) {
+            $(this).attr('id', "removeKeyword" + indexKeyword--);
+        });
     });
     $("#addChecklistItem").click(function(){
         ++checklistItemNbr;
-        $("#checklistContainer").append("<input type='text' class='form-control' id='inputChecklistItem" + checklistItemNbr + "' name='inputChecklistItem" + checklistItemNbr + "' placeholder='Entre une chose à faire/prendre'>");
+        $("#checklistContainer").append("<input type='text' class='form-control inputChecklistItem' id='inputChecklistItem" + checklistItemNbr + "' name='inputChecklistItem" + checklistItemNbr + "' placeholder='Entre une chose à faire/prendre'>");
+        $("#checklistContainer").append('<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem' + checklistItemNbr + '" class="btn btn-primary">-</button>');
+    });
+    $('body').on('click', '.removeChecklistItem', function() {
+        var deletedChecklistItemNbr = $(this).attr('id').substring(19);
+        
+        //delete the checklistItem
+        $("#inputChecklistItem" + deletedChecklistItemNbr).remove();
+        $(this).remove();
+        
+        //renumber the other checklistItem
+        --checklistItemNbr;
+        var indexChecklistItem = checklistItemNbr;
+        $( ".inputActivity" ).each(function( index ) {
+            $(this).attr('id', "inputChecklistItem" + indexChecklistItem);
+            $(this).attr('name', "inputChecklistItem" + indexChecklistItem);
+            --indexChecklistItem;
+        });
+        indexChecklistItem = checklistItemNbr;
+        $( ".removeChecklistItem" ).each(function( index ) {
+            $(this).attr('id', "removeChecklistItem" + indexChecklistItem--);
+        });
     });
 });
 </script>
 
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'verify_create_event/create_event', 'name="eventCreation" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
-
+<div class="container theme-showcase" role="main">
 <div class="col-md-12 white-bloc centred">
 	<h1 class="text-centred">
 		Crée ton événement
@@ -105,8 +172,9 @@ $(document).ready(function(){
     <div class="form-group">
         <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>
         <div id="activityContainer" class="col-sm-6">
-            <input type="text" class="form-control" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
+            <input type="text" class="form-control inputActivity" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
             <span id="activity1Error"></span>
+            <button type="button" class="btn btn-primary removeActivity" id="removeActivity1" class="btn btn-primary">-</button>
         </div>
         <button type="button" id="addActivity" class="btn btn-primary">+</button>
     </div>
@@ -123,6 +191,7 @@ $(document).ready(function(){
         <label for="inputKeyword" class="col-sm-4 control-label">Mot(s)-clé(s)</label>
         <div id="keywordContainer" class="col-sm-6">
             <input type="text" class="form-control" name="inputKeyword1" id="inputKeyword1" placeholder="Entre un mot-clé">
+            <button type="button" class="btn btn-primary removeKeyword" id="removeKeyword1" class="btn btn-primary">-</button>
         </div>
         <button type="button" id="addKeyword" class="btn btn-primary">+</button>
     </div>
@@ -131,6 +200,7 @@ $(document).ready(function(){
         <label for="inputChecklist" class="col-sm-4 control-label">Checklist</label>
         <div id="checklistContainer" class="col-sm-6">
             <input type="text" class="form-control" name="inputChecklistItem1" id="inputChecklistItem1" placeholder="Entre une chose à faire/prendre">
+            <button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem1" class="btn btn-primary">-</button>
         </div>
         <button type="button" id="addChecklistItem" class="btn btn-primary">+</button>
     </div>

@@ -16,12 +16,28 @@ function joinEvent(idUser, idEvent, private) {
             }
 });
 }
+function cancelEvent(idEvent) {
+    var r = confirm("Annuler l'évènement ?");
+    if (r == true) {
+        window.location.href="/manage_event/cancel_event/" + idEvent;
+    }
+}
 </script>
-
+<div class="container theme-showcase" role="main">
 <div class="col-md-12 white-bloc centred">
 	<h1 class="text-centred">
 		<?php echo $event->name; ?>
 	</h1>
+        <?php
+        if($event->organizer == $id_user) {
+            echo '<h5>
+                    <a href="'.base_url().'manage_event/index/'.$event->id.'">Modifier l\'évènement</a>
+                </h5>';
+            echo '<h5>
+                    <button onclick="cancelEvent('.$event->id.')">Annuler l\'évènement</button>
+                </h5>';
+        }
+    ?>
 	<h5>
 		<?php echo ($event->private == 1 ? "Privé" : "Public" ); ?>
 	</h5>

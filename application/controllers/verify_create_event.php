@@ -144,7 +144,7 @@ class Verify_Create_Event extends CI_Controller {
      }
  }
     
-    function update_event($id) {
+function update_event($id) {
     /*
     * extract the event data from the form
     */
@@ -203,14 +203,7 @@ class Verify_Create_Event extends CI_Controller {
    //query the database              
    $eventId = $this->event->update_event($id, $eventName, $eventPrivate, $eventDate, $eventDuration, $eventPlace, $eventRegion, $eventActivities, $eventDescription,     $eventKeywords, $eventChecklistItems, $eventInvitationSuggestionAllowed, $eventIndividualPropositionSuggestionAllowed, $eventMaxParticipant, $eventMinAge, $eventInscriptionDeadline);
      
-     //return $eventId;
-      if ($eventId == TRUE) {
-        redirect('welcome', 'refresh');
-     } else {
-         echo 'erreur à la modification';
-        //TODO redirect to error page
-         //redirect('user_guide', 'refresh');
-     }
+    redirect('welcome', 'refresh');
     }
 }
 ?>

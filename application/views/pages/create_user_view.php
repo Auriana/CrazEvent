@@ -38,6 +38,7 @@ function validateForm() {
 
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'verify_create_user', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
+<div class="container theme-showcase" role="main">
 <div class="col-md-6 white-bloc centred">
 	<h1 class="text-centred">
 		Crée ton compte

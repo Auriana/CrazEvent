@@ -1,4 +1,4 @@
-
+<div class="container theme-showcase" role="main">
 <h1 class="text-centred white-font small-marg">
 	Bienvenue, <?php echo $firstname; ?> !
 </h1>
