@@ -195,12 +195,14 @@ Class Event extends CI_Model
         return $query->result();
     }
     
-    function get_participable_events($id_user) {
+    function get_participable_events($id_user, $limit) {
         
         $this->db->query("SET @connected_user_id := " . $id_user);
         
         $this -> db -> select("*");
         $this->db->from("participable_event");
+        $this->db->order_by("eventId");
+        $this->db->limit($limit);
         return $this->db->get()->result();
     }
     

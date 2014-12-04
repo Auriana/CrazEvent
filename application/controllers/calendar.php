@@ -41,8 +41,7 @@ class Calendar extends CI_Controller {
         $currentDay = date("d");
         
         //get user's event for the month
-        $events = $this->user->get_registered_event($this->session->userdata('logged_in')["id"],$month,$year);
-        
+        $events = $this->user->get_registered_event_of_month($this->session->userdata('logged_in')["id"],$month,$year);        
 
         /* draw table */
         $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';

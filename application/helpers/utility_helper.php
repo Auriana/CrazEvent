@@ -40,6 +40,9 @@ if ( ! function_exists('login')) {
 	}
 }
 
+/*
+* Sélectionner les 10 derniers nouveaux évènements 
+*/
 if ( ! function_exists('get_new_events')) {
     function get_new_events($id_user) {
          
@@ -48,11 +51,31 @@ if ( ! function_exists('get_new_events')) {
         $CI->load->model('event','',TRUE);
 
         //query the database
-        $result = $CI->event->get_participable_events($id_user);
+        $result = $CI->event->get_participable_events($id_user, 10);
         $eventsInfos = "";
         if ($result) {
             foreach($result as $row) {
                 $eventsInfos .= "<li><a class='event-link' href='details_event/index/" . $row->eventId . "'>" . $row->name . "</a></li>";
+            }
+        }
+
+        return $eventsInfos;
+	}
+}
+
+if ( ! function_exists('get_my_events')) {
+    function get_my_events($id_user) {
+         
+        // Get a reference to the controller object
+        $CI = get_instance();
+        $CI->load->model('user','',TRUE);
+
+        //query the database
+        $result = $CI->user->get_registered_event($id_user, 10);
+        $eventsInfos = "";
+        if ($result) {
+            foreach($result as $row) {
+                $eventsInfos .= "<li><a class='event-link' href='details_event/index/" . $row->id . "'>" . $row->name . "</a></li>";
             }
         }
 

@@ -78,9 +78,9 @@ Class User extends CI_Model
     }
     
     /*
-    * get events where user is a participant
+    * get events of a month where user is a participant
     */
-    function get_registered_event($id_user, $month, $year) {
+    function get_registered_event_of_month($id_user, $month, $year) {
         $this->db->select('*');
         $this->db->from('participation');
         $this->db->join('event', 'participation.event_id = event.id', 'inner');
@@ -88,6 +88,20 @@ Class User extends CI_Model
         $this->db->where('MONTH(start_date)', $month);
         $this->db->where('YEAR(start_date)', $year);
         $this->db->order_by('start_date', 'asc');
+        return $this->db->get()->result();
+    }
+    
+    /*
+    * get events where user is a participant and are not in the past
+    */
+    function get_registered_event($id_user, $limit) {
+        $this->db->select('*');
+        $this->db->from('participation');
+        $this->db->join('event', 'participation.event_id = event.id', 'inner');
+        $this->db->where('participation.user_id', $id_user);
+        $this->db->where('start_date >= NOW()');
+        $this->db->order_by('start_date', 'asc');
+        $this->db->limit($limit);
         return $this->db->get()->result();
     }
 }

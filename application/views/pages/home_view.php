@@ -7,21 +7,25 @@
 		<div class="col-md-5 white-bloc col-2-blocs">
 			<h2>
 				Mes prochains événements
+                <ul>
+				    <?php echo $my_events; ?>
+			     </ul>
+                <a href="calendar">voir tous ses évènements</a>
 			</h2>
 			
 		</div>
 		<div class="col-md-5 white-bloc col-2-blocs">
 			<h2>
-				Les événements de ma région
+				Actions
 			</h2>
 			<p>
-				Pas encore d'événement ici, <a href="create_event">crée-en un</a> !
+				<a href="create_event">Créer un évènement</a> !
 			</p>
 			<p>
-				Ou <a href="search/user">Rechercher un utilisateur</a>
+				<a href="search/user">Rechercher un utilisateur</a>
 			</p>
             <p>
-				Ou <a href="search/event">Rechercher un évènement</a>
+				<a href="search/event">Rechercher un évènement</a>
 			</p>
 		</div>
 	</div>
@@ -34,11 +38,7 @@
             <ul>
 				<?php echo $new_events; ?>
 			</ul>
-		</div>
-		<div class="col-md-5 white-bloc col-2-blocs">
-			<h2>
-				Historique
-			</h2>
+            Seul les plus récents sont affichés.
 		</div>
 	</div>
 </div>
