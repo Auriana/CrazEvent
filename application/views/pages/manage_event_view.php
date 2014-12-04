@@ -14,7 +14,11 @@
         } else {
             $("#descriptionError").text("");
         }
-        if ($("#inputActivity1").val() == "") {
+        var activities = "";
+        $( ".inputActivity" ).each(function( index ) {
+            activities = activities + $(this).val();
+        });
+        if (activities == "") {
             $("#activity1Error").text("Une activité au moins est requise");
             isValid = false;
         } else {
@@ -33,14 +37,77 @@ $(document).ready(function(){
     $("#addActivity").click(function(){
         ++activityNbr;
         $("#activityContainer").append("<input type='text' class='form-control inputActivity' id='inputActivity" + activityNbr + "' name='inputActivity" + activityNbr + "' placeholder='Entre une activité'>");
+        $("#activityContainer").append('<button type="button" class="btn btn-primary removeActivity" id="removeActivity' + activityNbr + '" class="btn btn-primary">-</button>');
+    });
+    $('body').on('click', '.removeActivity', function() {
+        var deletedActivityNbr = $(this).attr('id').substring(14);
+        
+        //delete the activity
+        $("#inputActivity" + deletedActivityNbr).remove();
+        $(this).remove();
+        
+        //renumber the other activites
+        --activityNbr;
+        var indexActivity = activityNbr;
+        $( ".inputActivity" ).each(function( index ) {
+            $(this).attr('id', "inputActivity" + indexActivity);
+            $(this).attr('name', "inputActivity" + indexActivity);
+            --indexActivity;
+        });
+        indexActivity = activityNbr;
+        $( ".removeActivity" ).each(function( index ) {
+            $(this).attr('id', "removeActivity" + indexActivity--);
+        });
     });
     $("#addKeyword").click(function(){
         ++keywordNbr;
         $("#keywordContainer").append("<input type='text' class='form-control inputKeyword' id='inputKeyword" + keywordNbr + "' name='inputKeyword" + keywordNbr + "' placeholder='Entre un mot-clé'>");
+        $("#keywordContainer").append('<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword' + keywordNbr + '" class="btn btn-primary">-</button>');
+    });
+    $('body').on('click', '.removeKeyword', function() {
+        var deletedKeywordNbr = $(this).attr('id').substring(13);
+        
+        //delete the keyword
+        $("#inputKeyword" + deletedKeywordNbr).remove();
+        $(this).remove();
+        
+        //renumber the other keywords
+        --keywordNbr;
+        var indexKeyword = keywordNbr;
+        $( ".inputKeyword" ).each(function( index ) {
+            $(this).attr('id', "inputKeyword" + indexKeyword);
+            $(this).attr('name', "inputKeyword" + indexKeyword);
+            --indexKeyword;
+        });
+        indexKeyword = keywordNbr;
+        $( ".removeKeyword" ).each(function( index ) {
+            $(this).attr('id', "removeKeyword" + indexKeyword--);
+        });
     });
     $("#addChecklistItem").click(function(){
         ++checklistItemNbr;
         $("#checklistContainer").append("<input type='text' class='form-control inputChecklistItem' id='inputChecklistItem" + checklistItemNbr + "' name='inputChecklistItem" + checklistItemNbr + "' placeholder='Entre une chose à faire/prendre'>");
+        $("#checklistContainer").append('<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem' + checklistItemNbr + '" class="btn btn-primary">-</button>');
+    });
+    $('body').on('click', '.removeChecklistItem', function() {
+        var deletedChecklistItemNbr = $(this).attr('id').substring(19);
+        
+        //delete the checklistItem
+        $("#inputChecklistItem" + deletedChecklistItemNbr).remove();
+        $(this).remove();
+        
+        //renumber the other checklistItem
+        --checklistItemNbr;
+        var indexChecklistItem = checklistItemNbr;
+        $( ".inputActivity" ).each(function( index ) {
+            $(this).attr('id', "inputChecklistItem" + indexChecklistItem);
+            $(this).attr('name', "inputChecklistItem" + indexChecklistItem);
+            --indexChecklistItem;
+        });
+        indexChecklistItem = checklistItemNbr;
+        $( ".removeChecklistItem" ).each(function( index ) {
+            $(this).attr('id', "removeChecklistItem" + indexChecklistItem--);
+        });
     });
 });
 </script>
@@ -112,6 +179,7 @@ $(document).ready(function(){
                     foreach ($eventActivities as $activity)
                     {
                         echo '<input type="text" class="form-control inputActivity" name="inputActivity'.$activityNumber.'" id="inputActivity'.$activityNumber.'" placeholder="Entre une activité" value="'.$activity.'">';
+                        echo '<button type="button" class="btn btn-primary removeActivity" id="removeActivity'.$activityNumber.'" class="btn btn-primary">-</button>';
                         ++$activityNumber;
                     }
                 }
@@ -137,6 +205,7 @@ $(document).ready(function(){
                     foreach ($eventKeywords as $keyword)
                     {
                         echo '<input type="text" class="form-control inputKeyword" name="inputKeyword'.$keywordNumber.'" id="inputKeyword'.$keywordNumber.'" placeholder="Entre un mot-clé" value="'.$keyword.'">';
+                        echo '<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword'.$keywordNumber.'" class="btn btn-primary">-</button>';
                         ++$keywordNumber;
                     }
                 }
@@ -154,6 +223,7 @@ $(document).ready(function(){
                     foreach ($eventChecklist as $checklistItem)
                     {
                         echo '<input type="text" class="form-control inputChecklistItem" name="inputChecklistItem'.$checklistItemNumber.'" id="inputChecklistItem'.$checklistItemNumber.'" placeholder="Entre une chose à faire/prendre" value="'.$checklistItem.'">';
+                        echo '<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem'.$checklistItemNumber.'" class="btn btn-primary">-</button>';
                         ++$checklistItemNumber;
                     }
                 }
