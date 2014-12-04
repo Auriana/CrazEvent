@@ -20,8 +20,8 @@
 	<body role="document">
 		
 		<!-- Fixed navbar -->
-		<div id="navbar-bloc">
-		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div id="navbar-bloc no-marg">
+		<div class="navbar navbar-inverse navbar-fixed-top no-marg" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">

@@ -25,7 +25,8 @@ if ( ! function_exists('login')) {
                     'id' => $row->id,
                     'email' => $row->email,
                     'firstname' => $row->firstname,
-                    'surname' => $row->surname
+                    'surname' => $row->surname,
+                    'region' => $row->region
                 );
                 $CI->session->set_userdata('logged_in', $sess_array);
                 

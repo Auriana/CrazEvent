@@ -114,7 +114,7 @@ $(document).ready(function(){
 
 <?php echo validation_errors();?>
 <?php echo form_open( 'verify_create_event/update_event/'. $event->id, 'name="eventUpdate" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
-
+<div class="container theme-showcase" role="main">
 <div class="col-md-12 white-bloc centred">
 	<h1 class="text-centred">
 		Modifie ton événement
