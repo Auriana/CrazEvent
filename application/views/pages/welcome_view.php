@@ -44,20 +44,22 @@
 
 		<div class="row">
 			<div class="col-lg-5 col-sm-6">
-				<hr class="section-heading-spacer">
-				<div class="clearfix"></div>
-				<h2 class="section-heading">Death to the Stock Photo:<br>Special Thanks</h2>
-				<p class="lead">A special thanks to <a target="_blank" href="http://join.deathtothestockphoto.com/">Death to the Stock Photo</a> for providing the photographs that you see in this template. Visit their website to become a member.</p>
+				<h2 class="section-heading">Des fonctionnalités hors normes</h2>
+				<p class="lead">Tout a été minutieusement étudié pour te permettre de planifier dans les moindres détails ton événement. </p>
 			</div>
 			<div class="col-lg-5 col-lg-offset-2 col-sm-6">
 				<img class="img-responsive" src="img/ipad.png" alt="">
 			</div>
 		</div>
-
-	</div>
-	<!-- /.container -->
-
-</div>
-<!-- /.content-section-a -->
+	</div><!-- /.container -->
+</div><!-- /.content-section-a -->
+<div class="content-section-b">
+	<div class="container">
+		<p class="text-centred">Tu veux qu’un maximum de tes invités soit présent à ton événement ? </p>
+		<p class="text-centred">Tu souhaites organiser un voyage, tout en déléguant certaines tâches ?</p>
+		<p class="text-centred">Tu aimerais que tes potes n’oublient pas d’apporter leurs boissons lors de ton apéro  comme la dernière fois ?</p>
+		<p class="text-centred">Tu as envie d’organiser la meilleure fête de quartier sans voir arriver tes voisins de 12 ans ?</p>
+	</div><!-- /.container -->
+</div><!-- /.content-section-b -->
 
 
