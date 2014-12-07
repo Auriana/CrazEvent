@@ -36,8 +36,17 @@ $(document).ready(function(){
     var checklistItemNbr = $('.inputChecklistItem').length;
     $("#addActivity").click(function(){
         ++activityNbr;
-		$("#activityContainer").append('<div id="clear' + activityNbr +'" class="clearer"></div><div id="activity' + activityNbr +'" class="multi-input"><div class="col-sm-4"></div><div class="inputActivityContainer col-sm-4"><input type="text" class="form-control inputActivity" id="inputActivity' + activityNbr + 
-			'" name="inputActivity' + activityNbr + '" placeholder="Entre une activité"><span id="activity1Error"></span></div><div class="removeActivityContainer col-sm-2"><button type="button" class="btn btn-primary removeActivity" id="removeActivity' + activityNbr + '" class="btn btn-primary">-</button></div></div>');	
+		$("#activitySuperContainer").append(
+            '<div id="clear' + activityNbr +'" class="clearer"></div>\
+            <div id="activity' + activityNbr +'" class="multi-input  activityContainer">\
+                <div class="col-sm-4"></div>\
+                <div class="inputActivityContainer col-sm-4">\
+                    <input type="text" class="form-control inputActivity" id="inputActivity' + activityNbr + '" name="inputActivity' + activityNbr + '" placeholder="Entre une activité">\
+                </div>\
+                <div class="removeActivityContainer col-sm-2">\
+                    <button type="button" class="btn btn-primary removeActivity" id="removeActivity' + activityNbr + '" class="btn btn-primary">-</button>\
+                </div>\
+            </div>');	
     });
 	
     $('body').on('click', '.removeActivity', function() {
@@ -46,19 +55,20 @@ $(document).ready(function(){
         //delete the activity
 		$("#clear" + deletedActivityNbr).remove();
 		$("#activity" + deletedActivityNbr).remove();
-        $(this).remove();
         
         //renumber the other activites
         --activityNbr;
         var indexActivity = activityNbr;
 		//the clearer div
 		$( ".clearer" ).each(function( index ) {
-            $(this).attr('id', "clear" + indexActivity);
+            $(this).attr('id', "clear" + indexActivity--);
         });
+        indexActivity = activityNbr;
 		//the multi-input div
-		$( ".multi-input" ).each(function( index ) {
-            $(this).attr('id', "activity" + indexActivity);
+		$( ".activityContainer" ).each(function( index ) {
+            $(this).attr('id', "activity" + indexActivity--);
         });
+        indexActivity = activityNbr;
 		//the input text
         $( ".inputActivity" ).each(function( index ) {
             $(this).attr('id', "inputActivity" + indexActivity);
@@ -183,14 +193,14 @@ $(document).ready(function(){
 	
 	
 
-    <div id ="activityContainer" class="form-group">
+    <div id ="activitySuperContainer" class="form-group">
         <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>  
 		<div id="addActivityContainer" class="col-sm-6">
 			<button type="button" id="addActivity" class="btn btn-primary">Ajouter une activité</button>          
         </div>
 		
 		<div id="clear1" class="clearer"></div>
-		<div id="activity1" class="multi-input">
+		<div id="activity1" class="multi-input activityContainer">
 			<div class="col-sm-4"></div>
 			<div class="inputActivityContainer col-sm-4">
 				<input type="text" class="form-control inputActivity" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">

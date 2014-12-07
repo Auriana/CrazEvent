@@ -3,7 +3,7 @@ Class User extends CI_Model
 {
  function login($email, $password)
  {
-     $this->db->select('user.id, email, firstname, surname, region.content AS region');
+     $this->db->select('user.id, email, firstname, surname, region.content AS region, birthdate');
      $this->db->from('user');
      $this->db->join('region', 'region.id = user.region_id', 'inner');
      $this->db->where('email', $email);
@@ -44,6 +44,7 @@ Class User extends CI_Model
         $this->db->like('firstname', $firstname);
         $this->db->like('surname', $surname);
         $this->db->like('region.content', $region);
+        $this->db->where('active', 1);
         
         $query = $this->db->get();
 
@@ -104,6 +105,28 @@ Class User extends CI_Model
     {
         $data = array(
             'region_id' => $newRegion
+        );
+        $this->db->where('id', $id_user);
+        $this->db->update('user', $data);
+        // if the update is successful, return 1
+        return $this->db->affected_rows();
+    }
+    
+    function change_birthdate($id_user, $newBirthdate)
+    {
+        $data = array(
+            'birthdate' => $newBirthdate
+        );
+        $this->db->where('id', $id_user);
+        $this->db->update('user', $data);
+        // if the update is successful, return 1
+        return $this->db->affected_rows();
+    }
+    
+    function suppress_account($id_user)
+    {
+        $data = array(
+            'active' => 0
         );
         $this->db->where('id', $id_user);
         $this->db->update('user', $data);

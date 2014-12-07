@@ -103,6 +103,14 @@ function changeRegion() {
 		dataType: 'json',
 		data: {arguments: [idUser, newRegion]},
 
+    var newRegion = $("#changeRegion").val();
+    flushInfos();
+    $.ajax({
+    type: "POST",
+    url: '/manage_user/change_region',
+    dataType: 'json',
+    data: {arguments: [idUser, newRegion]},
+
 		success: function (obj, textstatus) {
 			if( !('error' in obj) ) {
 				$('#actualRegion').html('Region : ' + obj['newRegion']);
@@ -118,6 +126,61 @@ function changeRegion() {
 		}
 	});
 }
+function changeBirthdate() {
+    var newBirthdate = $("#changeBirthdate").val();
+    flushInfos();
+    console.log(newBirthdate);
+    if (newBirthdate == "") {
+        $("#birthdateInfo").text("La date est obligatoire");
+        return;
+    }
+    $.ajax({
+    type: "POST",
+    url: '/manage_user/change_birthdate',
+    dataType: 'json',
+    data: {arguments: [idUser, newBirthdate]},
+
+    success: function (obj, textstatus) {
+                  if( !('error' in obj) ) {
+                      $('#actualBirthdate').html('Region : ' + obj['newBirthdate']);
+                      $("#birthdateInfo").text("La date a été changée");
+                  }
+                  else {
+                      console.log(obj.error);
+                      $("#birthdateInfo").text("Erreur lors de la mise à jour");
+                  }
+            },
+    error: function (obj, textstatus) {
+                    $("#birthdateInfo").text("Erreur lors de la mise à jour");
+            }
+    });
+}
+function suppressAccount() {
+    var txt;
+    var response = confirm("Veux tu vraiment supprimer ton compte?\nCe sera irréversible!");
+    if (response == true) {
+        $.ajax({
+            type: "POST",
+            url: '/manage_user/suppress_account',
+            dataType: 'json',
+            // The idUser is send as a confirmation for the action
+            data: {arguments: [idUser]},
+
+            success: function (obj, textstatus) {
+                          if( !('error' in obj) ) {
+                              window.location.replace('<?php echo base_url() . 'home/logout' ?>');
+                              alert('Compte supprimé');
+                          }
+                          else {
+                              alert('Erreur lors de la suppression du compte');
+                          }
+                    },
+            error: function (obj, textstatus) {
+                            alert('Erreur lors de la suppression du compte');
+            }
+        });
+    }
+}
 </script>
 <div class="container theme-showcase" role="main">
 	<div class="col-md-10 white-bloc centred">
@@ -125,6 +188,7 @@ function changeRegion() {
 			Gestion de ton compte
 		</h1>
 
+<<<<<<< HEAD
 		<div class="form-group"> 
 			<label id="actualFirstname" for="changeFirstname" class="col-sm-3 control-label"><?php echo $user['firstname']; ?></label>
 			<div class="col-sm-4">
@@ -193,3 +257,47 @@ function changeRegion() {
 			<button type="submit" value="suppressUser" class="btn btn-danger btn-lg">Supprimer le compte</button>
 		</div>
 	</div>
+=======
+<div class="col-md-12 white-bloc centred">
+	<h1 class="text-centred">
+		Gestion du compte
+	</h1>
+	<p class="bloc-info"> 
+        <label id="actualFirstname" for="changeFirstname" class="">Prénom : <?php echo $user['firstname']; ?></label>
+        <input type="text" class="pull-center" id="changeFirstname" placeholder="Modifer prénom">
+        <button value="changeFirstname" class="btn btn-default btn-lg" onClick="changeFirstname()">Modifier</button>
+        <span id="firstnameInfo"></span>
+	</p>
+    <p class="bloc-info"> 
+        <label id="actualSurname" for="changeSurname" class="">Nom de famille : <?php echo $user['surname']; ?></label>
+        <input type="text" class="pull-center" id="changeSurname" placeholder="Modifer nom de famille">
+        <button value="changeSurname" class="btn btn-default btn-lg" onClick="changeSurname()">Modifier</button>
+        <span id="surnameInfo"></span>
+	</p>
+    <p class="bloc-info"> 
+        <label for="changePassword" class="">Mot de passe</label>
+        <input type="password" class="pull-center" id="oldPassword" placeholder="Ancien mot de passe">
+        <input type="password" class="pull-center" id="newPassword" placeholder="Nouveau mot de passe">
+        <input type="password" class="pull-center" id="confirmPassword" placeholder="Confirme le mot de passe">
+        <button value="changePassword" class="btn btn-default btn-lg" onClick="changePassword()">Modifier</button>
+        <span id="passwordInfo"></span>
+	</p>
+    <p class="bloc-info"> 
+        <label id="actualBirthdate" for="changeBirthdate" class="">Date de naissance : <?php echo $user['birthdate']; ?></label>
+        <input type="date" class="pull-center" id="changeBirthdate" placeholder="Changer date de naissance">
+        <button value="changeBirthdate" class="btn btn-default btn-lg" onClick="changeBirthdate()">Modifier</button>
+        <span id="birthdateInfo"></span>
+    </p>
+    <p class="bloc-info"> 
+        <label id="actualRegion" for="changeRegion" class="">Région : <?php echo $user['region']; ?></label>
+        <select id="changeRegion" class="pull-center" name="changeRegion" placeholder="Modifer région">
+            <?php echo $regions; ?>
+        </select>
+        <button value="changeRegion" class="btn btn-default btn-lg" onClick="changeRegion()">Modifier</button>
+        <span id="regionInfo"></span>
+    </p>
+    <p class="boc-info">
+        <button value="suppressUser" class="btn btn-default btn-lg" onClick="suppressAccount()">Supprimer le compte</button>
+    </p>
+</div>
+>>>>>>> 55e9a5170af6420f5b34547563d9566a57a92815

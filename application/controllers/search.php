@@ -52,7 +52,7 @@ class Search extends CI_Controller {
             if ($friendship == 2) {
                 echo "";
             } else if ($friendship == 1) {
-				 echo "<div class='info_contact'>Déjà un contact!</div>";
+				 echo "<div class='list_contact'>Déjà un contact!</div>";
 			} else {
                 echo "<div class='list_contact' id='addContact" . $row -> id . "'><button class='btn btn-default btn-xs' onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
 				echo "<div class='clearer'></div>";
