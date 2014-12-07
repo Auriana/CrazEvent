@@ -25,7 +25,7 @@ class Calendar extends CI_Controller {
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/calendar_view', $data);
-            $this->load->view('templates/sticky-footer');
+            $this->load->view('templates/footer');
         }
         else
         {  
@@ -47,7 +47,7 @@ class Calendar extends CI_Controller {
         $calendar = '<table cellpadding="0" cellspacing="0" class="calendar centred">';
 
         /* table headings */
-        $headings = array('Dimance','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');
+        $headings = array('Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');
         $calendar.= '<tr class="calendar-row"><td class="calendar-day-head">'.implode('</td><td class="calendar-day-head">',$headings).'</td></tr>';
 
         /* days and weeks vars now ... */

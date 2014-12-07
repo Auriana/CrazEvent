@@ -22,7 +22,7 @@ td.calendar-day:hover	{
 
 td.calendar-day-np	{ 
 	background:#eee; 
-	min-height:80px; 
+	
 } 
 
 * html div.calendar-day-np { 
@@ -63,7 +63,8 @@ tr.calendar-row td.calendar-day-current:first-child {
 td.calendar-day, 
 td.calendar-day-np, 
 td.calendar-day-current {
-	width:120px; 
+	height:90px; 
+	width:14%; 
 	padding:5px; 
 	border-bottom:1px solid #ccc; 
 	border-top:1px solid #ccc; 
