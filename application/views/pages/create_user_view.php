@@ -35,6 +35,11 @@ function validateForm() {
     return isValid;
 }
 </script>
+<script>
+	$(function() {
+		$( "#inputBirthdate" ).datepicker();
+	});
+</script>
 
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'verify_create_user', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>

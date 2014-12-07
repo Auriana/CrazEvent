@@ -36,25 +36,37 @@ $(document).ready(function(){
     var checklistItemNbr = $('.inputChecklistItem').length;
     $("#addActivity").click(function(){
         ++activityNbr;
-        $("#activityContainer").append("<input type='text' class='form-control inputActivity' id='inputActivity" + activityNbr + "' name='inputActivity" + activityNbr + "' placeholder='Entre une activité'>");
-        $("#activityContainer").append('<button type="button" class="btn btn-primary removeActivity" id="removeActivity' + activityNbr + '" class="btn btn-primary">-</button>');
+		$("#activityContainer").append('<div id="clear' + activityNbr +'" class="clearer"></div><div id="activity' + activityNbr +'" class="multi-input"><div class="col-sm-4"></div><div class="inputActivityContainer col-sm-4"><input type="text" class="form-control inputActivity" id="inputActivity' + activityNbr + 
+			'" name="inputActivity' + activityNbr + '" placeholder="Entre une activité"><span id="activity1Error"></span></div><div class="removeActivityContainer col-sm-2"><button type="button" class="btn btn-primary removeActivity" id="removeActivity' + activityNbr + '" class="btn btn-primary">-</button></div></div>');	
     });
+	
     $('body').on('click', '.removeActivity', function() {
         var deletedActivityNbr = $(this).attr('id').substring(14);
         
         //delete the activity
-        $("#inputActivity" + deletedActivityNbr).remove();
+		$("#clear" + deletedActivityNbr).remove();
+		$("#activity" + deletedActivityNbr).remove();
         $(this).remove();
         
         //renumber the other activites
         --activityNbr;
         var indexActivity = activityNbr;
+		//the clearer div
+		$( ".clearer" ).each(function( index ) {
+            $(this).attr('id', "clear" + indexActivity);
+        });
+		//the multi-input div
+		$( ".multi-input" ).each(function( index ) {
+            $(this).attr('id', "activity" + indexActivity);
+        });
+		//the input text
         $( ".inputActivity" ).each(function( index ) {
             $(this).attr('id', "inputActivity" + indexActivity);
             $(this).attr('name', "inputActivity" + indexActivity);
             --indexActivity;
         });
         indexActivity = activityNbr;
+		//the remove button
         $( ".removeActivity" ).each(function( index ) {
             $(this).attr('id', "removeActivity" + indexActivity--);
         });
@@ -168,17 +180,30 @@ $(document).ready(function(){
             <?php echo $regions; ?>
         </select>
     </div>
+	
+	
 
-    <div class="form-group">
-        <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>
-        <div id="activityContainer" class="col-sm-6">
-            <input type="text" class="form-control inputActivity" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
-            <span id="activity1Error"></span>
-            <button type="button" class="btn btn-primary removeActivity" id="removeActivity1" class="btn btn-primary">-</button>
+    <div id ="activityContainer" class="form-group">
+        <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>  
+		<div id="addActivityContainer" class="col-sm-6">
+			<button type="button" id="addActivity" class="btn btn-primary">Ajouter une activité</button>          
         </div>
-        <button type="button" id="addActivity" class="btn btn-primary">+</button>
+		
+		<div id="clear1" class="clearer"></div>
+		<div id="activity1" class="multi-input">
+			<div class="col-sm-4"></div>
+			<div class="inputActivityContainer col-sm-4">
+				<input type="text" class="form-control inputActivity" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
+				<span id="activity1Error"></span>		
+			</div>
+			<div class="removeActivityContainer col-sm-2">
+				<button type="button" class="btn btn-primary removeActivity" id="removeActivity1" class="btn btn-primary">-</button>
+			</div>
+		</div>
     </div>
 
+	
+	
     <div class="form-group">
         <label class="col-sm-4 control-label">*Description</label>
 		<div class="col-sm-6">

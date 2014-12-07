@@ -1,6 +1,6 @@
 
 </div> <!-- <div class="container theme-showcase" role="main"> -->
-<footer class="footer">
+<footer class="sticky-footer">
 	<div class="container">
 		<ul class="list-inline">
 			<li>

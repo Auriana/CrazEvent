@@ -30,9 +30,9 @@ h2 {
 }
 
 .centred {
-  margin-left: auto!important;
-  margin-right: auto!important;
-  float: none;
+	margin-left: auto!important;
+	margin-right: auto!important;
+	float: none;
 }
 
 .text-centred {
@@ -87,7 +87,7 @@ body {
 	background-color: #fff!important;
 	background-image: none!important;
 	border: none!important;
-	
+
 }
 
 .navbar li a {
@@ -102,6 +102,10 @@ form {
 	margin-bottom: 0!important;
 }
 
+.multi-input {
+	margin-top: 10px;
+}
+
 .btn-default {
 	background-image: none!important;
 	background-color: #0072c2!important;
@@ -113,13 +117,13 @@ form {
 
 .btn-default:hover, .btn-default:focus {
 	/* For Safari 3.1 to 6.0 */
-    -webkit-transition-property: background;
-    -webkit-transition-duration: 0.4s;
-    -webkit-transition-timing-function: linear;
-    /* Standard syntax */
-    transition-property: background;
-    transition-duration: 0.4s;
-    transition-timing-function: linear;
+	-webkit-transition-property: background;
+	-webkit-transition-duration: 0.4s;
+	-webkit-transition-timing-function: linear;
+	/* Standard syntax */
+	transition-property: background;
+	transition-duration: 0.4s;
+	transition-timing-function: linear;
 	background-color: #168fe3!important;
 	color: #fff;
 }
@@ -163,12 +167,12 @@ ul.result_search li:first-child {
 }
 
 .intro-header {
-    padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
-    padding-bottom: 50px;
-    text-align: center;
-    color: #f8f8f8;
-    background: url(../img/birthday.jpg) no-repeat center center;
-    background-size: cover;
+	padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+	padding-bottom: 50px;
+	text-align: center;
+	color: #f8f8f8;
+	background: url(../img/birthday.jpg) no-repeat center center;
+	background-size: cover;
 }
 
 .intro-header label {
@@ -178,20 +182,20 @@ ul.result_search li:first-child {
 
 .intro-message > h1 {
 	color: #fff;
-    margin: 0;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-size: 4em;
+	margin: 0;
+	text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+	font-size: 4em;
 }
 
 .content-section-a {
-    padding: 50px 0;
-    background-color: #f8f8f8;
+	padding: 50px 0;
+	background-color: #f8f8f8;
 }
 
 .content-section-b {
-    padding: 50px 0;
-    border-top: 1px solid #e7e7e7;
-    border-bottom: 1px solid #e7e7e7;
+	padding: 50px 0;
+	border-top: 1px solid #e7e7e7;
+	border-bottom: 1px solid #e7e7e7;
 }
 
 .content-section-b p {
@@ -201,19 +205,29 @@ ul.result_search li:first-child {
 
 
 .content-section-b {
-    padding: 50px 0;
+	padding: 50px 0;
 	min-height: 380px;
-    border-top: 1px solid #e7e7e7;
-    border-bottom: 1px solid #e7e7e7;
-    background: url(../img/bike.jpg) no-repeat center center;
-    background-size: cover;
+	border-top: 1px solid #e7e7e7;
+	border-bottom: 1px solid #e7e7e7;
+	background: url(../img/bike.jpg) no-repeat center center;
+	background-size: cover;
+}
+
+footer.sticky-footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	position: absolute;
 }
 
 footer {
-    padding: 50px 0;
-    background-color: #f8f8f8;
+	height: 90px;
+	margin-top: 50px;
+	padding: 20px 0;
+	background-color: #fff;
 }
 
+
 p.copyright {
-    margin: 15px 0 0;
+	margin: 15px 0 0;
 }
