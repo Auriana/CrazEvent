@@ -215,6 +215,65 @@ class Manage_User extends CI_Controller {
 
         echo json_encode($aResult);
     }
+    
+    function change_birthdate()
+    {
+        $aResult = array();
+
+        if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
+
+        if( !isset($aResult['error']) ) {
+               if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 2) ) {
+                   $aResult['error'] = 'Error in arguments!';
+               }
+               else {
+                   $idUser = $_POST['arguments'][0];
+                   $newBirthdate = $_POST['arguments'][1];
+                   
+                   $success = $this->user->change_birthdate($idUser, $newBirthdate);
+                   
+                   if ($success == 1) {
+                       $aResult['result'] = 'success';                       
+                       $newSessionData = $this->session->userdata('logged_in');
+                       $newSessionData['birthdate'] = $newBirthdate;
+                       $this->session->set_userdata('logged_in', $newSessionData);
+                       $aResult['newBirthdate'] = $newBirthdate;
+                   } else {
+                       $aResult['error'] = 'Error in update';
+                   }
+               }
+        }
+
+        echo json_encode($aResult);
+    }
+    
+    function suppress_account()
+    {
+        $aResult = array();
+
+        if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
+
+        if( !isset($aResult['error']) ) {
+               if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 1 ) ) {
+                   $aResult['error'] = 'Error in arguments!';
+               } else {
+                   $idUser = $_POST['arguments'][0];
+                   // The user id must be the same as the one in sessionData
+                   if($idUser == $this->session->userdata('logged_in')['id']) {
+                       $success = $this->user->suppress_account($idUser);
+                       if ($success == 1) {
+                           $aResult['result'] = 'success';
+                       } else {
+                           $aResult['error'] = 'Error in update';
+                       }
+                   } else {
+                       $aResult['error'] = 'Error with the user id';
+                   }
+               }
+        }
+
+        echo json_encode($aResult);
+    }
 }
 
 ?>

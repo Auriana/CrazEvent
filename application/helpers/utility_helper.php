@@ -26,7 +26,8 @@ if ( ! function_exists('login')) {
                     'email' => $row->email,
                     'firstname' => $row->firstname,
                     'surname' => $row->surname,
-                    'region' => $row->region
+                    'region' => $row->region,
+                    'birthdate' => $row->birthdate
                 );
                 $CI->session->set_userdata('logged_in', $sess_array);
                 
@@ -40,6 +41,8 @@ if ( ! function_exists('login')) {
         return $result;
 	}
 }
+
+
 
 /*
 * Sélectionner les 10 derniers nouveaux évènements 
