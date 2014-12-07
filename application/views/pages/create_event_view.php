@@ -81,47 +81,89 @@ $(document).ready(function(){
             $(this).attr('id', "removeActivity" + indexActivity--);
         });
     });
+	
     $("#addKeyword").click(function(){
         ++keywordNbr;
-        $("#keywordContainer").append("<input type='text' class='form-control inputKeyword' id='inputKeyword" + keywordNbr + "' name='inputKeyword" + keywordNbr + "' placeholder='Entre un mot-clé'>");
-        $("#keywordContainer").append('<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword' + keywordNbr + '" class="btn btn-primary">-</button>');
+        $("#keywordSuperContainer").append(
+			'<div id="clearK' + keywordNbr +'" class="clearer"></div>\
+			<div id="keyword' + keywordNbr +'" class="multi-input keywordContainer">\
+			<div class="col-sm-4"></div>\
+			<div class="inputKeywordContainer col-sm-4">\
+			<input type="text" class="form-control" name="inputKeyword' + keywordNbr + '" id="inputKeyword' + keywordNbr + '" placeholder="Entre un mot-clé">\
+			</div>\
+			<div class="removeKeywordContainer col-sm-2">\
+			<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword' + keywordNbr + '" class="btn btn-primary">-</button>\
+			</div>\
+			</div>');
     });
+		
     $('body').on('click', '.removeKeyword', function() {
         var deletedKeywordNbr = $(this).attr('id').substring(13);
         
         //delete the keyword
-        $("#inputKeyword" + deletedKeywordNbr).remove();
-        $(this).remove();
-        
+		$("#clearK" + deletedKeywordNbr).remove();
+		$("#keyword" + deletedKeywordNbr).remove();
         //renumber the other keywords
         --keywordNbr;
         var indexKeyword = keywordNbr;
-        $( ".inputKeyword" ).each(function( index ) {
+		//the clearer div
+		$( ".clearer" ).each(function( index ) {
+            $(this).attr('id', "clearK" + indexActivity--);
+        });
+        indexActivity = activityNbr;
+		//the multi-input div
+		$( ".keywordContainer" ).each(function( index ) {
+            $(this).attr('id', "keyword" + indexActivity--);
+        });
+        indexActivity = activityNbr;
+		//the input text
+		$( ".inputKeyword" ).each(function( index ) {
             $(this).attr('id', "inputKeyword" + indexKeyword);
             $(this).attr('name', "inputKeyword" + indexKeyword);
             --indexKeyword;
         });
-        indexKeyword = keywordNbr;
+		indexKeyword = keywordNbr;
+		//the remove button
         $( ".removeKeyword" ).each(function( index ) {
             $(this).attr('id', "removeKeyword" + indexKeyword--);
         });
-    });
+    });	
+	
     $("#addChecklistItem").click(function(){
         ++checklistItemNbr;
-        $("#checklistContainer").append("<input type='text' class='form-control inputChecklistItem' id='inputChecklistItem" + checklistItemNbr + "' name='inputChecklistItem" + checklistItemNbr + "' placeholder='Entre une chose à faire/prendre'>");
-        $("#checklistContainer").append('<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem' + checklistItemNbr + '" class="btn btn-primary">-</button>');
+        $("#checklistSuperContainer").append(
+			'<div id="clearC' + checklistItemNbr + '" class="clearer"></div>\
+			<div id="checklist' + checklistItemNbr + '" class="multi-input checklistContainer">\
+			<div class="col-sm-4"></div>\
+			<div class="inputChecklistContainer col-sm-4">\
+			<input type="text" class="form-control" name="inputChecklistItem' + checklistItemNbr + '" id="inputChecklistItem' + checklistItemNbr + '" placeholder="Chose à faire/prendre">\
+			</div>\
+			<div class="removeChecklistContainer col-sm-2">\
+			<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem' + checklistItemNbr + '" class="btn btn-primary">-</button>\
+			</div>\
+			</div>');
     });
     $('body').on('click', '.removeChecklistItem', function() {
         var deletedChecklistItemNbr = $(this).attr('id').substring(19);
         
         //delete the checklistItem
-        $("#inputChecklistItem" + deletedChecklistItemNbr).remove();
-        $(this).remove();
-        
-        //renumber the other checklistItem
+		$("#clearC" + deletedChecklistItemNbr).remove();
+		$("#checklist" + deletedChecklistItemNbr).remove();
+		//renumber the other keywords
         --checklistItemNbr;
+        var indexKeyword = checklistItemNbr;
+		//the clearer div
+		$( ".clearer" ).each(function( index ) {
+            $(this).attr('id', "clearC" + indexActivity--);
+        });
+        indexActivity = activityNbr;
+		//the multi-input div
+		$( ".checklistContainer" ).each(function( index ) {
+            $(this).attr('id', "checklist" + indexActivity--);
+        });
+        //renumber the other checklistItem
         var indexChecklistItem = checklistItemNbr;
-        $( ".inputActivity" ).each(function( index ) {
+        $( ".inputChecklist" ).each(function( index ) {
             $(this).attr('id', "inputChecklistItem" + indexChecklistItem);
             $(this).attr('name', "inputChecklistItem" + indexChecklistItem);
             --indexChecklistItem;
@@ -137,7 +179,7 @@ $(document).ready(function(){
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'verify_create_event/create_event', 'name="eventCreation" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
 <div class="container theme-showcase" role="main">
-<div class="col-md-12 white-bloc centred">
+<div class="col-md-10 white-bloc centred">
 	<h1 class="text-centred">
 		Crée ton événement
 	</h1>
@@ -186,13 +228,13 @@ $(document).ready(function(){
     
     <div class="form-group">
         <label for="inputRegion" class="col-sm-4 control-label">Région</label>
-        <select id="inputRegion" class="form-control" name="inputRegion">
-            <?php echo $regions; ?>
-        </select>
+        <div class="col-sm-6">
+			<select id="inputRegion" class="form-control" name="inputRegion">
+            	<?php echo $regions; ?>
+			</select>
+		</div>
     </div>
 	
-	
-
     <div id ="activitySuperContainer" class="form-group">
         <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>  
 		<div id="addActivityContainer" class="col-sm-6">
@@ -211,8 +253,6 @@ $(document).ready(function(){
 			</div>
 		</div>
     </div>
-
-	
 	
     <div class="form-group">
         <label class="col-sm-4 control-label">*Description</label>
@@ -220,26 +260,44 @@ $(document).ready(function(){
         	<textarea class="form-control" rows="5" name="inputDescription" id="inputDescription"></textarea>
             <span id="descriptionError"></span>
 		</div>
-    </div>
-
-    <div class="form-group">
+    </div>	
+	
+    <div id ="keywordSuperContainer" class="form-group">
         <label for="inputKeyword" class="col-sm-4 control-label">Mot(s)-clé(s)</label>
-        <div id="keywordContainer" class="col-sm-6">
-            <input type="text" class="form-control" name="inputKeyword1" id="inputKeyword1" placeholder="Entre un mot-clé">
-            <button type="button" class="btn btn-primary removeKeyword" id="removeKeyword1" class="btn btn-primary">-</button>
+        <div id="addKeywordContainer" class="col-sm-6"> 
+			<button type="button" id="addKeyword" class="btn btn-primary">Ajouter un mot-clé</button>        
         </div>
-        <button type="button" id="addKeyword" class="btn btn-primary">+</button>
-    </div>
-
-    <div class="form-group">
+		
+		<div id="clearK1" class="clearer"></div>
+		<div id="keyword1" class="multi-input keywordContainer">
+			<div class="col-sm-4"></div>
+			<div class="inputKeywordContainer col-sm-4">
+				<input type="text" class="form-control inputKeyword" name="inputKeyword1" id="inputKeyword1" placeholder="Entre un mot-clé">
+			</div>
+			<div class="removeKeywordContainer col-sm-2">
+				<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword1" class="btn btn-primary">-</button>
+        	</div>
+		</div>
+    </div>	
+	
+    <div id ="checklistSuperContainer" class="form-group">
         <label for="inputChecklist" class="col-sm-4 control-label">Checklist</label>
-        <div id="checklistContainer" class="col-sm-6">
-            <input type="text" class="form-control" name="inputChecklistItem1" id="inputChecklistItem1" placeholder="Entre une chose à faire/prendre">
-            <button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem1" class="btn btn-primary">-</button>
+        <div id="addChecklistContainer" class="col-sm-6">
+			<button type="button" id="addChecklistItem" class="btn btn-primary">Ajouter quelque chose</button>
         </div>
-        <button type="button" id="addChecklistItem" class="btn btn-primary">+</button>
+		
+		<div id="clearC1" class="clearer"></div>
+		<div id="checklist1" class="multi-input checklistContainer">
+			<div class="col-sm-4"></div>
+			<div class="inputChecklistContainer col-sm-4">
+				<input type="text" class="form-control inputChecklist" name="inputChecklistItem1" id="inputChecklistItem1" placeholder="Chose à faire/prendre">
+			</div>
+			<div class="removeChecklistContainer col-sm-2">
+            	<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem1" class="btn btn-primary">-</button>
+			</div>
+		</div>
     </div>
-
+	
     <div class="form-group">
         <label for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités</label>
 		<div class="col-sm-2">
