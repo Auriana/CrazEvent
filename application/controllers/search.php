@@ -75,7 +75,7 @@ class Search extends CI_Controller {
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/search_event_view', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/sticky-footer');
         }
         else
         {  

@@ -4,7 +4,7 @@
 	<div class="container">
 		<ul class="list-inline">
 			<li>
-				<a href="#home">Home</a>
+				<a href="/home">Home</a>
 			</li>
 
 			<li class="footer-menu-divider">&sdot;</li>

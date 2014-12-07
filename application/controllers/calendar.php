@@ -25,7 +25,7 @@ class Calendar extends CI_Controller {
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/calendar_view', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/sticky-footer');
         }
         else
         {  
@@ -44,7 +44,7 @@ class Calendar extends CI_Controller {
         $events = $this->user->get_registered_event_of_month($this->session->userdata('logged_in')["id"],$month,$year);        
 
         /* draw table */
-        $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';
+        $calendar = '<table cellpadding="0" cellspacing="0" class="calendar centred">';
 
         /* table headings */
         $headings = array('Dimance','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');

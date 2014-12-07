@@ -44,7 +44,7 @@ function validateForm() {
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'verify_create_user', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
 <div class="container theme-showcase" role="main">
-<div class="col-md-6 white-bloc centred">
+<div class="col-md-6 white-bloc centred marg-top">
 	<h1 class="text-centred">
 		Crée ton compte
 	</h1>
@@ -83,7 +83,7 @@ function validateForm() {
     <div class="form-group">
         <label for="inputRegion" class="col-sm-4 control-label">Région</label>
         <div class="col-sm-8">
-            <select id="inputRegion" name="inputRegion">
+            <select id="inputRegion" class="form-control" name="inputRegion">
                 <?php echo $regions; ?>
             </select>
         </div>

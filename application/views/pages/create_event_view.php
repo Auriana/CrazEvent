@@ -176,7 +176,7 @@ $(document).ready(function(){
     
     <div class="form-group">
         <label for="inputRegion" class="col-sm-4 control-label">Région</label>
-        <select id="inputRegion" name="inputRegion">
+        <select id="inputRegion" class="form-control" name="inputRegion">
             <?php echo $regions; ?>
         </select>
     </div>

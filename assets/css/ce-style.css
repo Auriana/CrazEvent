@@ -67,6 +67,10 @@ body {
 	margin: 0 0 0 0!important;
 }
 
+.marg-top {
+	margin-top: 50px;
+}
+
 .page-header {
 	margin-top: 80px!important;
 }
@@ -126,6 +130,15 @@ form {
 	transition-timing-function: linear;
 	background-color: #168fe3!important;
 	color: #fff;
+}
+
+.btn-danger {
+	background-image: none!important;
+	background-color: #ff1f45;
+	text-shadow: none!important;
+	color: #fff;
+	border: none!important;
+	border-radius: 0px!important;
 }
 
 .form-control {
