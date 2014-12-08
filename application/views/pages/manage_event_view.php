@@ -36,29 +36,51 @@ $(document).ready(function(){
     var checklistItemNbr = $('.inputChecklistItem').length;
     $("#addActivity").click(function(){
         ++activityNbr;
-        $("#activityContainer").append("<input type='text' class='form-control inputActivity' id='inputActivity" + activityNbr + "' name='inputActivity" + activityNbr + "' placeholder='Entre une activité'>");
-        $("#activityContainer").append('<button type="button" class="btn btn-primary removeActivity" id="removeActivity' + activityNbr + '" class="btn btn-primary">-</button>');
+		$("#activitySuperContainer").append(
+            '<div id="clear' + activityNbr +'" class="clearer"></div>\
+            <div id="activity' + activityNbr +'" class="multi-input  activityContainer">\
+                <div class="col-sm-4"></div>\
+                <div class="inputActivityContainer col-sm-4">\
+                    <input type="text" class="form-control inputActivity" id="inputActivity' + activityNbr + '" name="inputActivity' + activityNbr + '" placeholder="Entre une activité">\
+                </div>\
+                <div class="removeActivityContainer col-sm-2">\
+                    <button type="button" class="btn btn-primary removeActivity" id="removeActivity' + activityNbr + '" class="btn btn-primary">-</button>\
+                </div>\
+            </div>');	
     });
     $('body').on('click', '.removeActivity', function() {
         var deletedActivityNbr = $(this).attr('id').substring(14);
         
         //delete the activity
-        $("#inputActivity" + deletedActivityNbr).remove();
-        $(this).remove();
+		$("#clear" + deletedActivityNbr).remove();
+		$("#activity" + deletedActivityNbr).remove();
         
         //renumber the other activites
         --activityNbr;
         var indexActivity = activityNbr;
+		//the clearer div
+		$( ".clearer" ).each(function( index ) {
+            $(this).attr('id', "clear" + indexActivity--);
+        });
+        indexActivity = activityNbr;
+		//the multi-input div
+		$( ".activityContainer" ).each(function( index ) {
+            $(this).attr('id', "activity" + indexActivity--);
+        });
+        indexActivity = activityNbr;
+		//the input text
         $( ".inputActivity" ).each(function( index ) {
             $(this).attr('id', "inputActivity" + indexActivity);
             $(this).attr('name', "inputActivity" + indexActivity);
             --indexActivity;
         });
         indexActivity = activityNbr;
+		//the remove button
         $( ".removeActivity" ).each(function( index ) {
             $(this).attr('id', "removeActivity" + indexActivity--);
         });
     });
+	
     $("#addKeyword").click(function(){
         ++keywordNbr;
         $("#keywordContainer").append("<input type='text' class='form-control inputKeyword' id='inputKeyword" + keywordNbr + "' name='inputKeyword" + keywordNbr + "' placeholder='Entre un mot-clé'>");

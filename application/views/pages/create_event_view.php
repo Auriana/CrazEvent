@@ -108,14 +108,14 @@ $(document).ready(function(){
         var indexKeyword = keywordNbr;
 		//the clearer div
 		$( ".clearer" ).each(function( index ) {
-            $(this).attr('id', "clearK" + indexActivity--);
+            $(this).attr('id', "clearK" + indexKeyword--);
         });
-        indexActivity = activityNbr;
+        indexKeyword = keywordNbr;
 		//the multi-input div
 		$( ".keywordContainer" ).each(function( index ) {
-            $(this).attr('id', "keyword" + indexActivity--);
+            $(this).attr('id', "keyword" + indexKeyword--);
         });
-        indexActivity = activityNbr;
+        indexKeyword = keywordNbr;
 		//the input text
 		$( ".inputKeyword" ).each(function( index ) {
             $(this).attr('id', "inputKeyword" + indexKeyword);

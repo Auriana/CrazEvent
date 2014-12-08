@@ -36,9 +36,13 @@ function validateForm() {
 }
 </script>
 <script>
-	$(function() {
-		$( "#inputBirthdate" ).datepicker();
-	});
+//	$(function() {
+//		$( "#inputBirthdate" ).datepicker();
+//	});
+
+function calendar() {
+    datepicker();
+};
 </script>
 
 <?php echo validation_errors(); ?>
@@ -75,7 +79,7 @@ function validateForm() {
     <div class="form-group">
         <label for="inputBirthdate" class="col-sm-4 control-label">Date de naissance</label>
         <div class="col-sm-8">
-            <input type="date" class="form-control" id="inputBirthdate" name="inputBirthdate" placeholder="Entre ta date de naissance">
+            <input type="date" class="form-control" id="inputBirthdate" name="inputBirthdate" onclick="calendar() "placeholder="Entre ta date de naissance">
             <span id="birthdateError"></span>
         </div>
     </div>
