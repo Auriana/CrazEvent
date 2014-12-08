@@ -1,16 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Home extends CI_Controller {
 
-    function __construct()
-    {
+    function __construct() {
          parent::__construct();
     }
 
-    function index()
-    {
-        //if user is not logged in : redirection to welcome page
-        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
-        {
+    /**
+    * Access to the home page.
+    * The home page is accessed only when logged in.
+    */
+    function index() {
+        if($this->session->userdata('logged_in')) {
             $data['title'] = 'Accueil';
             $session_data = $this->session->userdata('logged_in');
             $data['firstname'] = $session_data['firstname'];
@@ -21,15 +21,13 @@ class Home extends CI_Controller {
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/home_view', $data);
             $this->load->view('templates/footer');
-        }
-        else
-        {  
+        //if user is not logged in : redirection to welcome page
+        } else {  
             redirect('welcome', 'refresh');
         }
     }
     
-    function logout()
-    {
+    function logout() {
         $this->session->unset_userdata('logged_in');
         redirect('welcome', 'refresh');
     }

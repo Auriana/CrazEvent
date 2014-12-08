@@ -37,7 +37,7 @@ function quitEvent(idUser, idEvent, private) {
 function cancelEvent(idEvent) {
     var r = confirm("Annuler l'évènement ?");
     if (r == true) {
-        window.location.href="/manage_event/cancel_event/" + idEvent;
+        window.location.href="/manage_event/cancel/" + idEvent;
     }
 }
 </script>
@@ -46,10 +46,10 @@ function cancelEvent(idEvent) {
 	<h1 class="text-centred">
 		<?php echo $event->name; ?>
 	</h1>
-        <?php
+    <?php
         if($event->organizer == $id_user) {
             echo '<h5>
-                    <a href="'.base_url().'manage_event/index/'.$event->id.'">Modifier l\'évènement</a>
+                    <a href="'.base_url().'manage_event/management/'.$event->id.'">Modifier l\'évènement</a>
                 </h5>';
             echo '<h5>
                     <button onclick="cancelEvent('.$event->id.')">Annuler l\'évènement</button>

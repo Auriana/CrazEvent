@@ -1,23 +1,23 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Search extends CI_Controller {
 
-    function __construct()
-    {
+    function __construct() {
          parent::__construct();
          $this->load->model('user','',TRUE);
          $this->load->model('event','',TRUE);
     }
 
     function index()
-    {
-        
-    }
+    {}
     
+    /**
+    * Access to the functionnality to search a user.
+    * Redirect to welcome page if not logged in.
+    */
     function user()
     {
         //if user is not logged in : redirection to welcome page
-        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
-        {
+        if($this->session->userdata('logged_in')) {
             $data['title'] = 'Rechercher utilisateur';
             $session_data = $this->session->userdata('logged_in');
 
@@ -25,15 +25,17 @@ class Search extends CI_Controller {
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/search_user_view', $data);
             $this->load->view('templates/sticky-footer');
-        }
-        else
-        {  
+        //if user is not logged in : redirection to welcome page
+        } else {  
             redirect('welcome', 'refresh');
         }
     }
     
-    function search_user()
-    {
+    /**
+    * Search for a user by it's name and region.
+    * This function prints it's result as a list and is therefore meant to be called asynchronously with AJAX.
+    */
+    function search_user() {
         $firstname = $_GET['f'];
         $surname = $_GET['s'];
         $region = $_GET['r'];
@@ -43,32 +45,38 @@ class Search extends CI_Controller {
         $session_data = $this->session->userdata('logged_in');
         $id_user = $session_data['id'];
 
-		echo "<h3>Résultat(s)</h3>";
-        echo "<ul class='result_search'>";
+        $resultTable = "";
+		$resultTable .= "<h3>Résultat(s)</h3>";
+        $resultTable .=  "<ul class='result_search'>";
 
         foreach($result as $row) {
-          echo "<li>" . $row -> firstname . " " . $row -> surname . ", " . $row -> region;
+          $resultTable .=  "<li>" . $row -> firstname . " " . $row -> surname . ", " . $row -> region;
             $friendship = $this->user->is_friend($id_user, $row -> id);
             if ($friendship == 2) {
-                echo "";
+                $resultTable .=  "";
             } else if ($friendship == 1) {
-				 echo "<div class='list_contact'>Déjà un contact!</div>";
+				 $resultTable .=  "<div class='list_contact'>Déjà un contact!</div>";
 			} else {
-                echo "<div class='list_contact' id='addContact" . $row -> id . "'><button class='btn btn-default btn-xs' onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
-				echo "<div class='clearer'></div>";
-				echo "<div class='clearer'></div>";
+                $resultTable .=  "<div class='list_contact' id='addContact" . $row -> id . "'><button class='btn btn-default btn-xs' onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
+				$resultTable .=  "<div class='clearer'></div>";
+				$resultTable .=  "<div class='clearer'></div>";
             }
-          echo "</li>";
+          $resultTable .=  "</li>";
         }
-        echo "</ul";
+        $resultTable .=  "</ul";
+        
+        echo $resultTable;
     }
     
     function add_user($id_user, $id_contact) {
     }
     
+    /**
+    * Access to the functionnality to search an event.
+    * Redirect to welcome page if not logged in.
+    */
     function event() {
-        //if user is not logged in : redirection to welcome page
-        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
+        if($this->session->userdata('logged_in'))
         {
             $data['title'] = 'Rechercher évènement';
 
@@ -76,13 +84,16 @@ class Search extends CI_Controller {
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/search_event_view', $data);
             $this->load->view('templates/sticky-footer');
-        }
-        else
-        {  
+        //if user is not logged in : redirection to welcome page
+        } else {  
             redirect('welcome', 'refresh');
         }
     }
 
+    /**
+    * Search for an event by using a list of keywords.
+    * This function prints it's result as a list and is therefore meant to be called asynchronously with AJAX.
+    */
     function search_event() {
         /*
         * The words used for research are separated by spaces

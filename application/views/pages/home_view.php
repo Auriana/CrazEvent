@@ -19,7 +19,7 @@
 				Actions
 			</h2>
 			<p>
-				<a href="create_event">Créer un évènement</a> !
+				<a href="manage_event/creation">Créer un évènement</a> !
 			</p>
 			<p>
 				<a href="search/user">Rechercher un utilisateur</a>

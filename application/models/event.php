@@ -1,8 +1,8 @@
 <?php
-Class Event extends CI_Model
-{
+Class Event extends CI_Model {
 
-    /*
+    /**
+    * Creation of an event in the database
     * Return created event id.
     */
    function create_event($name, $private, $date, $duration, $place, $region, $activities, $description, $keywords, $checklistItems, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline, $organizer) {
@@ -54,7 +54,10 @@ Class Event extends CI_Model
        
        return $eventId;
     }
-    
+
+    /**
+    * Modification of an event in the database
+    */
    function update_event($eventId, $name, $private, $date, $duration, $place, $region, $activities, $description, $keywords, $checklistItems, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline) {
        //insertion of Event
        $data = array(
@@ -78,37 +81,42 @@ Class Event extends CI_Model
        $this->db->update('event', $data);
        
        //insertion of MandatoryCheckListItems
+       $this->db->where('event_id', $eventId);
+       $this->db->delete('mandatory_checklist_item');
        if(!empty($checklistItems)) {
            $data = array();
-           foreach ($checklistItems as $checklistItem){
+           foreach ($checklistItems as $checklistItem) {
                $data[] = array(
                     'content' => $checklistItem,
                     'event_id' => $eventId
                );
-           }
-           $this->db->where('event_id', $eventId);
-           $this->db->delete('mandatory_checklist_item');
-           
+           }           
            $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
        }
 
         //insertion of Activities
        $this->db->where('event_id', $eventId);
        $this->db->delete('activity_specification');
-       foreach ($activities as $activity){
+       foreach ($activities as $activity) {
            $insertionResult = $this->db->query("call insert_activity(" . $eventId . ", '" . $activity . "')");
        }
 
        //insertion of Keywords
        $this->db->where('event_id', $eventId);
        $this->db->delete('keyword_specification');
-       foreach ($keywords as $keyword){
+       foreach ($keywords as $keyword) {
            $insertionResult = $this->db->query("call insert_keyword(" . $eventId . ", '" . $keyword . "')");
        }
 
        $this->db->trans_complete();
     }
 	
+    /**
+    * Search an event in the database
+    * parameters :
+    *   id : event to find's id
+    * Return the infos about the event or false.
+    */
 	function get_event($id) {
 		$this -> db ->select('event.id AS id, name, private, invitation_suggestion_allowed, description, start_date, inscription_deadline, duration, start_place, participant_max_nbr, participant_minimum_age, organizer, individual_proposition_suggestion_allowed, region.content AS region');
 		$this -> db -> from('event');
@@ -118,16 +126,19 @@ Class Event extends CI_Model
 		
 		$query = $this -> db -> get();
 
-		 if($query -> num_rows() == 1)
-		 {
+		 if($query -> num_rows() == 1) {
 		    return $query->result();
-		 }
-		 else
-		 {
+		 } else {
 		   return false;
 		 }
 	}
     
+    /**
+    * Search the activities of an event in the database
+    * parameters :
+    *   id : event's activities to find's id
+    * Return the activities of the event.
+    */
     function get_event_activities($id) {
 		
         $this->db->select('content');
@@ -140,6 +151,12 @@ Class Event extends CI_Model
         return $query->result();
     }
     
+    /**
+    * Search the keywords of an event in the database
+    * parameters :
+    *   id : event's keywords to find's id
+    * Return the keywords of the event.
+    */
     function get_event_keywords($id) {
 		
         $this->db->select('content');
@@ -152,6 +169,12 @@ Class Event extends CI_Model
         return $query->result();
     }
     
+    /**
+    * Search the participants of an event in the database
+    * parameters :
+    *   id : event's participants to find's id
+    * Return the participants of the event.
+    */
     function get_event_participants($id) {
         $this->db->select('firstname, surname');
         $this->db->from('user');
@@ -163,6 +186,12 @@ Class Event extends CI_Model
         return $query->result();
     }
     
+    /**
+    * Search the checklist items of an event in the database
+    * parameters :
+    *   id : event's checklist items to find's id
+    * Return the checklist items of the event.
+    */
     function get_event_checklist($id) {
 		
         $this->db->select('content');
@@ -174,23 +203,27 @@ Class Event extends CI_Model
         return $query->result();
     }
     
-    function get_visible_events($id_user) {        
-        $this->db->query("SET @connected_user_id := " . $id_user);
-        
-        $this -> db -> select("*");
-        $this->db->from("visible_event");
-        return $this->db->get()->result();
-    }
-    
-
-    function join_public_event($id_user, $id_event)
-    {
+    /**
+    * Join a public event.
+    * parameters :
+    *   id_user : id of the user that join the event
+    *   $id_event : id of the event to join
+    * Return result of the joining
+    */
+    function join_public_event($id_user, $id_event) {
         $query = $this->db->query("call join_public_event(" . $id_user . ", " . $id_event . ")");
         $returnValue = $query->result();
         $this->db->freeDBResource($this->db->conn_id);
         return $returnValue;
     }
     
+    /**
+    * Join a private event.
+    * parameters :
+    *   id_user : id of the user that join the event
+    *   $id_event : id of the event to join
+    * Return result of the joining
+    */
     function join_private_event($id_user, $id_event)
     {
         $query = $this->db->query("call join_private_event(" . $id_user . ", " . $id_event . ")");
@@ -199,12 +232,39 @@ Class Event extends CI_Model
         return $returnValue;
     }
     
+    /**
+    * Quit an event
+    * parameters :
+    *   id_user : id of the user that quit the event
+    *   $id_event : id of the event to quit
+    */
     function quit_event($id_user, $id_event) {
        $this->db->where('event_id', $id_event);
        $this->db->where('user_id', $id_user);
        $this->db->delete('participation');
     }
     
+    /**
+    * Search the events visible by the connected user
+    * parameters :
+    *   id_user : id of the connected user
+    * Return the events visible by the connected user
+    */
+    function get_visible_events($id_user) {        
+        $this->db->query("SET @connected_user_id := " . $id_user);
+        
+        $this -> db -> select("*");
+        $this->db->from("visible_event");
+        return $this->db->get()->result();
+    }
+
+    /**
+    * Search the events participable by the connected user
+    * parameters :
+    *   id_user : id of the connected user
+    *   limit : number of result to return
+    * Return the events participable by the connected user
+    */
     function get_participable_events($id_user, $limit) {
         
         $this->db->query("SET @connected_user_id := " . $id_user);
@@ -216,7 +276,12 @@ Class Event extends CI_Model
         return $this->db->get()->result();
     }
     
-
+    /**
+    * parameters :
+    *   id_user : id of the user
+    *   id_event : id of the event
+    * Return 1 if the user participate to the event, else 0
+    */
     function is_participation($id_user, $id_event)
     {
         $query = $this->db->query("select is_participation(" . $id_user . ", " . $id_event . ")");
@@ -227,9 +292,13 @@ Class Event extends CI_Model
 
     }
     /*
-    * we search for the keywords given in the : name, description, start_place, region, activities and keywords of events
-    * the searchKeywords can be a part of a word
-    * The research is done only on event you can participate to.
+    * Search for the keywords given in the : name, description, start_place, region, activities and keywords of events.
+    * The searchKeywords can be a part of a word.
+    * The research is done only on event you can view to.
+    * parameters :
+    *   id_user : id of the connected user
+    *   searchKeywords : keywords used in the search
+    * return events that have at least 1 searchKeyowrd in them
     */
     function search_event($id_user, $searchKeywords)
     {        
@@ -278,6 +347,12 @@ Class Event extends CI_Model
         return $result;
     }
     
+    /**
+    * Get all the details of an event.
+    * parameters :
+    *   id : id of the event
+    * return : array with event basic infos from get_event() plus activities, checklist, keywords, participants
+    */
     function get_details($id) {		
         $infoEvent['event'] = $this->event->get_event($id)[0];
         
@@ -301,6 +376,10 @@ Class Event extends CI_Model
         return $infoEvent;
     }
     
+    /**
+    * Cancel an event
+    *   id : id of the event
+    */
     function cancel($id) {
         $this->db->where('id', $id);
         $this->db->delete('event');

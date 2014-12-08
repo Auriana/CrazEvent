@@ -1,18 +1,18 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Calendar extends CI_Controller {
 
-    function __construct()
-    {
+    function __construct() {
          parent::__construct();
         $this->load->model('user','',TRUE);
     }
     
-    function index()
-    {
-        //if user is not logged in : redirection to welcome page
-        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
-        {
+    /**
+    * Display the user's calendar for a given month and year.
+    */
+    function index() {
+        if($this->session->userdata('logged_in')) {
             $data['title'] = 'Agenda';
+            //configure the input to select the month and year to display
             if($this->input->post('inputMonth') != false && $this->input->post('inputYear') != false) {
                 $data['selectedMonth'] = $this->input->post('inputMonth');
                 $data['selectedYear'] = $this->input->post('inputYear'); 
@@ -26,15 +26,22 @@ class Calendar extends CI_Controller {
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/calendar_view', $data);
             $this->load->view('templates/footer');
-        }
-        else
-        {  
+        //if user is not logged in : redirection to welcome page
+        } else {  
             redirect('welcome', 'refresh');
         }
     }
     
-        /* draws a calendar */
-    function draw_calendar($month,$year){
+    /**
+    * Draw a calendar for the connected user for the month given in parameter.
+    * The calendar displays the event that the user is participating to.
+    * The function was mainly taken from : http://davidwalsh.name/php-calendar.
+    * params :
+    *    month : the month number to display in the calendar
+    *    year : the year to display in the calendar
+    * return : a calendar displaying the events of the user for the given month
+    */
+    function draw_calendar($month,$year) {
         
         $currentYear = date("Y");
         $currentMonth = date("n");

@@ -7,8 +7,13 @@ if ( ! function_exists('asset_url')) {
 	}
 }
 
-if ( ! function_exists('login')) {
-    function login($email, $password) {
+/**
+* Log in a user.
+* Create a codeIgniter session array containing the logged user's infos.
+* return : success of logging in.
+*/
+if ( ! function_exists('login_utility')) {
+    function login_utility($email, $password) {
          
         // Get a reference to the controller object
         $CI = get_instance();
@@ -44,8 +49,9 @@ if ( ! function_exists('login')) {
 
 
 
-/*
-* Sélectionner les 10 derniers nouveaux évènements 
+/**
+* Select 10 last new events that a user can participate to.
+* return : display list of the events.
 */
 if ( ! function_exists('get_new_events')) {
     function get_new_events($id_user) {
@@ -67,6 +73,10 @@ if ( ! function_exists('get_new_events')) {
 	}
 }
 
+/**
+* Select 10 last events that a user participate to.
+* return : display list of the events.
+*/
 if ( ! function_exists('get_my_events')) {
     function get_my_events($id_user) {
          
@@ -87,6 +97,9 @@ if ( ! function_exists('get_my_events')) {
 	}
 }
 
+/**
+* return : a link to handle user participation to an event.
+*/
 if ( ! function_exists('get_participation_link')) {
     function get_participation_link($id_user, $id_event, $private) {
          
@@ -110,9 +123,17 @@ if ( ! function_exists('get_participation_link')) {
 }
 
 if ( ! function_exists('get_region_scrollbox')) {
+    /**
+    * return : a display scrollbox of the available regions
+    */
     function get_region_scrollbox() {
         return get_region_scrollbox_with_selected("");
 	}
+    /**
+    * parameters :
+    *   selectedRegionContent : the value of the content to be selected by default by the scrollbox
+    * return : a display scrollbox of the available regions. The default selected region is parametrize
+    */
     function get_region_scrollbox_with_selected($selectedRegionContent) {
                  
         // Get a reference to the controller object
