@@ -8,14 +8,32 @@ function joinEvent(idUser, idEvent, private) {
 
     success: function (obj, textstatus) {
                   if( !('error' in obj) ) {
-                      $('#link-answer').html('<p>Vous êtes inscrits</p>');
+                      $('#link-answer').html(obj.result);
                   }
                   else {
                       console.log(obj.error);
                   }
             }
-});
+    });
 }
+function quitEvent(idUser, idEvent, private) {
+    $.ajax({
+    type: "POST",
+    url: '/manage_user/quit_event',
+    dataType: 'json',
+    data: {arguments: [idUser, idEvent, private]},
+
+    success: function (obj, textstatus) {
+                  if( !('error' in obj) ) {
+                      $('#link-answer').html(obj.result);
+                  }
+                  else {
+                      console.log(obj.error);
+                  }
+            }
+    });
+}
+
 function cancelEvent(idEvent) {
     var r = confirm("Annuler l'évènement ?");
     if (r == true) {

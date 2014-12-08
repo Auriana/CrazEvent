@@ -3,15 +3,13 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 03 Décembre 2014 à 22:43
+-- Généré le :  Lun 08 Décembre 2014 à 20:18
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-CREATE SCHEMA IF NOT EXISTS `crazevent` DEFAULT CHARACTER SET utf8;
-USE `crazevent`;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -72,10 +70,12 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `join_private_event`(id_user int, id_event int)
 BEGIN
 
-delete from invitation where user_id = id_user AND event_id = id_event;
+if (select exists (select * from invitation where user_id = id_user AND event_id = id_event)) then
+	delete from invitation where user_id = id_user AND event_id = id_event;
 
-insert participation(event_id, user_id) values(id_event, id_user);
-select * from participation where user_id = id_user AND event_id = id_event;
+	insert participation(event_id, user_id) values(id_event, id_user);
+	select * from participation where user_id = id_user AND event_id = id_event;
+end if;
 
 END$$
 
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Contenu de la table `activity`
@@ -159,7 +159,16 @@ INSERT INTO `activity` (`id`, `content`) VALUES
 (6, 'Saut à ski'),
 (7, 'fondue'),
 (8, 'Snow'),
-(9, 'Raclette');
+(9, 'Raclette'),
+(10, 'a'),
+(11, 'aa'),
+(12, 'test'),
+(13, 'test 2'),
+(14, 'test 3'),
+(15, 'aaa'),
+(16, 'ddd'),
+(17, 'Bowling'),
+(18, 'course à pied');
 
 -- --------------------------------------------------------
 
@@ -181,8 +190,15 @@ CREATE TABLE IF NOT EXISTS `activity_specification` (
 
 INSERT INTO `activity_specification` (`activity_id`, `event_id`) VALUES
 (7, 15),
-(8, 16),
-(9, 17);
+(14, 16),
+(9, 17),
+(8, 22),
+(15, 24),
+(16, 25),
+(9, 26),
+(17, 26),
+(18, 26),
+(17, 27);
 
 -- --------------------------------------------------------
 
@@ -208,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   PRIMARY KEY (`id`),
   KEY `FKOrganization_idx` (`organizer`),
   KEY `fk_event_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 --
 -- Contenu de la table `event`
@@ -216,8 +232,13 @@ CREATE TABLE IF NOT EXISTS `event` (
 
 INSERT INTO `event` (`id`, `name`, `private`, `invitation_suggestion_allowed`, `description`, `start_date`, `inscription_deadline`, `duration`, `start_place`, `participant_max_nbr`, `participant_minimum_age`, `organizer`, `individual_proposition_suggestion_allowed`, `region_id`) VALUES
 (15, 'Balade', 1, 0, 'petit moment détente', '2014-11-05 02:00:00', NULL, NULL, NULL, NULL, NULL, 5, 0, 1),
-(16, 'séjour', 0, 0, 'sport d''hiver', '2014-11-05 01:00:00', NULL, 2, 'Marseille', NULL, NULL, 5, 0, 2),
-(17, 'Raclette des IL', 1, 1, 'Raclette des IL', '2015-12-19 00:00:00', '2015-12-16 00:00:00', 1, 'H06', 40, 18, 6, 1, 5);
+(16, 'séjour', 1, 1, 'sport d''hiver 2', NULL, NULL, 2, 'Marseille', 30, 12, 5, 1, 2),
+(17, 'Raclette des IL', 1, 1, 'Raclette des IL', '2015-12-19 00:00:00', '2015-12-16 00:00:00', 1, 'H06', 40, 18, 6, 1, 5),
+(22, 'séjour', 0, 1, 'sport d''hiver', '2014-12-10 00:00:00', NULL, 2, 'Marseille', 30, 12, 7, 1, 2),
+(24, 'wwww', 1, 0, 'aaa', NULL, NULL, NULL, NULL, NULL, NULL, 6, 0, 10),
+(25, 'test', 1, 0, 'ccc', '2016-12-20 00:00:00', NULL, NULL, NULL, NULL, NULL, 7, 0, 1),
+(26, 'test', 1, 0, 'gogogogo', '1990-06-22 00:00:00', NULL, 3, NULL, NULL, NULL, 6, 0, 1),
+(27, 'Toutou', 1, 0, 'tata', '2014-12-19 00:00:00', NULL, NULL, NULL, NULL, NULL, 6, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -288,7 +309,7 @@ CREATE TABLE IF NOT EXISTS `keyword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Contenu de la table `keyword`
@@ -308,7 +329,9 @@ INSERT INTO `keyword` (`id`, `content`) VALUES
 (11, 'Fromage'),
 (12, 'Patate'),
 (13, 'Repas'),
-(14, 'IL');
+(14, 'IL'),
+(15, 'test'),
+(16, 'test 2');
 
 -- --------------------------------------------------------
 
@@ -329,14 +352,15 @@ CREATE TABLE IF NOT EXISTS `keyword_specification` (
 --
 
 INSERT INTO `keyword_specification` (`event_id`, `keyword_id`) VALUES
-(16, 7),
-(16, 8),
-(16, 9),
+(22, 7),
+(22, 8),
+(22, 9),
 (17, 10),
 (17, 11),
 (17, 12),
 (17, 13),
-(17, 14);
+(17, 14),
+(16, 16);
 
 -- --------------------------------------------------------
 
@@ -351,14 +375,17 @@ CREATE TABLE IF NOT EXISTS `mandatory_checklist_item` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `mandatoryCheckListItemUnique` (`content`,`event_id`),
   KEY `fk_mandatoryCheckListItem_event1_idx` (`event_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=63 ;
 
 --
 -- Contenu de la table `mandatory_checklist_item`
 --
 
 INSERT INTO `mandatory_checklist_item` (`id`, `content`, `event_id`) VALUES
-(1, 'Payer 20 CHF', 17);
+(1, 'Payer 20 CHF', 17),
+(56, 'test', 16),
+(61, 'test', 22),
+(62, 'test 2', 22);
 
 -- --------------------------------------------------------
 
@@ -404,7 +431,11 @@ INSERT INTO `participation` (`event_id`, `user_id`) VALUES
 (16, 5),
 (15, 6),
 (16, 6),
-(17, 6);
+(22, 6),
+(24, 6),
+(26, 6),
+(27, 6),
+(25, 7);
 
 -- --------------------------------------------------------
 
@@ -533,7 +564,7 @@ INSERT INTO `user` (`id`, `firstname`, `surname`, `password`, `birthdate`, `emai
 (4, 'Calixte', 'Maillard', '81dc9bdb52d04dc20036dbd8313ed055', '1111-11-11', 'calixte@heig.ch', 7, 0, 1),
 (5, 'Simone', 'Righittho', '81dc9bdb52d04dc20036dbd8313ed055', '1111-11-11', 'simone@heig.ch', 18, 0, 1),
 (6, 'Dominique', 'Jollien', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-22', 'dominiquejollien@hotmail.com', 15, 0, 1),
-(7, 'test', 'test', '1a1dc91c907325c69271ddf0c944bc72', '2010-06-22', 'a@a.com', 1, 0, 1);
+(7, 'm', 'test', '1a1dc91c907325c69271ddf0c944bc72', '2010-06-22', 'a@a.com', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -600,7 +631,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 ALTER TABLE `activity_specification`
   ADD CONSTRAINT `fk_activity_has_event_activity1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_has_event_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_activity_has_event_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `event`
@@ -613,7 +644,7 @@ ALTER TABLE `event`
 -- Contraintes pour la table `event_disscussion_thread_message`
 --
 ALTER TABLE `event_disscussion_thread_message`
-  ADD CONSTRAINT `fk_disscussionThreadMessage_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_disscussionThreadMessage_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_disscussionThreadMessage_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -627,60 +658,60 @@ ALTER TABLE `friendship`
 -- Contraintes pour la table `individual_proposition`
 --
 ALTER TABLE `individual_proposition`
-  ADD CONSTRAINT `fk_individualProposition_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_individualProposition_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_individualProposition_user` FOREIGN KEY (`user_dealing_with_it`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `invitation`
 --
 ALTER TABLE `invitation`
-  ADD CONSTRAINT `fk_invitation_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_invitation_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_invitation_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `keyword_specification`
 --
 ALTER TABLE `keyword_specification`
-  ADD CONSTRAINT `fk_event_has_keyword_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_event_has_keyword_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_event_has_keyword_keyword1` FOREIGN KEY (`keyword_id`) REFERENCES `keyword` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `mandatory_checklist_item`
 --
 ALTER TABLE `mandatory_checklist_item`
-  ADD CONSTRAINT `fk_mandatoryCheckListItem_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_mandatoryCheckListItem_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `participation`
 --
 ALTER TABLE `participation`
-  ADD CONSTRAINT `fk_event_has_user_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_event_has_user_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_event_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `start_date_open_option`
 --
 ALTER TABLE `start_date_open_option`
-  ADD CONSTRAINT `fk_startDateOpenOptions_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_startDateOpenOptions_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `start_date_open_option_agreeing_user`
 --
 ALTER TABLE `start_date_open_option_agreeing_user`
-  ADD CONSTRAINT `fk_startDateOpenOptions_has_user_openOption` FOREIGN KEY (`start_date_open_options_date`, `start_date_open_options_event_id`) REFERENCES `start_date_open_option` (`date`, `event_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_startDateOpenOptions_has_user_openOption` FOREIGN KEY (`start_date_open_options_date`, `start_date_open_options_event_id`) REFERENCES `start_date_open_option` (`date`, `event_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_startDateOpenOptions_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `start_place_open_option`
 --
 ALTER TABLE `start_place_open_option`
-  ADD CONSTRAINT `fk_startPlaceOpenOptions_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_startPlaceOpenOptions_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `start_place_open_option_agreeing_user`
 --
 ALTER TABLE `start_place_open_option_agreeing_user`
-  ADD CONSTRAINT `fk_startPlaceOpenOptions_has_user_openOption` FOREIGN KEY (`start_place_open_options_start_place`, `start_place_open_options_event_id`) REFERENCES `start_place_open_option` (`start_place`, `event_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_startPlaceOpenOptions_has_user_openOption` FOREIGN KEY (`start_place_open_options_start_place`, `start_place_open_options_event_id`) REFERENCES `start_place_open_option` (`start_place`, `event_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_startPlaceOpenOptions_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

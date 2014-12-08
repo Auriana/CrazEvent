@@ -186,13 +186,23 @@ Class Event extends CI_Model
     function join_public_event($id_user, $id_event)
     {
         $query = $this->db->query("call join_public_event(" . $id_user . ", " . $id_event . ")");
-        return $query->result();
+        $returnValue = $query->result();
+        $this->db->freeDBResource($this->db->conn_id);
+        return $returnValue;
     }
     
     function join_private_event($id_user, $id_event)
     {
         $query = $this->db->query("call join_private_event(" . $id_user . ", " . $id_event . ")");
-        return $query->result();
+        $returnValue = $query->result();
+        $this->db->freeDBResource($this->db->conn_id);
+        return $returnValue;
+    }
+    
+    function quit_event($id_user, $id_event) {
+       $this->db->where('event_id', $id_event);
+       $this->db->where('user_id', $id_user);
+       $this->db->delete('participation');
     }
     
     function get_participable_events($id_user, $limit) {

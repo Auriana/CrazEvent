@@ -19,15 +19,17 @@ class Details_Event extends CI_Controller {
             
             $info_event['id_user'] = $session_data['id'];
             $info_event['id_event'] = $id;
+            $info_event['participation'] = get_participation_link($session_data['id'], $id, $info_event['event']->private);
+            /*
             if ($this -> event -> is_participation($session_data['id'], $id) == 0) {
                 if ($info_event['event']->private == 1) {
-                    $info_event['participation'] = '<a id="joinEvent" href="#" onClick="joinEvent(' . $info_event['id_user'] . ', ' . $info_event['id_event'] . '1)" alt="">Répondre à l\'invitation</a>';
+                    $info_event['participation'] = '<a id="joinEvent" href="#" onClick="joinEvent(' . $info_event['id_user'] . ', ' . $info_event['id_event'] . ',1)" alt="">Répondre à l\'invitation</a>';
                 } else {
-                    $info_event['participation'] = '<a id="joinEvent" href="#" onClick="joinEvent(' . $info_event['id_user'] . ', ' . $info_event['id_event'] . '0)" alt="">S\'inscrire</a>';
+                    $info_event['participation'] = '<a id="joinEvent" href="#" onClick="joinEvent(' . $info_event['id_user'] . ', ' . $info_event['id_event'] . ',0)" alt="">S\'inscrire</a>';
                 }
             } else {
-                $info_event['participation'] = "<p>Vous êtes inscrits</p>";
-            }
+                $info_event['participation'] = '<p>Vous êtes inscrit <a id="quitEvent" href="#" onClick="quitEvent(' . $info_event['id_user'] . ', ' . $info_event['id_event'] . ')" alt="">(se désinscrire)</a></p>';
+            }*/
 			
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);

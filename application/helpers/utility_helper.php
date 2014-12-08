@@ -87,6 +87,28 @@ if ( ! function_exists('get_my_events')) {
 	}
 }
 
+if ( ! function_exists('get_participation_link')) {
+    function get_participation_link($id_user, $id_event, $private) {
+         
+        // Get a reference to the controller object
+        $CI = get_instance();
+        $CI->load->model('user','',TRUE);
+        $CI->load->model('event','',TRUE);
+
+        $participationLink = "";        
+        if ($CI->event->is_participation($id_user, $id_event) == 0) {
+            if ($private == 1) {
+                $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_user . ', ' . $id_event . ', 1)" alt="">Répondre à l\'invitation</a>';
+            } else {
+                $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_user . ', ' . $id_event . ', 0)" alt="">S\'inscrire</a>';
+            }
+        } else {
+            $participationLink = '<p>Vous êtes inscrit <a id="quitEvent" href="#" onClick="quitEvent(' . $id_user . ', ' . $id_event . ', ' . $private . ')" alt="">(se désinscrire)</a></p>';
+        }
+        return $participationLink;
+    }
+}
+
 if ( ! function_exists('get_region_scrollbox')) {
     function get_region_scrollbox() {
         return get_region_scrollbox_with_selected("");

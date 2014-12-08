@@ -107,11 +107,7 @@ $(document).ready(function(){
         --keywordNbr;
         var indexKeyword = keywordNbr;
 		//the clearer div
-<<<<<<< HEAD
-		$( ".clearer" ).each(function( index ) {
-=======
 		$( ".clearerK" ).each(function( index ) {
->>>>>>> 7092b248c36ccd1aafe0b420e10c4707e31e1782
             $(this).attr('id', "clearK" + indexKeyword--);
         });
         indexKeyword = keywordNbr;
