@@ -37,7 +37,7 @@ $(document).ready(function(){
     $("#addActivity").click(function(){
         ++activityNbr;
 		$("#activitySuperContainer").append(
-            '<div id="clear' + activityNbr +'" class="clearer"></div>\
+            '<div id="clearA' + activityNbr +'" class="clearer clearerA"></div>\
             <div id="activity' + activityNbr +'" class="multi-input  activityContainer">\
                 <div class="col-sm-4"></div>\
                 <div class="inputActivityContainer col-sm-4">\
@@ -53,15 +53,15 @@ $(document).ready(function(){
         var deletedActivityNbr = $(this).attr('id').substring(14);
         
         //delete the activity
-		$("#clear" + deletedActivityNbr).remove();
+		$("#clearA" + deletedActivityNbr).remove();
 		$("#activity" + deletedActivityNbr).remove();
         
         //renumber the other activites
         --activityNbr;
         var indexActivity = activityNbr;
 		//the clearer div
-		$( ".clearer" ).each(function( index ) {
-            $(this).attr('id', "clear" + indexActivity--);
+		$( ".clearerA" ).each(function( index ) {
+            $(this).attr('id', "clearA" + indexActivity--);
         });
         indexActivity = activityNbr;
 		//the multi-input div
@@ -85,7 +85,7 @@ $(document).ready(function(){
     $("#addKeyword").click(function(){
         ++keywordNbr;
         $("#keywordSuperContainer").append(
-			'<div id="clearK' + keywordNbr +'" class="clearer"></div>\
+			'<div id="clearK' + keywordNbr +'" class="clearer clearerK"></div>\
 			<div id="keyword' + keywordNbr +'" class="multi-input keywordContainer">\
 			<div class="col-sm-4"></div>\
 			<div class="inputKeywordContainer col-sm-4">\
@@ -107,7 +107,11 @@ $(document).ready(function(){
         --keywordNbr;
         var indexKeyword = keywordNbr;
 		//the clearer div
+<<<<<<< HEAD
 		$( ".clearer" ).each(function( index ) {
+=======
+		$( ".clearerK" ).each(function( index ) {
+>>>>>>> 7092b248c36ccd1aafe0b420e10c4707e31e1782
             $(this).attr('id', "clearK" + indexKeyword--);
         });
         indexKeyword = keywordNbr;
@@ -132,11 +136,11 @@ $(document).ready(function(){
     $("#addChecklistItem").click(function(){
         ++checklistItemNbr;
         $("#checklistSuperContainer").append(
-			'<div id="clearC' + checklistItemNbr + '" class="clearer"></div>\
+			'<div id="clearC' + checklistItemNbr + '" class="clearer clearerC"></div>\
 			<div id="checklist' + checklistItemNbr + '" class="multi-input checklistContainer">\
 			<div class="col-sm-4"></div>\
 			<div class="inputChecklistContainer col-sm-4">\
-			<input type="text" class="form-control" name="inputChecklistItem' + checklistItemNbr + '" id="inputChecklistItem' + checklistItemNbr + '" placeholder="Chose à faire/prendre">\
+			<input type="text" class="form-control inputChecklistItem" name="inputChecklistItem' + checklistItemNbr + '" id="inputChecklistItem' + checklistItemNbr + '" placeholder="Chose à faire/prendre">\
 			</div>\
 			<div class="removeChecklistContainer col-sm-2">\
 			<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem' + checklistItemNbr + '" class="btn btn-primary">-</button>\
@@ -151,18 +155,18 @@ $(document).ready(function(){
 		$("#checklist" + deletedChecklistItemNbr).remove();
 		//renumber the other keywords
         --checklistItemNbr;
-        var indexKeyword = checklistItemNbr;
+        var indexChecklistItem = checklistItemNbr;
 		//the clearer div
-		$( ".clearer" ).each(function( index ) {
-            $(this).attr('id', "clearC" + indexActivity--);
+		$( ".clearerC" ).each(function( index ) {
+            $(this).attr('id', "clearC" + indexChecklistItem--);
         });
-        indexActivity = activityNbr;
+        indexChecklistItem = checklistItemNbr;
 		//the multi-input div
 		$( ".checklistContainer" ).each(function( index ) {
-            $(this).attr('id', "checklist" + indexActivity--);
+            $(this).attr('id', "checklist" + indexChecklistItem--);
         });
         //renumber the other checklistItem
-        var indexChecklistItem = checklistItemNbr;
+        indexChecklistItem = checklistItemNbr;
         $( ".inputChecklist" ).each(function( index ) {
             $(this).attr('id', "inputChecklistItem" + indexChecklistItem);
             $(this).attr('name', "inputChecklistItem" + indexChecklistItem);
@@ -241,7 +245,7 @@ $(document).ready(function(){
 			<button type="button" id="addActivity" class="btn btn-primary">Ajouter une activité</button>          
         </div>
 		
-		<div id="clear1" class="clearer"></div>
+		<div id="clearA1" class="clearer clearerA"></div>
 		<div id="activity1" class="multi-input activityContainer">
 			<div class="col-sm-4"></div>
 			<div class="inputActivityContainer col-sm-4">
@@ -268,7 +272,7 @@ $(document).ready(function(){
 			<button type="button" id="addKeyword" class="btn btn-primary">Ajouter un mot-clé</button>        
         </div>
 		
-		<div id="clearK1" class="clearer"></div>
+		<div id="clearK1" class="clearer clearerK"></div>
 		<div id="keyword1" class="multi-input keywordContainer">
 			<div class="col-sm-4"></div>
 			<div class="inputKeywordContainer col-sm-4">
@@ -286,11 +290,11 @@ $(document).ready(function(){
 			<button type="button" id="addChecklistItem" class="btn btn-primary">Ajouter quelque chose</button>
         </div>
 		
-		<div id="clearC1" class="clearer"></div>
+		<div id="clearC1" class="clearer clearerC"></div>
 		<div id="checklist1" class="multi-input checklistContainer">
 			<div class="col-sm-4"></div>
 			<div class="inputChecklistContainer col-sm-4">
-				<input type="text" class="form-control inputChecklist" name="inputChecklistItem1" id="inputChecklistItem1" placeholder="Chose à faire/prendre">
+				<input type="text" class="form-control inputChecklistItem" name="inputChecklistItem1" id="inputChecklistItem1" placeholder="Chose à faire/prendre">
 			</div>
 			<div class="removeChecklistContainer col-sm-2">
             	<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem1" class="btn btn-primary">-</button>

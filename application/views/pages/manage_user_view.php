@@ -188,7 +188,6 @@ function suppressAccount() {
 			Gestion de ton compte
 		</h1>
 
-<<<<<<< HEAD
 		<div class="form-group"> 
 			<label id="actualFirstname" for="changeFirstname" class="col-sm-3 control-label"><?php echo $user['firstname']; ?></label>
 			<div class="col-sm-4">
@@ -225,6 +224,18 @@ function suppressAccount() {
 				<button value="changeRegion" class="btn btn-default" onClick="changeRegion()">Modifier</button>
 			</div>
 		</div>
+        
+        <div class="clearer"></div>
+		<div class="form-group multi-input"> 
+			<label id="actualBirthdate" for="changeBirthdate" class="col-sm-3 control-label"><?php echo $user['birthdate']; ?></label>
+			<div class="col-sm-4">
+				<input type="date" class="pull-center form-control" id="changeBirthdate" placeholder="Changer date de naissance">
+				<span id="birthdateInfo"></span>
+			</div>
+			<div class="col-sm-4">
+				<button value="changeBirthdate" class="btn btn-default" onClick="changeBirthdate()">Modifier</button>
+			</div>
+		</div>
 		
 		<div class="clearer"></div>
 		<div class="form-group multi-input"> 
@@ -254,50 +265,6 @@ function suppressAccount() {
 		
 		<div class="clearer"></div>
 		<div class="form-group multi-input"> 
-			<button type="submit" value="suppressUser" class="btn btn-danger btn-lg">Supprimer le compte</button>
+			<button value="suppressUser" class="btn btn-danger btn-lg" onClick="suppressAccount()">Supprimer le compte</button>
 		</div>
 	</div>
-=======
-<div class="col-md-12 white-bloc centred">
-	<h1 class="text-centred">
-		Gestion du compte
-	</h1>
-	<p class="bloc-info"> 
-        <label id="actualFirstname" for="changeFirstname" class="">Prénom : <?php echo $user['firstname']; ?></label>
-        <input type="text" class="pull-center" id="changeFirstname" placeholder="Modifer prénom">
-        <button value="changeFirstname" class="btn btn-default btn-lg" onClick="changeFirstname()">Modifier</button>
-        <span id="firstnameInfo"></span>
-	</p>
-    <p class="bloc-info"> 
-        <label id="actualSurname" for="changeSurname" class="">Nom de famille : <?php echo $user['surname']; ?></label>
-        <input type="text" class="pull-center" id="changeSurname" placeholder="Modifer nom de famille">
-        <button value="changeSurname" class="btn btn-default btn-lg" onClick="changeSurname()">Modifier</button>
-        <span id="surnameInfo"></span>
-	</p>
-    <p class="bloc-info"> 
-        <label for="changePassword" class="">Mot de passe</label>
-        <input type="password" class="pull-center" id="oldPassword" placeholder="Ancien mot de passe">
-        <input type="password" class="pull-center" id="newPassword" placeholder="Nouveau mot de passe">
-        <input type="password" class="pull-center" id="confirmPassword" placeholder="Confirme le mot de passe">
-        <button value="changePassword" class="btn btn-default btn-lg" onClick="changePassword()">Modifier</button>
-        <span id="passwordInfo"></span>
-	</p>
-    <p class="bloc-info"> 
-        <label id="actualBirthdate" for="changeBirthdate" class="">Date de naissance : <?php echo $user['birthdate']; ?></label>
-        <input type="date" class="pull-center" id="changeBirthdate" placeholder="Changer date de naissance">
-        <button value="changeBirthdate" class="btn btn-default btn-lg" onClick="changeBirthdate()">Modifier</button>
-        <span id="birthdateInfo"></span>
-    </p>
-    <p class="bloc-info"> 
-        <label id="actualRegion" for="changeRegion" class="">Région : <?php echo $user['region']; ?></label>
-        <select id="changeRegion" class="pull-center" name="changeRegion" placeholder="Modifer région">
-            <?php echo $regions; ?>
-        </select>
-        <button value="changeRegion" class="btn btn-default btn-lg" onClick="changeRegion()">Modifier</button>
-        <span id="regionInfo"></span>
-    </p>
-    <p class="boc-info">
-        <button value="suppressUser" class="btn btn-default btn-lg" onClick="suppressAccount()">Supprimer le compte</button>
-    </p>
-</div>
->>>>>>> 55e9a5170af6420f5b34547563d9566a57a92815
