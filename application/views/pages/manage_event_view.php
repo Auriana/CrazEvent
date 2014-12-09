@@ -236,7 +236,6 @@ $(document).ready(function(){
 
     <div id ="activitySuperContainer" class="form-group">
         <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>
-<<<<<<< HEAD
         <div id="addActivityContainer" class="col-sm-6">
 			<button type="button" id="addActivity" class="btn btn-primary">Ajouter une activité</button>
 		</div>
@@ -260,23 +259,6 @@ $(document).ready(function(){
 				}
 			}
 		?>      
-=======
-        <div id="activitySuperContainer" class="col-sm-6">
-            <?php
-                if(isset($eventActivities)) {
-                    $activityNumber = 1;
-                    echo '<span id="activity1Error"></span>';
-                    foreach ($eventActivities as $activity)
-                    {
-                        echo '<input type="text" class="form-control inputActivity" name="inputActivity'.$activityNumber.'" id="inputActivity'.$activityNumber.'" placeholder="Entre une activité" value="'.$activity.'">';
-                        echo '<button type="button" class="btn btn-primary removeActivity" id="removeActivity'.$activityNumber.'" class="btn btn-primary">-</button>';
-                        ++$activityNumber;
-                    }
-                }
-            ?>
-        </div>
-        <button type="button" id="addActivity" class="btn btn-primary">+</button>
->>>>>>> origin/master
     </div>
 
     <div class="form-group">
@@ -316,7 +298,7 @@ $(document).ready(function(){
     <div id ="checklistSuperContainer" class="form-group">
         <label for="inputChecklist" class="col-sm-4 control-label">Checklist</label>
         <div id="addChecklistContainer" class="col-sm-6">
-			 <button type="button" id="addChecklistItem" class="btn btn-primary">Chose à faire/prendre</button>
+			 <button type="button" id="addChecklistItem" class="btn btn-primary">Ajouter une chose à faire/prendre</button>
 		</div>            
 		<?php
 			if(isset($eventChecklist)) {
