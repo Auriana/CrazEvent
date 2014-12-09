@@ -107,11 +107,7 @@ $(document).ready(function(){
         --keywordNbr;
         var indexKeyword = keywordNbr;
 		//the clearer div
-<<<<<<< HEAD
-		$( ".clearer" ).each(function( index ) {
-=======
 		$( ".clearerK" ).each(function( index ) {
->>>>>>> 7092b248c36ccd1aafe0b420e10c4707e31e1782
             $(this).attr('id', "clearK" + indexKeyword--);
         });
         indexKeyword = keywordNbr;
@@ -248,7 +244,7 @@ $(document).ready(function(){
 		<div id="clearA1" class="clearer clearerA"></div>
 		<div id="activity1" class="multi-input activityContainer">
 			<div class="col-sm-4"></div>
-			<div class="inputActivityContainer col-sm-4">
+			<div class="inputActivityContainer colK-sm-4">
 				<input type="text" class="form-control inputActivity" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
 				<span id="activity1Error"></span>		
 			</div>
