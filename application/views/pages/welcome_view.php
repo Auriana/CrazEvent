@@ -1,5 +1,5 @@
 <?php echo validation_errors(); ?>
-<?php echo form_open('verify_login', 'class="form-horizontal" role="form"'); ?>
+<?php echo form_open('welcome/login', 'class="form-horizontal" role="form"'); ?>
 <div class="intro-header">
 	<div class="container">
 		<div class="row">

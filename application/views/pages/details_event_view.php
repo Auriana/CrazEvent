@@ -8,18 +8,36 @@ function joinEvent(idUser, idEvent, private) {
 
     success: function (obj, textstatus) {
                   if( !('error' in obj) ) {
-                      $('#link-answer').html('<p>Vous êtes inscrits</p>');
+                      $('#link-answer').html(obj.result);
                   }
                   else {
                       console.log(obj.error);
                   }
             }
-});
+    });
 }
+function quitEvent(idUser, idEvent, private) {
+    $.ajax({
+    type: "POST",
+    url: '/manage_user/quit_event',
+    dataType: 'json',
+    data: {arguments: [idUser, idEvent, private]},
+
+    success: function (obj, textstatus) {
+                  if( !('error' in obj) ) {
+                      $('#link-answer').html(obj.result);
+                  }
+                  else {
+                      console.log(obj.error);
+                  }
+            }
+    });
+}
+
 function cancelEvent(idEvent) {
     var r = confirm("Annuler l'évènement ?");
     if (r == true) {
-        window.location.href="/manage_event/cancel_event/" + idEvent;
+        window.location.href="/manage_event/cancel/" + idEvent;
     }
 }
 </script>
@@ -28,10 +46,10 @@ function cancelEvent(idEvent) {
 	<h1 class="text-centred">
 		<?php echo $event->name; ?>
 	</h1>
-        <?php
+    <?php
         if($event->organizer == $id_user) {
             echo '<h5>
-                    <a href="'.base_url().'manage_event/index/'.$event->id.'">Modifier l\'évènement</a>
+                    <a href="'.base_url().'manage_event/management/'.$event->id.'">Modifier l\'évènement</a>
                 </h5>';
             echo '<h5>
                     <button onclick="cancelEvent('.$event->id.')">Annuler l\'évènement</button>

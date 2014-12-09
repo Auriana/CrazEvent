@@ -46,7 +46,7 @@ function calendar() {
 </script>
 
 <?php echo validation_errors(); ?>
-<?php echo form_open( 'verify_create_user', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
+<?php echo form_open( 'create_user/create', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
 <div class="container theme-showcase" role="main">
 <div class="col-md-6 white-bloc centred marg-top">
 	<h1 class="text-centred">

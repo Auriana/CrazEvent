@@ -7,8 +7,13 @@ if ( ! function_exists('asset_url')) {
 	}
 }
 
-if ( ! function_exists('login')) {
-    function login($email, $password) {
+/**
+* Log in a user.
+* Create a codeIgniter session array containing the logged user's infos.
+* return : success of logging in.
+*/
+if ( ! function_exists('login_utility')) {
+    function login_utility($email, $password) {
          
         // Get a reference to the controller object
         $CI = get_instance();
@@ -44,8 +49,9 @@ if ( ! function_exists('login')) {
 
 
 
-/*
-* Sélectionner les 10 derniers nouveaux évènements 
+/**
+* Select 10 last new events that a user can participate to.
+* return : display list of the events.
 */
 if ( ! function_exists('get_new_events')) {
     function get_new_events($id_user) {
@@ -67,6 +73,10 @@ if ( ! function_exists('get_new_events')) {
 	}
 }
 
+/**
+* Select 10 last events that a user participate to.
+* return : display list of the events.
+*/
 if ( ! function_exists('get_my_events')) {
     function get_my_events($id_user) {
          
@@ -87,10 +97,43 @@ if ( ! function_exists('get_my_events')) {
 	}
 }
 
+/**
+* return : a link to handle user participation to an event.
+*/
+if ( ! function_exists('get_participation_link')) {
+    function get_participation_link($id_user, $id_event, $private) {
+         
+        // Get a reference to the controller object
+        $CI = get_instance();
+        $CI->load->model('user','',TRUE);
+        $CI->load->model('event','',TRUE);
+
+        $participationLink = "";        
+        if ($CI->event->is_participation($id_user, $id_event) == 0) {
+            if ($private == 1) {
+                $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_user . ', ' . $id_event . ', 1)" alt="">Répondre à l\'invitation</a>';
+            } else {
+                $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_user . ', ' . $id_event . ', 0)" alt="">S\'inscrire</a>';
+            }
+        } else {
+            $participationLink = '<p>Vous êtes inscrit <a id="quitEvent" href="#" onClick="quitEvent(' . $id_user . ', ' . $id_event . ', ' . $private . ')" alt="">(se désinscrire)</a></p>';
+        }
+        return $participationLink;
+    }
+}
+
 if ( ! function_exists('get_region_scrollbox')) {
+    /**
+    * return : a display scrollbox of the available regions
+    */
     function get_region_scrollbox() {
         return get_region_scrollbox_with_selected("");
 	}
+    /**
+    * parameters :
+    *   selectedRegionContent : the value of the content to be selected by default by the scrollbox
+    * return : a display scrollbox of the available regions. The default selected region is parametrize
+    */
     function get_region_scrollbox_with_selected($selectedRegionContent) {
                  
         // Get a reference to the controller object

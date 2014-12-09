@@ -1,17 +1,22 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
+    
+    function __construct() {
+       parent::__construct();
+       $this->load->model('user','',TRUE);
+    }
 
-	public function index()
-	{
+    /**
+    * Access to the welcome page.
+    * The welcome page is accessed only when logged out.
+    */
+	public function index() {
         //if user is logged in : redirection to home page
-        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
-        {
+        if($this->session->userdata('logged_in')) {
             redirect('home', 'refresh');
-        }
         //else propose login form
-        else
-        {         
+        } else {         
             $data['title'] = "Bienvenue";
         
             $this->load->helper(array('form'));
@@ -20,4 +25,28 @@ class Welcome extends CI_Controller {
             $this->load->view('templates/footer');
         }
 	}
+    
+    function login() {
+       //This method will have the credentials validation
+       $this->load->library('form_validation');
+
+       $this->form_validation->set_rules('inputEmail', 'inputEmail', 'trim|required|xss_clean');
+       $this->form_validation->set_rules('inputPassword', 'inputPassword', 'trim|required|xss_clean');
+
+       if($this->form_validation->run() == FALSE) {
+         //Field validation failed.  User redirected to create_user page
+        redirect('welcome', 'refresh');
+       } else {
+         //Log in the user
+         $login = login_utility($this->input->post('inputEmail'), $this->input->post('inputPassword'));
+
+         //Go to private area
+         if ($login) {
+            redirect('home', 'refresh');
+         } else {
+            redirect('welcome', 'refresh');
+         }
+       }
+
+     }
 }

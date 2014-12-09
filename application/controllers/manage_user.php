@@ -66,9 +66,37 @@ class Manage_User extends CI_Controller {
                    $id_event = $_POST['arguments'][1];
                    $private = $_POST['arguments'][2];
                    
-                   $result = $this->event->join_event($id_user, $id_event);
+                   if($private == 1) {
+                        $result = $this->event->join_private_event($id_user, $id_event);
+                   } else {
+                       $result = $this->event->join_public_event($id_user, $id_event);
+                   }
                    
-                   $aResult['result'] = 'success';
+                   $aResult['result'] = get_participation_link($id_user, $id_event, $private);
+               }
+        }
+
+        echo json_encode($aResult);
+    }
+    
+    function quit_event()
+    {
+        $aResult = array();
+
+        if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
+
+        if( !isset($aResult['error']) ) {
+               if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 3) ) {
+                   $aResult['error'] = 'Error in arguments!';
+               }
+               else {
+                   $id_user = $_POST['arguments'][0];
+                   $id_event = $_POST['arguments'][1];
+                   $private = $_POST['arguments'][2];
+                   
+                   $result = $this->event->quit_event($id_user, $id_event);
+                   
+                   $aResult['result'] = get_participation_link($id_user, $id_event, $private);
                }
         }
 

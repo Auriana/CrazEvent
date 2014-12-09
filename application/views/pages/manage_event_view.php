@@ -177,7 +177,7 @@ $(document).ready(function(){
 </script>
 
 <?php echo validation_errors();?>
-<?php echo form_open( 'verify_create_event/update_event/'. $event->id, 'name="eventUpdate" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
+<?php echo form_open( 'manage_event/update/'. $event->id, 'name="eventUpdate" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
 <div class="container theme-showcase" role="main">
 <div class="col-md-12 white-bloc centred">
 	<h1 class="text-centred">
@@ -236,6 +236,7 @@ $(document).ready(function(){
 
     <div id ="activitySuperContainer" class="form-group">
         <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>
+<<<<<<< HEAD
         <div id="addActivityContainer" class="col-sm-6">
 			<button type="button" id="addActivity" class="btn btn-primary">Ajouter une activité</button>
 		</div>
@@ -259,6 +260,23 @@ $(document).ready(function(){
 				}
 			}
 		?>      
+=======
+        <div id="activitySuperContainer" class="col-sm-6">
+            <?php
+                if(isset($eventActivities)) {
+                    $activityNumber = 1;
+                    echo '<span id="activity1Error"></span>';
+                    foreach ($eventActivities as $activity)
+                    {
+                        echo '<input type="text" class="form-control inputActivity" name="inputActivity'.$activityNumber.'" id="inputActivity'.$activityNumber.'" placeholder="Entre une activité" value="'.$activity.'">';
+                        echo '<button type="button" class="btn btn-primary removeActivity" id="removeActivity'.$activityNumber.'" class="btn btn-primary">-</button>';
+                        ++$activityNumber;
+                    }
+                }
+            ?>
+        </div>
+        <button type="button" id="addActivity" class="btn btn-primary">+</button>
+>>>>>>> origin/master
     </div>
 
     <div class="form-group">
