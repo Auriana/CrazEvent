@@ -1,4 +1,6 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
+<script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>
 <script>
     function validateForm() {
         var isValid = true;
@@ -31,6 +33,17 @@ $(document).ready(function(){
     /*
     * script to handle form control
     */
+    //using JQueryUI with an add-on to handle date and time picking
+    $('#inputDate').datetimepicker({
+       dateFormat: "yy-mm-dd",
+	   timeFormat: "hh:mm:ss"
+    });
+    //using JQueryUI with an add-on to handle date and time picking
+    $('#inputJoinDate').datetimepicker({
+       dateFormat: "yy-mm-dd",
+	   timeFormat: "hh:mm:ss"
+    });
+    
     var activityNbr = $('.inputActivity').length;
     var keywordNbr = $('.inputKeyword').length;
     var checklistItemNbr = $('.inputChecklistItem').length;
@@ -205,7 +218,7 @@ $(document).ready(function(){
     <div class="form-group">
         <label for="inputDate" class="col-sm-4 control-label">Date de début</label>
         <div class="col-sm-2">
-            <input type="date" class="form-control" name="inputDate" id="inputDate" placeholder="" value="<?php echo $event->start_date; ?>">
+            <input type="text" class="form-control" name="inputDate" id="inputDate" placeholder="" value="<?php echo $event->start_date; ?>">
         </div>
         <!--<button type="button" class="btn btn-primary">Cal</button>-->
     </div>
@@ -351,7 +364,7 @@ $(document).ready(function(){
     <div class="form-group">
         <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
         <div class="col-sm-2">
-            <input type="date" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="Entre une date" value="<?php echo $event->inscription_deadline ?>">
+            <input type="text" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="Entre une date" value="<?php echo $event->inscription_deadline ?>">
         </div>
         <!--<button type="button" class="btn btn-primary">Cal</button>-->
     </div>

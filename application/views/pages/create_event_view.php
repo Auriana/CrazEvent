@@ -1,7 +1,8 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
+<script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>	
 <script>
-    function validateForm() {
+    function validateForm() {            
         var isValid = true;
         if ($("#inputEventName").val() == "") {
             $("#nameError").text("Le nom est obligatoire");
@@ -29,9 +30,22 @@
     }
     
 $(document).ready(function(){
+    
     /*
     * script to handle form control
     */
+    //using JQueryUI with an add-on to handle date and time picking
+    $('#inputDate').datetimepicker({
+       dateFormat: "yy-mm-dd",
+	   timeFormat: "hh:mm:ss"
+    });
+    //using JQueryUI with an add-on to handle date and time picking
+    $('#inputJoinDate').datetimepicker({
+       dateFormat: "yy-mm-dd",
+	   timeFormat: "hh:mm:ss"
+    });
+    
+    //controls to modify the form
     var activityNbr = $('.inputActivity').length;
     var keywordNbr = $('.inputKeyword').length;
     var checklistItemNbr = $('.inputChecklistItem').length;
@@ -207,7 +221,7 @@ $(document).ready(function(){
     <div class="form-group">
         <label for="inputDate" class="col-sm-4 control-label">Date de début</label>
         <div class="col-sm-2">
-            <input type="date" class="form-control" name="inputDate" id="inputDate" placeholder="">
+            <input type="text" class="form-control" name="inputDate" id="inputDate" placeholder="">
         </div>
         <!--<button type="button" class="btn btn-primary">Cal</button>-->
     </div>
@@ -245,7 +259,7 @@ $(document).ready(function(){
 		<div id="clearA1" class="clearer clearerA"></div>
 		<div id="activity1" class="multi-input activityContainer">
 			<div class="col-sm-4"></div>
-			<div class="inputActivityContainer colK-sm-4">
+			<div class="inputActivityContainer col-sm-4">
 				<input type="text" class="form-control inputActivity" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
 				<span id="activity1Error"></span>		
 			</div>

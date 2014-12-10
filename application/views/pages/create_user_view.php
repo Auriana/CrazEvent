@@ -1,45 +1,47 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
 <script>
-function calendar() {
-    $("#inputBirthdate").datepicker();    
-}
-</script>
-<script>
-function validateForm() {
-    var isValid = true;
-    if ($("#inputFirstName").val() == "") {
-        $("#firstNameError").text("Le prénom est obligatoire");
-        isValid = false;
-    } else {
-        $("#firstNameError").text("");
+    $(document).ready(function(){
+        //using JQueryUI to handle date picking
+        $("#inputBirthdate").datepicker({
+           dateFormat: "yy-mm-dd"
+        });
+    });
+    
+    function validateForm() {
+        var isValid = true;
+        if ($("#inputFirstName").val() == "") {
+            $("#firstNameError").text("Le prénom est obligatoire");
+            isValid = false;
+        } else {
+            $("#firstNameError").text("");
+        }
+        if ($("#inputSurname").val() == "") {
+            $("#surnameError").text("Le nom de famille est obligatoire");
+            isValid = false;
+        } else {
+            $("#surnameError").text("");
+        }
+        if ($("#inputPassword").val() == "") {
+            $("#passwordError").text("Le mot de passe est obligatoire");
+            isValid = false;
+        } else {
+            $("#passwordError").text("");
+        }
+        if ($("#inputBirthdate").val() == "") {
+            $("#birthdateError").text("La date de naissance est obligatoire");
+            isValid = false;
+        } else {
+            $("#birthdateError").text("");
+        }
+        if ($("#inputEmail").val() == "") {
+            $("#emailError").text("Un email est obligatoire");
+            isValid = false;
+        } else {
+            $("#emailError").text("");
+        }
+        return isValid;
     }
-    if ($("#inputSurname").val() == "") {
-        $("#surnameError").text("Le nom de famille est obligatoire");
-        isValid = false;
-    } else {
-        $("#surnameError").text("");
-    }
-    if ($("#inputPassword").val() == "") {
-        $("#passwordError").text("Le mot de passe est obligatoire");
-        isValid = false;
-    } else {
-        $("#passwordError").text("");
-    }
-    if ($("#inputBirthdate").val() == "") {
-        $("#birthdateError").text("La date de naissance est obligatoire");
-        isValid = false;
-    } else {
-        $("#birthdateError").text("");
-    }
-    if ($("#inputEmail").val() == "") {
-        $("#emailError").text("Un email est obligatoire");
-        isValid = false;
-    } else {
-        $("#emailError").text("");
-    }
-    return isValid;
-}
 </script>
 
 <?php echo validation_errors(); ?>
