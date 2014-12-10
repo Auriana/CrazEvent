@@ -1,4 +1,10 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
+<script>
+function calendar() {
+    $("#inputBirthdate").datepicker();    
+}
+</script>
 <script>
 function validateForm() {
     var isValid = true;
@@ -35,15 +41,6 @@ function validateForm() {
     return isValid;
 }
 </script>
-<script>
-//	$(function() {
-//		$( "#inputBirthdate" ).datepicker();
-//	});
-
-function calendar() {
-    datepicker();
-};
-</script>
 
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'create_user/create', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
@@ -79,7 +76,7 @@ function calendar() {
     <div class="form-group">
         <label for="inputBirthdate" class="col-sm-4 control-label">Date de naissance</label>
         <div class="col-sm-8">
-            <input type="date" class="form-control" id="inputBirthdate" name="inputBirthdate" onclick="calendar() "placeholder="Entre ta date de naissance">
+            <input type="text" id="inputBirthdate" name="inputBirthdate"class="form-control" placeholder="Entre ta date de naissance">
             <span id="birthdateError"></span>
         </div>
     </div>
