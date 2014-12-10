@@ -59,6 +59,20 @@ Class User extends CI_Model
         return $returnValue;
     }
     
+    function remove_contact($id_user, $id_contact)
+    {
+        $this->db->where('user_id1', $id_user);
+        $this->db->where('user_id2', $id_contact);
+        $this->db->delete('friendship');
+    }
+    
+    function get_contacts($id_user)
+    {
+        $query = $this->db->query("select user.id, firstname, surname from user inner join friendship on user_id1 = " . $id_user . " where user.id = friendship.user_id2");
+
+        return $query->result();
+    }
+    
     function is_friend($id_user, $id_contact)
     {
         $query = $this->db->query("select is_friendship(" . $id_user . ", " . $id_contact . ")");

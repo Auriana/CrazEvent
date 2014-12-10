@@ -68,7 +68,14 @@ class Search extends CI_Controller {
         echo $resultTable;
     }
     
-    function add_user($id_user, $id_contact) {
+    function get_contacts() {        
+        $session_data = $this->session->userdata('logged_in');
+        $id_user = $session_data['id'];
+        
+        $result = $this->user->get_contacts($id_user);
+
+        
+        echo $resultTable;
     }
     
     /**

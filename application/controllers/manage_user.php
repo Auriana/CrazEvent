@@ -20,12 +20,49 @@ class Manage_User extends CI_Controller {
 
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/manage_user_view', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/sticky-footer');
         }
         else
         {  
             redirect('welcome', 'refresh');
         }
+    }
+    
+    function contact()
+    {
+        //if user is not logged in : redirection to welcome page
+        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
+        {
+            $data['title'] = 'Mes contacts';
+            $session_data = $this->session->userdata('logged_in');
+            $data['user'] = $session_data;
+
+            $this->load->view('templates/header_logged_in', $data);
+            $this->load->view('pages/manage_contact_view', $data);
+            $this->load->view('templates/sticky-footer');
+        }
+        else
+        {  
+            redirect('welcome', 'refresh');
+        }
+    }
+    
+    function get_contacts()
+    {
+        $contacts = $this->user->get_contacts($session_data = $this->session->userdata('logged_in')['id']);
+        
+        $contactTable =  "<ul class='result_search'>";
+
+        foreach($contacts as $row) {
+          $contactTable .= "<div id='removeContact" . $row -> id . "'>";
+          $contactTable .= "<li>" . $row -> firstname . " " . $row -> surname;
+          $contactTable .= "<div class='list_contact'><button class='btn btn-default btn-xs' onClick='removeContact(" . $row -> id . ")'>Retirer</a></button>";
+          $contactTable .= "</li></div>";
+        }
+        
+        $contactTable .=  "</ul";
+        
+        echo $contactTable;
     }
     
     function add_contact()
@@ -43,6 +80,29 @@ class Manage_User extends CI_Controller {
                    $id_contact = $_POST['arguments'][1];
                    
                    $result = $this->user->add_contact($id_user, $id_contact);
+                   
+                   $aResult['result'] = 'success';
+               }
+        }
+
+        echo json_encode($aResult);
+    }
+    
+    function remove_contact()
+    {
+        $aResult = array();
+
+        if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
+
+        if( !isset($aResult['error']) ) {
+               if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 1) ) {
+                   $aResult['error'] = 'Error in arguments!';
+               }
+               else {
+                   $id_contact = $_POST['arguments'][0];
+                   $id_user = $session_data = $this->session->userdata('logged_in')['id'];
+                
+                   $result = $this->user->remove_contact($id_user, $id_contact);
                    
                    $aResult['result'] = 'success';
                }

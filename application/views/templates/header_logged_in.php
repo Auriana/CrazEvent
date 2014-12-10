@@ -40,7 +40,7 @@
 					<ul class="nav navbar-nav">
 					<!-- search through the appli here -->
 						<li><a href="<?php echo base_url().'calendar'; ?>">Mon agenda</a></li>
-						<li><a href="#MesContacts">Mes contacts</a></li>
+						<li><a href="<?php echo base_url().'manage_user/contact'; ?>">Mes contacts</a></li>
 						<li><a href="#MesNotifications">Mes notifications</a></li>
 						<li><a href="<?php echo base_url().'manage_user'; ?>">Mon profil</a></li>
 						<li><a href="<?php echo base_url().'home/logout'; ?>">Déconnexion</a></li>
