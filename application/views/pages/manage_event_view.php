@@ -37,7 +37,7 @@ $(document).ready(function(){
     $("#addActivity").click(function(){
         ++activityNbr;
 		$("#activitySuperContainer").append(
-            '<div id="clear' + activityNbr +'" class="clearer"></div>\
+            '<div id="clearA' + activityNbr +'" class="clearer clearerA"></div>\
             <div id="activity' + activityNbr +'" class="multi-input  activityContainer">\
                 <div class="col-sm-4"></div>\
                 <div class="inputActivityContainer col-sm-4">\
@@ -48,19 +48,20 @@ $(document).ready(function(){
                 </div>\
             </div>');	
     });
+	
     $('body').on('click', '.removeActivity', function() {
         var deletedActivityNbr = $(this).attr('id').substring(14);
         
         //delete the activity
-		$("#clear" + deletedActivityNbr).remove();
+		$("#clearA" + deletedActivityNbr).remove();
 		$("#activity" + deletedActivityNbr).remove();
         
         //renumber the other activites
         --activityNbr;
         var indexActivity = activityNbr;
 		//the clearer div
-		$( ".clearer" ).each(function( index ) {
-            $(this).attr('id', "clear" + indexActivity--);
+		$( ".clearerA" ).each(function( index ) {
+            $(this).attr('id', "clearA" + indexActivity--);
         });
         indexActivity = activityNbr;
 		//the multi-input div
@@ -83,45 +84,86 @@ $(document).ready(function(){
 	
     $("#addKeyword").click(function(){
         ++keywordNbr;
-        $("#keywordContainer").append("<input type='text' class='form-control inputKeyword' id='inputKeyword" + keywordNbr + "' name='inputKeyword" + keywordNbr + "' placeholder='Entre un mot-clé'>");
-        $("#keywordContainer").append('<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword' + keywordNbr + '" class="btn btn-primary">-</button>');
+        $("#keywordSuperContainer").append(
+			'<div id="clearK' + keywordNbr +'" class="clearer clearerK"></div>\
+			<div id="keyword' + keywordNbr +'" class="multi-input keywordContainer">\
+			<div class="col-sm-4"></div>\
+			<div class="inputKeywordContainer col-sm-4">\
+			<input type="text" class="form-control" name="inputKeyword' + keywordNbr + '" id="inputKeyword' + keywordNbr + '" placeholder="Entre un mot-clé">\
+			</div>\
+			<div class="removeKeywordContainer col-sm-2">\
+			<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword' + keywordNbr + '" class="btn btn-primary">-</button>\
+			</div>\
+			</div>');
     });
+		
     $('body').on('click', '.removeKeyword', function() {
         var deletedKeywordNbr = $(this).attr('id').substring(13);
         
         //delete the keyword
-        $("#inputKeyword" + deletedKeywordNbr).remove();
-        $(this).remove();
-        
+		$("#clearK" + deletedKeywordNbr).remove();
+		$("#keyword" + deletedKeywordNbr).remove();
         //renumber the other keywords
         --keywordNbr;
         var indexKeyword = keywordNbr;
-        $( ".inputKeyword" ).each(function( index ) {
+		//the clearer div
+		$( ".clearerK" ).each(function( index ) {
+            $(this).attr('id', "clearK" + indexKeyword--);
+        });
+        indexKeyword = keywordNbr;
+		//the multi-input div
+		$( ".keywordContainer" ).each(function( index ) {
+            $(this).attr('id', "keyword" + indexKeyword--);
+        });
+        indexKeyword = keywordNbr;
+		//the input text
+		$( ".inputKeyword" ).each(function( index ) {
             $(this).attr('id', "inputKeyword" + indexKeyword);
             $(this).attr('name', "inputKeyword" + indexKeyword);
             --indexKeyword;
         });
-        indexKeyword = keywordNbr;
+		indexKeyword = keywordNbr;
+		//the remove button
         $( ".removeKeyword" ).each(function( index ) {
             $(this).attr('id', "removeKeyword" + indexKeyword--);
         });
-    });
+    });	
+	
     $("#addChecklistItem").click(function(){
         ++checklistItemNbr;
-        $("#checklistContainer").append("<input type='text' class='form-control inputChecklistItem' id='inputChecklistItem" + checklistItemNbr + "' name='inputChecklistItem" + checklistItemNbr + "' placeholder='Entre une chose à faire/prendre'>");
-        $("#checklistContainer").append('<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem' + checklistItemNbr + '" class="btn btn-primary">-</button>');
+        $("#checklistSuperContainer").append(
+			'<div id="clearC' + checklistItemNbr + '" class="clearer clearerC"></div>\
+			<div id="checklist' + checklistItemNbr + '" class="multi-input checklistContainer">\
+			<div class="col-sm-4"></div>\
+			<div class="inputChecklistContainer col-sm-4">\
+			<input type="text" class="form-control inputChecklistItem" name="inputChecklistItem' + checklistItemNbr + '" id="inputChecklistItem' + checklistItemNbr + '" placeholder="Chose à faire/prendre">\
+			</div>\
+			<div class="removeChecklistContainer col-sm-2">\
+			<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem' + checklistItemNbr + '" class="btn btn-primary">-</button>\
+			</div>\
+			</div>');
     });
     $('body').on('click', '.removeChecklistItem', function() {
         var deletedChecklistItemNbr = $(this).attr('id').substring(19);
         
         //delete the checklistItem
-        $("#inputChecklistItem" + deletedChecklistItemNbr).remove();
-        $(this).remove();
-        
-        //renumber the other checklistItem
+		$("#clearC" + deletedChecklistItemNbr).remove();
+		$("#checklist" + deletedChecklistItemNbr).remove();
+		//renumber the other keywords
         --checklistItemNbr;
         var indexChecklistItem = checklistItemNbr;
-        $( ".inputActivity" ).each(function( index ) {
+		//the clearer div
+		$( ".clearerC" ).each(function( index ) {
+            $(this).attr('id', "clearC" + indexChecklistItem--);
+        });
+        indexChecklistItem = checklistItemNbr;
+		//the multi-input div
+		$( ".checklistContainer" ).each(function( index ) {
+            $(this).attr('id', "checklist" + indexChecklistItem--);
+        });
+        //renumber the other checklistItem
+        indexChecklistItem = checklistItemNbr;
+        $( ".inputChecklist" ).each(function( index ) {
             $(this).attr('id', "inputChecklistItem" + indexChecklistItem);
             $(this).attr('name', "inputChecklistItem" + indexChecklistItem);
             --indexChecklistItem;
@@ -185,28 +227,38 @@ $(document).ready(function(){
     
     <div class="form-group">
         <label for="inputRegion" class="col-sm-4 control-label">Région</label>
-        <select id="inputRegion" name="inputRegion">
-            <?php echo $regions; ?>
-        </select>
+		<div class="col-sm-6">
+			<select id="inputRegion" name="inputRegion" class="form-control">
+				<?php echo $regions; ?>
+			</select>
+		</div>
     </div>
 
-    <div class="form-group">
+    <div id ="activitySuperContainer" class="form-group">
         <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>
-        <div id="activitySuperContainer" class="col-sm-6">
-            <?php
-                if(isset($eventActivities)) {
-                    $activityNumber = 1;
-                    echo '<span id="activity1Error"></span>';
-                    foreach ($eventActivities as $activity)
-                    {
-                        echo '<input type="text" class="form-control inputActivity" name="inputActivity'.$activityNumber.'" id="inputActivity'.$activityNumber.'" placeholder="Entre une activité" value="'.$activity.'">';
-                        echo '<button type="button" class="btn btn-primary removeActivity" id="removeActivity'.$activityNumber.'" class="btn btn-primary">-</button>';
-                        ++$activityNumber;
-                    }
-                }
-            ?>
-        </div>
-        <button type="button" id="addActivity" class="btn btn-primary">+</button>
+        <div id="addActivityContainer" class="col-sm-6">
+			<button type="button" id="addActivity" class="btn btn-primary">Ajouter une activité</button>
+		</div>
+		
+		<?php
+			if(isset($eventActivities)) {
+				$activityNumber = 1;
+				foreach ($eventActivities as $activity) {
+					echo '<div id="clearA'.$activityNumber.'" class="clearer clearerA"></div>';
+					echo '<div id="activity'.$activityNumber.'" class="multi-input activityContainer">';
+					echo '<div class="col-sm-4"></div>';
+					echo '<div class="inputActivityContainer col-sm-4">';
+					echo '<input type="text" class="form-control inputActivity" name="inputActivity'.$activityNumber.'" id="inputActivity'.$activityNumber.'" placeholder="Entre une activité" value="'.$activity.'">';
+					echo '<span id="activity1Error"></span>';
+					echo '</div>';
+					echo '<div class="removeActivityContainer col-sm-2">';
+					echo '<button type="button" class="btn btn-primary removeActivity" id="removeActivity'.$activityNumber.'" class="btn btn-primary">-</button>';
+					echo '</div>';
+					echo '</div>';
+					++$activityNumber;
+				}
+			}
+		?>      
     </div>
 
     <div class="form-group">
@@ -217,40 +269,55 @@ $(document).ready(function(){
 		</div>
     </div>
 
-    <div class="form-group">
+    <div id ="keywordSuperContainer" class="form-group">
         <label for="inputKeyword" class="col-sm-4 control-label">Mot(s)-clé(s)</label>
-        <div id="keywordContainer" class="col-sm-6">
-            <?php
-                if(isset($eventKeywords)) {
-                    $keywordNumber = 1;
-                    foreach ($eventKeywords as $keyword)
-                    {
-                        echo '<input type="text" class="form-control inputKeyword" name="inputKeyword'.$keywordNumber.'" id="inputKeyword'.$keywordNumber.'" placeholder="Entre un mot-clé" value="'.$keyword.'">';
-                        echo '<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword'.$keywordNumber.'" class="btn btn-primary">-</button>';
-                        ++$keywordNumber;
-                    }
-                }
-            ?>
-        </div>
-        <button type="button" id="addKeyword" class="btn btn-primary">+</button>
+        <div id="addKeywordContainer" class="col-sm-6">
+			<button type="button" id="addKeyword" class="btn btn-primary">Ajouter un mot-clé</button>
+		</div>
+		
+		<?php
+			if(isset($eventKeywords)) {
+				$keywordNumber = 1;
+				foreach ($eventKeywords as $keyword) {
+					echo '<div id="clearK'.$keywordNumber.'" class="clearer clearerK"></div>';
+					echo '<div id="keyword'.$keywordNumber.'" class="multi-input keywordContainer">';
+					echo '<div class="col-sm-4"></div>';
+					echo '<div class="inputKeywordContainer col-sm-4">';
+					echo '<input type="text" class="form-control inputKeyword" name="inputKeyword'.$keywordNumber.'" id="inputKeyword'.$keywordNumber.'" placeholder="Entre un mot-clé" value="'.$keyword.'">';
+				echo '</div>';
+				echo '<div class="removeKeywordContainer col-sm-2">';
+					echo '<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword'.$keywordNumber.'" class="btn btn-primary">-</button>';
+					echo '</div>';
+					echo '</div>';
+					++$keywordNumber;
+				}
+			}
+		?>
     </div>
 
-    <div class="form-group">
+    <div id ="checklistSuperContainer" class="form-group">
         <label for="inputChecklist" class="col-sm-4 control-label">Checklist</label>
-        <div id="checklistContainer" class="col-sm-6">
-            <?php
-                if(isset($eventChecklist)) {
-                    $checklistItemNumber = 1;
-                    foreach ($eventChecklist as $checklistItem)
-                    {
-                        echo '<input type="text" class="form-control inputChecklistItem" name="inputChecklistItem'.$checklistItemNumber.'" id="inputChecklistItem'.$checklistItemNumber.'" placeholder="Entre une chose à faire/prendre" value="'.$checklistItem.'">';
-                        echo '<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem'.$checklistItemNumber.'" class="btn btn-primary">-</button>';
-                        ++$checklistItemNumber;
-                    }
-                }
-            ?>
-        </div>
-        <button type="button" id="addChecklistItem" class="btn btn-primary">+</button>
+        <div id="addChecklistContainer" class="col-sm-6">
+			 <button type="button" id="addChecklistItem" class="btn btn-primary">Ajouter une chose à faire/prendre</button>
+		</div>            
+		<?php
+			if(isset($eventChecklist)) {
+				$checklistItemNumber = 1;
+				foreach ($eventChecklist as $checklistItem) {
+					echo '<div id="clearC'.$checklistItemNumber.'" class="clearer clearerC"></div>';
+					echo '<div id="checklist'.$checklistItemNumber.'" class="multi-input checklistContainer">';
+					echo '<div class="col-sm-4"></div>';
+					echo '<div class="inputChecklistContainer col-sm-4">';
+					echo '<input type="text" class="form-control inputChecklistItem"; name="inputChecklistItem'.$checklistItemNumber.'" id="inputChecklistItem'.$checklistItemNumber.'" placeholder="Entre une chose à faire/prendre" value="'.$checklistItem.'">';
+					echo '</div>';
+					echo '<div class="removeChecklistContainer col-sm-2">';
+					echo '<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem'.$checklistItemNumber.'" class="btn btn-primary">-</button>';
+					echo '</div>';
+					echo '</div>';
+					++$checklistItemNumber;
+				}
+			}
+		?>  
     </div>
 
     <div class="form-group">

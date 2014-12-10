@@ -1,4 +1,5 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
 <script>
     function validateForm() {
         var isValid = true;
@@ -244,7 +245,7 @@ $(document).ready(function(){
 		<div id="clearA1" class="clearer clearerA"></div>
 		<div id="activity1" class="multi-input activityContainer">
 			<div class="col-sm-4"></div>
-			<div class="inputActivityContainer col-sm-4">
+			<div class="inputActivityContainer colK-sm-4">
 				<input type="text" class="form-control inputActivity" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
 				<span id="activity1Error"></span>		
 			</div>
