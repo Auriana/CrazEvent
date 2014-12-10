@@ -28,12 +28,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_friendship`(id_user int, id_con
 BEGIN
 if (id_user = id_contact) then
 	select 'error';
-elseif (id_user < id_contact) then
+else
 	insert friendship(user_id1, user_id2) values(id_user, id_contact);
 	select * from friendship where user_id1 = id_user AND user_id2 = id_contact;
-else
-	insert friendship(user_id1, user_id2) values(id_contact, id_user);
-	select * from friendship where user_id1 = id_contact AND user_id2 = id_user;
 end if;
 END$$
 
@@ -108,18 +105,10 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `is_friendship`(id_user int, id_conta
 BEGIN
 if (id_user = id_contact) then
 	return 2;
-elseif (id_user < id_contact) then
-	if (select exists(select * from friendship where user_id1 = id_user AND user_id2 = id_contact)) then
-		return 1;
-	else
-		return 0;
-	end if;
+elseif (select exists(select * from friendship where user_id1 = id_user AND user_id2 = id_contact)) then
+	return 1;
 else
-	if (select exists(select * from friendship where user_id1 = id_contact AND user_id2 = id_user)) then
-		return 1;
-	else
-		return 0;
-	end if;
+	return 0;
 end if;
 END$$
 
