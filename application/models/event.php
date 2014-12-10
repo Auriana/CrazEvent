@@ -304,7 +304,10 @@ Class Event extends CI_Model {
     {        
         $this->db->query("SET @connected_user_id := " . $id_user);
         
-        $events = $this->get_visible_events($id_user);
+        $this -> db -> select('*');
+        $this -> db -> from('visible_event');
+        $this -> db -> join('region', 'visible_event.region_id = region.id', 'inner');
+        $allEvents = $this -> db -> get() -> result();
         
         foreach($searchKeywords as $searchKeyword) {
             
@@ -321,9 +324,9 @@ Class Event extends CI_Model {
 
             //strpos() doesn't like if search needle is empty
             if($searchKeyword != '') {
-                foreach($events as $event) {
+                foreach($allEvents as $event) {
                     //search for events with their activities
-                    $activities = $this->get_event_activities($event->id);
+                    $activities = $this->get_event_activities($event->eventId);
                     foreach($activities as $activity) {
                         if (strpos($activity->content, $searchKeyword) !== false && !in_array($event, $result)) {
                             $result[] = $event;
@@ -332,7 +335,7 @@ Class Event extends CI_Model {
                     }
 
                     //search for events with their keywords
-                    $keywords = $this->get_event_keywords($event->id);
+                    $keywords = $this->get_event_keywords($event->eventId);
                     foreach($keywords as $keyword) {
                         if (strpos($keyword->content, $searchKeyword) !== false && !in_array($event, $result)) {
                             $result[] = $event;
