@@ -107,7 +107,7 @@
 	</div>
     
     <div class="clearer"></div>
-    <a class ="centred" href="<?php echo base_url().'welcome'; ?>">Retour à l'acceuil</a>
+    <a class ="centred" href="<?php echo base_url().'welcome'; ?>">Retour à l'accueil</a>
 
 </div>
 </form>
