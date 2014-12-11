@@ -22,6 +22,11 @@
 						<label for="inputPassword" class="control-label">Mot de passe</label>
 						<input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Entre ton mot de passe">
 					</div>
+                    
+                    <?php if ($error != null) {
+                        echo "<p class='text-red'>L'email ou le mot de passe est erroné</p>";
+                    }
+                    ?>
 					
 					<div class="form-group form-login">
 						<button type="submit" value="login" class="btn btn-default btn-lg centred">Se connecter</button>
