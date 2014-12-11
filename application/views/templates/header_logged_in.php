@@ -17,6 +17,8 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui.structure.min.css'; ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui.theme.min.css'; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui-timepicker-addon.css'; ?>">
+		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui-addresspicker.css'; ?>">
+		
 	</head>
 	
 	<body role="document">

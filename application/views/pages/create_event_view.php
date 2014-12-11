@@ -1,6 +1,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
-<script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>	
+<script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>
+<script src="<?php echo asset_url().'js/jquery.ui.addresspicker.js'; ?>"></script>
 <script>
     function validateForm() {            
         var isValid = true;
@@ -30,10 +31,12 @@
     }
     
 $(document).ready(function(){
-    
-    /*
-    * script to handle form control
-    */
+	
+	// ADDRESS PICKER
+    var addresspicker = $( "#inputPlace" ).addresspicker();
+	
+	
+    // TIME PICKER
     //using JQueryUI with an add-on to handle date and time picking
     $('#inputDate').datetimepicker({
        dateFormat: "yy-mm-dd",
@@ -64,6 +67,8 @@ $(document).ready(function(){
             </div>');	
     });
 	
+	
+	// ACTIVITY
     $('body').on('click', '.removeActivity', function() {
         var deletedActivityNbr = $(this).attr('id').substring(14);
         
@@ -97,6 +102,7 @@ $(document).ready(function(){
         });
     });
 	
+	// KEYWORDS
     $("#addKeyword").click(function(){
         ++keywordNbr;
         $("#keywordSuperContainer").append(
@@ -111,7 +117,7 @@ $(document).ready(function(){
 			</div>\
 			</div>');
     });
-		
+
     $('body').on('click', '.removeKeyword', function() {
         var deletedKeywordNbr = $(this).attr('id').substring(13);
         
@@ -144,6 +150,7 @@ $(document).ready(function(){
         });
     });	
 	
+	// CHECKLIST
     $("#addChecklistItem").click(function(){
         ++checklistItemNbr;
         $("#checklistSuperContainer").append(
@@ -158,6 +165,7 @@ $(document).ready(function(){
 			</div>\
 			</div>');
     });
+	
     $('body').on('click', '.removeChecklistItem', function() {
         var deletedChecklistItemNbr = $(this).attr('id').substring(19);
         
