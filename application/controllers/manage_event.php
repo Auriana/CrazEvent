@@ -43,7 +43,7 @@ class Manage_Event extends CI_Controller {
     * Redirect to welcome page if not logged in.
     */
     function creation() {    
-            if($this->session->userdata('logged_in')) {
+        if($this->session->userdata('logged_in')) {
             $data['title'] = 'Créer évènement';
             
             $data['regions'] = get_region_scrollbox();
@@ -211,15 +211,29 @@ class Manage_Event extends CI_Controller {
 
     /**
     * Update an event.
+    * Only the organiser can update an event.
     * params :
     *   id : the event to update's id
     */
     function update($id) {
+        if($this->session->userdata('logged_in')) {
+			$event = $this->event->get_event($id);
+            
+            if($event->organizer == $this->session->userdata('logged_in')['id']) {
 
-        $eventData = $this->extractEventDataFromForm();
+                $eventData = $this->extractEventDataFromForm();
 
-        //query the database              
-        $eventId = $this->event->update_event($id, $eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlace'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge']);
+                //query the database              
+                $eventId = $this->event->update_event($id, $eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlace'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline']);
+
+                //sending a notification to participants
+                $eventParticipants = $this->event->get_event_participants($id);
+                foreach ($eventParticipants as $participant)
+                {
+                    send_notification("Modification d’un paramètre de l’évènement : " . $eventData['eventName'], '<p>L\'événement '.$eventData['eventName'].' a été modifié.</p><p><a href="'. base_url('details_event/index/' . $id) . '">Voir l\'évènement</a></p>', $this->session->userdata('logged_in')['id'], $participant->id, false);
+                }
+            }
+        }
 
         redirect('home', 'refresh');
     }
@@ -235,7 +249,14 @@ class Manage_Event extends CI_Controller {
         {
 			$info_event = $this->event->get_details($id);
             if($info_event['event']->organizer == $this->session->userdata('logged_in')['id']) {
+                
                 $this->event->cancel($id);
+                
+                //sending a notification to participants
+                foreach ($info_event['eventParticipants'] as $participant)
+                {
+                    send_notification("Annulation de l’évènement : " . $info_event['event']->name, '<p>L\'événement '.$info_event['event']->name.' a été annulé.</p>', $info_event['event']->organizer, $participant->id, true);
+                }
             }
         }
         redirect('home', 'refresh');

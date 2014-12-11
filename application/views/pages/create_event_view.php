@@ -1,4 +1,3 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
 <script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>	
 <script>
@@ -37,12 +36,12 @@ $(document).ready(function(){
     //using JQueryUI with an add-on to handle date and time picking
     $('#inputDate').datetimepicker({
        dateFormat: "yy-mm-dd",
-	   timeFormat: "hh:mm:ss"
+	   timeFormat: "HH:mm:ss"
     });
     //using JQueryUI with an add-on to handle date and time picking
     $('#inputJoinDate').datetimepicker({
        dateFormat: "yy-mm-dd",
-	   timeFormat: "hh:mm:ss"
+	   timeFormat: "HH:mm:ss"
     });
     
     //controls to modify the form

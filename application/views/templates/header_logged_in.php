@@ -21,6 +21,8 @@
 	
 	<body role="document">
 		
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        
 		<!-- Fixed navbar -->
 		<div id="navbar-bloc">
 		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -42,7 +44,7 @@
 					<!-- search through the appli here -->
 						<li><a href="<?php echo base_url().'calendar'; ?>">Mon agenda</a></li>
 						<li><a href="<?php echo base_url().'manage_user/contact'; ?>">Mes contacts</a></li>
-						<li><a href="#MesNotifications">Mes notifications</a></li>
+						<li><a href="<?php echo base_url().'notification'; ?>">Mes notifications</a></li>
 						<li><a href="<?php echo base_url().'manage_user'; ?>">Mon profil</a></li>
 						<li><a href="<?php echo base_url().'home/logout'; ?>">Déconnexion</a></li>
 					</ul>

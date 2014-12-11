@@ -81,6 +81,10 @@ class Manage_User extends CI_Controller {
                    
                    $result = $this->user->add_contact($id_user, $id_contact);
                    
+                   if($this->user->is_friend($id_user, $id_contact) == 1) {
+                       send_notification("Ajout de contact : " . $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'], '<p>'.$this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' t\'as ajouté comme contact.</p>', $id_user, $id_contact, false);
+                   }
+                   
                    $aResult['result'] = 'success';
                }
         }
@@ -114,9 +118,7 @@ class Manage_User extends CI_Controller {
     function join_event()
     {
         $aResult = array();
-
         if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
-
         if( !isset($aResult['error']) ) {
                if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 3) ) {
                    $aResult['error'] = 'Error in arguments!';
@@ -131,11 +133,16 @@ class Manage_User extends CI_Controller {
                    } else {
                        $result = $this->event->join_public_event($id_user, $id_event);
                    }
+               
+                   //sending a notification to the organizer
+                   if($this->event->is_participation($id_user, $id_event) == 1) {
+                       $event = $this->event->get_event($id_event);
+                       send_notification("Inscription d'un participant : " . $event->name, '<p>'.$this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' s\'est inscrit à ton événement!.</p><p><a href="'. base_url('details_event/index/' . $event->id) . '">Voir l\'évènement</a></p>', $id_user, $event->organizer, false);
+                   }
                    
                    $aResult['result'] = get_participation_link($id_user, $id_event, $private);
                }
         }
-
         echo json_encode($aResult);
     }
     
@@ -162,6 +169,68 @@ class Manage_User extends CI_Controller {
 
         echo json_encode($aResult);
     }
+    
+    /**
+    * Access to the functionnality to create a user (sign in).
+    * Redirect to welcome page if not logged in.
+    */
+    function creation() {
+        //if user is logged in : redirection to home page
+        if($this->session->userdata('logged_in')) {
+            redirect('home', 'refresh');
+        //else propose siging in form
+        } else {
+            $data['title'] = 'Inscription';
+            
+            $data['regions'] = get_region_scrollbox();
+
+            $this->load->helper(array('form'));
+            $this->load->view('templates/header_logged_out', $data);
+            $this->load->view('pages/create_user_view');
+            $this->load->view('templates/footer');
+        }
+    }
+    
+    /**
+    * Create a new user.
+    * The user is automatically logged in.
+    */
+    function create() {
+       //This method will have the credentials validation
+       $this->load->library('form_validation');
+
+       $this->form_validation->set_rules('inputFirstName', 'inputFirstName', 'trim|required|xss_clean');
+       $this->form_validation->set_rules('inputSurname', 'inputSurname', 'trim|required|xss_clean');
+       $this->form_validation->set_rules('inputPassword', 'inputPassword', 'trim|required|xss_clean');
+       $this->form_validation->set_rules('inputBirthdate', 'inputBirthdate', 'required|xss_clean');
+       $this->form_validation->set_rules('inputRegion', 'inputRegion', 'xss_clean');
+       $this->form_validation->set_rules('inputEmail', 'inputEmail', 'trim|required|xss_clean');
+
+       if($this->form_validation->run() == FALSE) {
+         //Field validation failed.  User redirected to create_user page
+         redirect('create_user', 'refresh');
+       } else {
+         //Create new user
+        $firstname = $this->input->post('inputFirstName');
+        $surname = $this->input->post('inputSurname');
+        $password = $this->input->post('inputPassword');
+        $birthdate = $this->input->post('inputBirthdate');
+        $region = $this->input->post('inputRegion');
+        $email = $this->input->post('inputEmail');
+
+        //query the database
+        $result = $this->user->create_user($firstname, $surname, $password, $birthdate, $region, $email);
+
+         //Go to private area
+         if ($result) {
+            login_utility($email = $this->input->post('inputEmail'), $password = $this->input->post('inputPassword'));
+            redirect('home', 'refresh');
+         } else {
+            redirect('welcome', 'refresh');
+         }
+       }
+
+     }
     
     function change_firstname()
     {

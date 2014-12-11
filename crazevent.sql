@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 08 Décembre 2014 à 20:18
+-- Généré le :  Jeu 11 Décembre 2014 à 23:33
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -19,9 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `crazevent`
 --
-
-CREATE DATABASE crazevent;
-USE crazevent;
+CREATE DATABASE IF NOT EXISTS `crazevent` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `crazevent`;
 
 DELIMITER $$
 --
@@ -136,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
 -- Contenu de la table `activity`
@@ -160,7 +159,12 @@ INSERT INTO `activity` (`id`, `content`) VALUES
 (15, 'aaa'),
 (16, 'ddd'),
 (17, 'Bowling'),
-(18, 'course à pied');
+(18, 'course à pied'),
+(19, 'boupboup'),
+(20, 'b'),
+(21, 'zop'),
+(22, 'v'),
+(23, 'Manger du gâteau');
 
 -- --------------------------------------------------------
 
@@ -190,7 +194,14 @@ INSERT INTO `activity_specification` (`activity_id`, `event_id`) VALUES
 (9, 26),
 (17, 26),
 (18, 26),
-(17, 27);
+(10, 29),
+(10, 30),
+(20, 31),
+(11, 32),
+(21, 33),
+(22, 34),
+(10, 38),
+(11, 39);
 
 -- --------------------------------------------------------
 
@@ -216,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   PRIMARY KEY (`id`),
   KEY `FKOrganization_idx` (`organizer`),
   KEY `fk_event_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
 
 --
 -- Contenu de la table `event`
@@ -229,8 +240,15 @@ INSERT INTO `event` (`id`, `name`, `private`, `invitation_suggestion_allowed`, `
 (22, 'séjour', 0, 1, 'sport d''hiver', '2014-12-10 00:00:00', NULL, 2, 'Marseille', 30, 12, 7, 1, 2),
 (24, 'wwww', 1, 0, 'aaa', NULL, NULL, NULL, NULL, NULL, NULL, 6, 0, 10),
 (25, 'test', 1, 0, 'ccc', '2016-12-20 00:00:00', NULL, NULL, NULL, NULL, NULL, 7, 0, 1),
-(26, 'test', 1, 0, 'gogogogo', '1990-06-22 00:00:00', NULL, 3, NULL, NULL, NULL, 6, 0, 1),
-(27, 'Toutou', 1, 0, 'tata', '2014-12-19 00:00:00', NULL, NULL, NULL, NULL, NULL, 6, 0, 1);
+(26, 'test', 0, 0, 'gogogogo', '1990-06-22 00:00:00', NULL, 3, NULL, NULL, NULL, 6, 0, 1),
+(29, 'aa', 1, 0, 'a', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, NULL, 7, 0, 1),
+(30, 'aa', 1, 0, 'a', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, NULL, 7, 0, 1),
+(31, 'bb', 1, 0, 'b', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, NULL, 7, 0, 1),
+(32, 'test date', 1, 0, 'ff', '2014-12-04 00:00:00', NULL, NULL, NULL, NULL, NULL, 6, 0, 1),
+(33, 'zop', 1, 0, 'zop', '2014-12-28 12:23:34', '2014-12-10 12:00:00', 22, NULL, NULL, NULL, 6, 0, 1),
+(34, 'vv', 1, 0, 'v', '2014-12-23 12:00:59', '2014-12-05 11:59:00', NULL, NULL, NULL, NULL, 7, 0, 1),
+(38, 'ruru', 0, 0, 'a', NULL, NULL, NULL, NULL, NULL, NULL, 6, 0, 1),
+(39, 'patate', 0, 0, 'turcoin', NULL, NULL, NULL, NULL, NULL, NULL, 10, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -260,6 +278,14 @@ CREATE TABLE IF NOT EXISTS `friendship` (
   KEY `fk_user_has_user_user2_idx` (`user_id2`),
   KEY `fk_user_has_user_user1_idx` (`user_id1`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `friendship`
+--
+
+INSERT INTO `friendship` (`user_id1`, `user_id2`) VALUES
+(10, 4),
+(6, 5);
 
 -- --------------------------------------------------------
 
@@ -421,13 +447,20 @@ CREATE TABLE IF NOT EXISTS `participation` (
 INSERT INTO `participation` (`event_id`, `user_id`) VALUES
 (15, 5),
 (16, 5),
-(15, 6),
-(16, 6),
 (22, 6),
 (24, 6),
 (26, 6),
-(27, 6),
-(25, 7);
+(32, 6),
+(33, 6),
+(38, 6),
+(25, 7),
+(29, 7),
+(30, 7),
+(31, 7),
+(34, 7),
+(22, 9),
+(38, 9),
+(39, 10);
 
 -- --------------------------------------------------------
 
@@ -546,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `fk_user_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Contenu de la table `user`
@@ -555,8 +588,11 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`id`, `firstname`, `surname`, `password`, `birthdate`, `email`, `region_id`, `is_admin`, `active`) VALUES
 (4, 'Calixte', 'Maillard', '81dc9bdb52d04dc20036dbd8313ed055', '1111-11-11', 'calixte@heig.ch', 7, 0, 1),
 (5, 'Simone', 'Righittho', '81dc9bdb52d04dc20036dbd8313ed055', '1111-11-11', 'simone@heig.ch', 18, 0, 1),
-(6, 'Dominique', 'Jollien', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-22', 'dominiquejollien@hotmail.com', 15, 0, 1),
-(7, 'm', 'test', '1a1dc91c907325c69271ddf0c944bc72', '2010-06-22', 'a@a.com', 1, 0, 1);
+(6, 'c', 'ss', '1a1dc91c907325c69271ddf0c944bc72', '2014-12-30', 'dominiquejollien@hotmail.com', 19, 0, 1),
+(7, 'm', 'test', '1a1dc91c907325c69271ddf0c944bc72', '2010-06-22', 'a@a.com', 1, 0, 1),
+(8, 'popo', 'papa', '1a1dc91c907325c69271ddf0c944bc72', '2014-12-31', 'u@u.com', 13, 0, 1),
+(9, 'Auriana', 'Hug', '1a1dc91c907325c69271ddf0c944bc72', '2014-12-23', 'auriana.hug@heig-vd.ch', 11, 0, 1),
+(10, 'toto', 'prout', '1a1dc91c907325c69271ddf0c944bc72', '2014-12-31', 'z@z.com', 15, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -570,10 +606,21 @@ CREATE TABLE IF NOT EXISTS `user_inbox_message` (
   `content` longtext NOT NULL,
   `sender` int(11) NOT NULL,
   `recipient` int(11) NOT NULL,
+  `date` datetime NOT NULL,
+  `is_read` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FKSender_idx` (`sender`),
   KEY `FKRecepient_idx` (`recipient`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Contenu de la table `user_inbox_message`
+--
+
+INSERT INTO `user_inbox_message` (`id`, `subject`, `content`, `sender`, `recipient`, `date`, `is_read`) VALUES
+(1, 'Ajout de contact : toto prout', '<p>toto prout t''as ajouté comme contact.</p>', 10, 4, '2014-12-11 21:08:54', 0),
+(2, 'Modification d’un paramètre de l’évènement : patate', '<p>L''événement patate a été modifié.</p><p><a href="http://crazevent.com/details_event/index/39">Voir l''évènement</a></p>', 10, 10, '2014-12-11 21:21:55', 1),
+(3, 'test', 'On peut faire des injections ...<script>alert("injection javascript");</script>', 10, 10, '2014-12-11 21:21:55', 1);
 
 -- --------------------------------------------------------
 
@@ -716,8 +763,8 @@ ALTER TABLE `user`
 -- Contraintes pour la table `user_inbox_message`
 --
 ALTER TABLE `user_inbox_message`
-  ADD CONSTRAINT `FKRecepient` FOREIGN KEY (`recipient`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FKSender` FOREIGN KEY (`sender`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FKSender` FOREIGN KEY (`sender`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FKRecepient` FOREIGN KEY (`recipient`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

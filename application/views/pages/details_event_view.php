@@ -1,45 +1,46 @@
 <script>
-function joinEvent(idUser, idEvent, private) {
-    $.ajax({
-    type: "POST",
-    url: '/manage_user/join_event',
-    dataType: 'json',
-    data: {arguments: [idUser, idEvent, private]},
+    function joinEvent(idUser, idEvent, private) {
+        $.ajax({
+        type: "POST",
+        url: '/manage_user/join_event',
+        dataType: 'json',
+        data: {arguments: [idUser, idEvent, private]},
 
-    success: function (obj, textstatus) {
-                  if( !('error' in obj) ) {
-                      $('#link-answer').html(obj.result);
-                  }
-                  else {
-                      console.log(obj.error);
-                  }
-            }
-    });
-}
-function quitEvent(idUser, idEvent, private) {
-    $.ajax({
-    type: "POST",
-    url: '/manage_user/quit_event',
-    dataType: 'json',
-    data: {arguments: [idUser, idEvent, private]},
-
-    success: function (obj, textstatus) {
-                  if( !('error' in obj) ) {
-                      $('#link-answer').html(obj.result);
-                  }
-                  else {
-                      console.log(obj.error);
-                  }
-            }
-    });
-}
-
-function cancelEvent(idEvent) {
-    var r = confirm("Annuler l'évènement ?");
-    if (r == true) {
-        window.location.href="/manage_event/cancel/" + idEvent;
+        success: function (obj, textstatus) {
+                      if( !('error' in obj) ) {
+                          $('#link-answer').html(obj.result);
+                      }
+                      else {
+                          console.log(obj.error);
+                      }
+                }
+        });
     }
-}
+
+    function quitEvent(idUser, idEvent, private) {
+        $.ajax({
+        type: "POST",
+        url: '/manage_user/quit_event',
+        dataType: 'json',
+        data: {arguments: [idUser, idEvent, private]},
+
+        success: function (obj, textstatus) {
+                      if( !('error' in obj) ) {
+                          $('#link-answer').html(obj.result);
+                      }
+                      else {
+                          console.log(obj.error);
+                      }
+                }
+        });
+    }
+
+    function cancelEvent(idEvent) {
+        var r = confirm("Annuler l'évènement ?");
+        if (r == true) {
+            window.location.href="/manage_event/cancel/" + idEvent;
+        }
+    }
 </script>
 <div class="container theme-showcase" role="main">
 <div class="col-md-12 white-bloc centred">

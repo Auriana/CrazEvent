@@ -1,4 +1,3 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <?php echo validation_errors(); ?>
 <div class="container theme-showcase" role="main">
 <div class="col-md-12 white-bloc centred">

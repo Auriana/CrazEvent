@@ -28,7 +28,7 @@
 					</div>
 						
 					<div class="clearer"></div>
-					<a class="centred" href="<?php echo base_url().'create_user'; ?>">...Sinon, inscris-toi!</a>
+					<a class="centred" href="<?php echo base_url().'manage_user/creation'; ?>">...Sinon, inscris-toi!</a>
 				</section>
 			</div>
 			</form>

@@ -127,7 +127,7 @@ Class Event extends CI_Model {
 		$query = $this -> db -> get();
 
 		 if($query -> num_rows() == 1) {
-		    return $query->result();
+		    return $query->result()[0];
 		 } else {
 		   return false;
 		 }
@@ -176,7 +176,7 @@ Class Event extends CI_Model {
     * Return the participants of the event.
     */
     function get_event_participants($id) {
-        $this->db->select('firstname, surname');
+        $this->db->select('id, firstname, surname');
         $this->db->from('user');
         $this->db->join('participation', 'participation.user_id = user.id', 'inner');
         $this->db->where('participation.event_id', $id);
@@ -356,8 +356,8 @@ Class Event extends CI_Model {
     *   id : id of the event
     * return : array with event basic infos from get_event() plus activities, checklist, keywords, participants
     */
-    function get_details($id) {		
-        $infoEvent['event'] = $this->event->get_event($id)[0];
+    function get_details($id) {
+        $infoEvent['event'] = $this->event->get_event($id);
         
         $activities = $this->event->get_event_activities($id);
         foreach($activities as $activity) {

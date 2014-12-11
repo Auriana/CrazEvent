@@ -35,6 +35,21 @@ Class User extends CI_Model
        );
        return $this->db->insert('user', $data);
     }
+    
+	function get_user($id) {
+		$this -> db ->select('user.id AS id, firstname, surname, email');
+		$this -> db -> from('user');
+		$this -> db -> where('user.id', $id);
+     	$this -> db -> limit(1);
+		
+		$query = $this -> db -> get();
+
+		 if($query -> num_rows() == 1) {
+		    return $query->result()[0];
+		 } else {
+		   return false;
+		 }
+	}
 
     function search_user($firstname, $surname, $region)
     {
@@ -175,6 +190,46 @@ Class User extends CI_Model
         $this->db->order_by('start_date', 'asc');
         $this->db->limit($limit);
         return $this->db->get()->result();
+    }
+    
+    /*
+    * send a message in the intern message system
+    */
+    function send_message($subject, $content, $senderId, $recipientId) {
+       $data = array(
+           'subject' => $subject,
+           'content' => $content,
+           'sender' => $senderId,
+           'recipient' => $recipientId,
+           'date' => date('Y-m-d H:i:s'),
+           'read' => 0
+       );
+       return $this->db->insert('user_inbox_message', $data);
+    }
+    
+    function get_messages($userId) {        
+        $this->db->select('user_inbox_message.id AS messageId, subject, sender as senderId, firstname AS senderFirstname, surname AS senderSurname, date, is_read');
+        $this->db->from('user_inbox_message');
+        $this->db->join('user', ' user_inbox_message.sender = user.id', 'inner');
+        $this->db->where('user_inbox_message.recipient', $userId);
+        $this->db->order_by('date','desc');
+        return $this->db->get()->result();
+    }
+    
+    /*
+    * Set notification as read and return notification content
+    */
+    function read_message($notificationId) {
+        $data = array(
+            'is_read' => 1
+        );
+        $this->db->where('id', $notificationId);
+        $this->db->update('user_inbox_message', $data);
+        
+        $this->db->select('content, recipient');
+        $this->db->from('user_inbox_message');
+        $this->db->where('user_inbox_message.id', $notificationId);
+        return $this->db->get()->result()[0];
     }
 }
 ?>

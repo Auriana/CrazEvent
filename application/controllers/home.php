@@ -26,12 +26,11 @@ class Home extends CI_Controller {
             redirect('welcome', 'refresh');
         }
     }
-    
+
     function logout() {
         $this->session->unset_userdata('logged_in');
         redirect('welcome', 'refresh');
     }
-
 }
 
 ?>

@@ -156,4 +156,45 @@ if ( ! function_exists('get_region_scrollbox')) {
         return $regionList;
     }
 }
+
+if ( ! function_exists('send_notification')) {
+    function send_notification($subject, $message, $senderUserId, $recipientUserId, $emailRequired) {
+        $CI = get_instance();
+        
+        $CI->load->model('user','',TRUE);
+        $recipientUser = $CI->user->get_user($recipientUserId);
+        
+        $CI->user->send_message($subject, $message, $senderUserId, $recipientUserId);
+            
+        if($emailRequired == true) {
+            $CI->load->library('email');
+
+            // Get full html:
+            $body =
+            '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+            <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                <title>'.htmlspecialchars($subject, ENT_QUOTES, $CI->email->charset).'</title>
+                <style type="text/css">
+                    body {
+                        font-family: Arial, Verdana, Helvetica, sans-serif;
+                        font-size: 16px;
+                    }
+                </style>
+            </head>
+            <body>
+            '.$message.'
+            </body>
+            </html>';
+
+            $result = $CI->email
+                ->from('crazevent.info@gmail.com')
+                ->to($recipientUser->email)
+                ->subject($subject)
+                ->message($body)
+                ->send();
+        }
+    }
+}
 ?>
