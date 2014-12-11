@@ -220,7 +220,7 @@ $(document).ready(function(){
 	
     <div class="form-group">
         <label for="inputDate" class="col-sm-4 control-label">Date de début</label>
-        <div class="col-sm-2">
+        <div class="col-sm-6">
             <input type="text" class="form-control" name="inputDate" id="inputDate" placeholder="">
         </div>
         <!--<button type="button" class="btn btn-primary">Cal</button>-->
@@ -315,15 +315,15 @@ $(document).ready(function(){
 	
     <div class="form-group">
         <label for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités</label>
-		<div class="col-sm-2">
-            <input type="checkbox" name="inputInvitationAllowed" id="inputInvitationAllowed" value="">
+		<div class="col-sm-1">
+            <input type="checkbox" class="form-control" name="inputInvitationAllowed" id="inputInvitationAllowed" value="">
 		</div>
     </div>
     
 	<div class="form-group">
         <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
-		<div class="col-sm-2">
-            <input type="checkbox" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" value="">
+		<div class="col-sm-1">
+            <input type="checkbox" class="form-control" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" value="">
 		</div>
     </div>
     
@@ -343,7 +343,7 @@ $(document).ready(function(){
 
     <div class="form-group">
         <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
-        <div class="col-sm-2">
+        <div class="col-sm-6">
             <input type="date" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="">
         </div>
         <!--<button type="button" class="btn btn-primary">Cal</button>-->

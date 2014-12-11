@@ -84,6 +84,8 @@ body {
 	background-position: bottom;
 	background-repeat: repeat-x;
 	margin-bottom: 50px!important;
+	position:relative;
+	z-index: 0;
 }
 
 .navbar {
