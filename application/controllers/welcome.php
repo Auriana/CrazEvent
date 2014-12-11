@@ -11,13 +11,14 @@ class Welcome extends CI_Controller {
     * Access to the welcome page.
     * The welcome page is accessed only when logged out.
     */
-	public function index() {
+	public function index($error = null) {
         //if user is logged in : redirection to home page
         if($this->session->userdata('logged_in')) {
             redirect('home', 'refresh');
         //else propose login form
         } else {         
             $data['title'] = "Bienvenue";
+            $data['error'] = $error;
         
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_out', $data);
@@ -44,7 +45,7 @@ class Welcome extends CI_Controller {
          if ($login) {
             redirect('home', 'refresh');
          } else {
-            redirect('welcome', 'refresh');
+            redirect('welcome/index/error', 'refresh');
          }
        }
 

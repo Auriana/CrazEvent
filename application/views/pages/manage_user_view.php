@@ -126,14 +126,30 @@
             }
         });
     }
+    function checkdate(m, d, y) {
+      //  discuss at: http://phpjs.org/functions/checkdate/
+      // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+      // improved by: Pyerre
+      // improved by: Theriault
+      //   example 1: checkdate(12, 31, 2000);
+      //   returns 1: true
+      //   example 2: checkdate(2, 29, 2001);
+      //   returns 2: false
+      //   example 3: checkdate(3, 31, 2008);
+      //   returns 3: true
+      //   example 4: checkdate(1, 390, 2000);
+      //   returns 4: false
+
+      return m > 0 && m < 13 && y > 0 && y < 32768 && d > 0 && d <= (new Date(y, m, 0))
+        .getDate();
+    }
     function changeBirthdate() {
-        var newBirthdate = $("#changeBirthdate").val();
-        flushInfos();
-        console.log(newBirthdate);
-        if (newBirthdate == "") {
-            $("#birthdateInfo").text("La date est obligatoire");
+        var newBirthdate = $("#inputYear").val() + '-' + $("#inputMonth").val() + '-' + $("#inputDay").val();
+        if (!checkdate($("#inputMonth").val(), $("#inputDay").val(), $("#inputYear").val())) {
+             $("#birthdateInfo").text("La date est fausse");
             return;
         }
+        flushInfos();
         $.ajax({
         type: "POST",
         url: '/manage_user/change_birthdate',
@@ -227,11 +243,33 @@
         
         <div class="clearer"></div>
 		<div class="form-group multi-input"> 
-			<label id="actualBirthdate" for="changeBirthdate" class="col-sm-3 control-label"><?php echo "Date de naissance : " . $user['birthdate']; ?></label>
-			<div class="col-sm-4">
-				<input type="text" class="pull-center form-control" id="changeBirthdate" placeholder="Changer date de naissance">
-				<span id="birthdateInfo"></span>
-			</div>
+			<div class="form-group">
+        <label id="actualBirthdate" for="changeBirthdate" class="col-sm-3 control-label"><?php echo "Date de naissance : " . $user['birthdate']; ?></label>
+        <div class="col-sm-8">
+            <select id="inputYear" 
+                 name="inputYear"> 
+            <?php for ($i = 1900; $i <= 2010; $i++) {
+                        echo '<option>' . $i . '</option>';
+                    }
+            ?>   
+              </select> 
+                     - 
+                    <select id="inputMonth" 
+                  name="inputMonth"> 
+            <?php for ($i = 1; $i <= 12; $i++) {
+                        echo '<option>' . $i . '</option>';
+                    }
+            ?>       
+          </select> - <select id="inputDay" 
+                  name="inputDay">
+            <?php for ($i = 1; $i <= 31; $i++) {
+                        echo '<option>' . $i . '</option>';
+                    }
+            ?>      
+          </select>
+                <span id="birthdateInfo"></span>
+                </div>
+            </div>
 			<div class="col-sm-4">
 				<button value="changeBirthdate" class="btn btn-default" onClick="changeBirthdate()">Modifier</button>
 			</div>

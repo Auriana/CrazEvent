@@ -202,7 +202,6 @@ class Manage_User extends CI_Controller {
        $this->form_validation->set_rules('inputFirstName', 'inputFirstName', 'trim|required|xss_clean');
        $this->form_validation->set_rules('inputSurname', 'inputSurname', 'trim|required|xss_clean');
        $this->form_validation->set_rules('inputPassword', 'inputPassword', 'trim|required|xss_clean');
-       $this->form_validation->set_rules('inputBirthdate', 'inputBirthdate', 'required|xss_clean');
        $this->form_validation->set_rules('inputRegion', 'inputRegion', 'xss_clean');
        $this->form_validation->set_rules('inputEmail', 'inputEmail', 'trim|required|xss_clean');
 
@@ -214,7 +213,7 @@ class Manage_User extends CI_Controller {
         $firstname = $this->input->post('inputFirstName');
         $surname = $this->input->post('inputSurname');
         $password = $this->input->post('inputPassword');
-        $birthdate = $this->input->post('inputBirthdate');
+        $birthdate = $this->input->post('inputYear') . '-' . $this->input->post('inputMonth') . '-' . $this->input->post('inputDay');
         $region = $this->input->post('inputRegion');
         $email = $this->input->post('inputEmail');
 

@@ -1,5 +1,6 @@
 <script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
-<script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>	
+<script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>
+<script src="<?php echo asset_url().'js/jquery.ui.addresspicker.js'; ?>"></script>
 <script>
     function validateForm() {            
         var isValid = true;
@@ -29,10 +30,12 @@
     }
     
 $(document).ready(function(){
-    
-    /*
-    * script to handle form control
-    */
+	
+	// ADDRESS PICKER
+    var addresspicker = $( "#inputPlace" ).addresspicker();
+	
+	
+    // TIME PICKER
     //using JQueryUI with an add-on to handle date and time picking
     $('#inputDate').datetimepicker({
        dateFormat: "yy-mm-dd",
@@ -63,6 +66,8 @@ $(document).ready(function(){
             </div>');	
     });
 	
+	
+	// ACTIVITY
     $('body').on('click', '.removeActivity', function() {
         var deletedActivityNbr = $(this).attr('id').substring(14);
         
@@ -96,6 +101,7 @@ $(document).ready(function(){
         });
     });
 	
+	// KEYWORDS
     $("#addKeyword").click(function(){
         ++keywordNbr;
         $("#keywordSuperContainer").append(
@@ -110,7 +116,7 @@ $(document).ready(function(){
 			</div>\
 			</div>');
     });
-		
+
     $('body').on('click', '.removeKeyword', function() {
         var deletedKeywordNbr = $(this).attr('id').substring(13);
         
@@ -143,6 +149,7 @@ $(document).ready(function(){
         });
     });	
 	
+	// CHECKLIST
     $("#addChecklistItem").click(function(){
         ++checklistItemNbr;
         $("#checklistSuperContainer").append(
@@ -157,6 +164,7 @@ $(document).ready(function(){
 			</div>\
 			</div>');
     });
+	
     $('body').on('click', '.removeChecklistItem', function() {
         var deletedChecklistItemNbr = $(this).attr('id').substring(19);
         
@@ -219,7 +227,7 @@ $(document).ready(function(){
 	
     <div class="form-group">
         <label for="inputDate" class="col-sm-4 control-label">Date de début</label>
-        <div class="col-sm-2">
+        <div class="col-sm-6">
             <input type="text" class="form-control" name="inputDate" id="inputDate" placeholder="">
         </div>
         <!--<button type="button" class="btn btn-primary">Cal</button>-->
@@ -314,15 +322,15 @@ $(document).ready(function(){
 	
     <div class="form-group">
         <label for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités</label>
-		<div class="col-sm-2">
-            <input type="checkbox" name="inputInvitationAllowed" id="inputInvitationAllowed" value="">
+		<div class="col-sm-1">
+            <input type="checkbox" class="form-control" name="inputInvitationAllowed" id="inputInvitationAllowed" value="">
 		</div>
     </div>
     
 	<div class="form-group">
         <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
-		<div class="col-sm-2">
-            <input type="checkbox" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" value="">
+		<div class="col-sm-1">
+            <input type="checkbox" class="form-control" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" value="">
 		</div>
     </div>
     
@@ -342,7 +350,7 @@ $(document).ready(function(){
 
     <div class="form-group">
         <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
-        <div class="col-sm-2">
+        <div class="col-sm-6">
             <input type="date" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="">
         </div>
         <!--<button type="button" class="btn btn-primary">Cal</button>-->

@@ -1,12 +1,22 @@
-<script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>	
 <script>
-    $(document).ready(function(){
-        //using JQueryUI to handle date picking
-        $("#inputBirthdate").datepicker({
-           dateFormat: "yy-mm-dd"
-        });
-    });
-    
+    function checkdate(m, d, y) {
+      //  discuss at: http://phpjs.org/functions/checkdate/
+      // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+      // improved by: Pyerre
+      // improved by: Theriault
+      //   example 1: checkdate(12, 31, 2000);
+      //   returns 1: true
+      //   example 2: checkdate(2, 29, 2001);
+      //   returns 2: false
+      //   example 3: checkdate(3, 31, 2008);
+      //   returns 3: true
+      //   example 4: checkdate(1, 390, 2000);
+      //   returns 4: false
+
+      return m > 0 && m < 13 && y > 0 && y < 32768 && d > 0 && d <= (new Date(y, m, 0))
+        .getDate();
+    }
     function validateForm() {
         var isValid = true;
         if ($("#inputFirstName").val() == "") {
@@ -27,8 +37,8 @@
         } else {
             $("#passwordError").text("");
         }
-        if ($("#inputBirthdate").val() == "") {
-            $("#birthdateError").text("La date de naissance est obligatoire");
+        if (!checkdate($("#inputMonth").val(), $("#inputDay").val(), $("#inputYear").val())) {
+            $("#birthdateError").text("La date est fausse");
             isValid = false;
         } else {
             $("#birthdateError").text("");
@@ -77,8 +87,29 @@
     <div class="form-group">
         <label for="inputBirthdate" class="col-sm-4 control-label">Date de naissance</label>
         <div class="col-sm-8">
-            <input type="text" id="inputBirthdate" name="inputBirthdate"class="form-control" placeholder="Entre ta date de naissance">
+            <select id="inputYear" 
+         name="inputYear"> 
+    <?php for ($i = 1900; $i <= 2010; $i++) {
+                echo '<option>' . $i . '</option>';
+            }
+    ?>   
+      </select> 
+             - 
+            <select id="inputMonth" 
+          name="inputMonth"> 
+    <?php for ($i = 1; $i <= 12; $i++) {
+                echo '<option>' . $i . '</option>';
+            }
+    ?>       
+  </select> - <select id="inputDay" 
+          name="inputDay">
+    <?php for ($i = 1; $i <= 31; $i++) {
+                echo '<option>' . $i . '</option>';
+            }
+    ?>      
+  </select>
             <span id="birthdateError"></span>
+  
         </div>
     </div>
 
@@ -106,7 +137,7 @@
 	</div>
     
     <div class="clearer"></div>
-    <a class ="centred" href="<?php echo base_url().'welcome'; ?>">Retour à l'acceuil</a>
+    <a class ="centred" href="<?php echo base_url().'welcome'; ?>">Retour à l'accueil</a>
 
 </div>
 </form>
