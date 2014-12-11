@@ -246,3 +246,7 @@ footer {
 p.copyright {
 	margin: 15px 0 0;
 }
+
+.text-red {
+    color: #ff0000!important;
+}
