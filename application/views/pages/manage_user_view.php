@@ -244,34 +244,33 @@
         <div class="clearer"></div>
 		<div class="form-group multi-input"> 
 			<div class="form-group">
-        <label id="actualBirthdate" for="changeBirthdate" class="col-sm-3 control-label"><?php echo "Date de naissance : " . $user['birthdate']; ?></label>
-        <div class="col-sm-8">
-            <select id="inputYear" 
-                 name="inputYear"> 
-            <?php for ($i = 1900; $i <= 2010; $i++) {
-                        echo '<option>' . $i . '</option>';
-                    }
-            ?>   
-              </select> 
-                     - 
-                    <select id="inputMonth" 
-                  name="inputMonth"> 
-            <?php for ($i = 1; $i <= 12; $i++) {
-                        echo '<option>' . $i . '</option>';
-                    }
-            ?>       
-          </select> - <select id="inputDay" 
-                  name="inputDay">
-            <?php for ($i = 1; $i <= 31; $i++) {
-                        echo '<option>' . $i . '</option>';
-                    }
-            ?>      
-          </select>
-                <span id="birthdateInfo"></span>
-                </div>
-            </div>
-			<div class="col-sm-4">
-				<button value="changeBirthdate" class="btn btn-default" onClick="changeBirthdate()">Modifier</button>
+        		<label id="actualBirthdate" for="changeBirthdate" class="col-sm-3 control-label"><?php echo "Date de naissance : " . $user['birthdate']; ?></label>
+				<div class="col-sm-8">
+					<div class="col-sm-2">
+						<select id="inputDay"  name="inputDay" class="form-control">
+							<?php for ($i = 1; $i <= 31; $i++) { echo '<option>' . $i . '</option>'; } ?>      
+						</select>
+					</div>
+
+					<div class="col-sm-2">
+						<select id="inputMonth" name="inputMonth" class="form-control"> 
+							<?php for ($i = 1; $i <= 12; $i++) { echo '<option>' . $i . '</option>'; } ?>       
+						</select> 
+					</div>
+
+					<div class="col-sm-3">
+						<select id="inputYear" name="inputYear" class="form-control"> 
+							<?php for ($i = 1900; $i <= 2010; $i++) { echo '<option>' . $i . '</option>'; } ?>   
+						</select> 
+					</div>
+
+
+					<div class="col-sm-4">
+						<button value="changeBirthdate" class="btn btn-default" onClick="changeBirthdate()">Modifier</button>
+					</div>
+
+				</div>
+				<span id="birthdateInfo"></span>
 			</div>
 		</div>
 		

@@ -219,7 +219,6 @@ $(document).ready(function(){
         <div class="col-sm-2">
             <input type="text" class="form-control" name="inputDate" id="inputDate" placeholder="" value="<?php echo $event->start_date; ?>">
         </div>
-        <!--<button type="button" class="btn btn-primary">Cal</button>-->
     </div>
     
     <div class="form-group">
@@ -334,15 +333,15 @@ $(document).ready(function(){
 
     <div class="form-group">
         <label for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités</label>
-		<div class="col-sm-2">
-            <input type="checkbox" name="inputInvitationAllowed" id="inputInvitationAllowed" <?php if($event->invitation_suggestion_allowed == 1){echo "checked";} ?>>
+		<div class="col-sm-1">
+            <input type="checkbox" class="form-control" name="inputInvitationAllowed" id="inputInvitationAllowed" <?php if($event->invitation_suggestion_allowed == 1){echo "checked";} ?>>
 		</div>
     </div>
     
 	<div class="form-group">
         <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
-		<div class="col-sm-2">
-            <input type="checkbox" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" <?php if($event->individual_proposition_suggestion_allowed == 1){echo "checked";} ?>>
+		<div class="col-sm-1">
+            <input type="checkbox" class="form-control" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" <?php if($event->individual_proposition_suggestion_allowed == 1){echo "checked";} ?>>
 		</div>
     </div>
     
@@ -362,10 +361,9 @@ $(document).ready(function(){
 
     <div class="form-group">
         <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
-        <div class="col-sm-2">
+        <div class="col-sm-3">
             <input type="text" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="Entre une date" value="<?php echo $event->inscription_deadline ?>">
         </div>
-        <!--<button type="button" class="btn btn-primary">Cal</button>-->
     </div>
 	
 	<div class="form-group">

@@ -20,7 +20,7 @@ class Manage_User extends CI_Controller {
 
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/manage_user_view', $data);
-            $this->load->view('templates/sticky-footer');
+            $this->load->view('templates/footer');
         }
         else
         {  

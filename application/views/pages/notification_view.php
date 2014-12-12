@@ -32,10 +32,13 @@
 </script>
 <div class="container theme-showcase" role="main">
 	<div class="col-md-10 white-bloc centred">
+		<h1 class="text-centred">
+			Mes notifications
+		</h1>
         <?php
             if(isset($notifications)) {
-                echo "<table border='1px'>";
-                echo "<tr><th>sujet</th><th>Expéditeur</th><th>Date</th></tr>";
+                echo "<table>";
+                echo "<tr><th>Sujet</th><th>Expéditeur</th><th>Date</th></tr>";
 				foreach ($notifications as $notification) {
                     echo '<tr onclick="readNotification('.$notification->messageId.')" class="'. ($notification->is_read == 1 ? 'notification-read' : 'notification-notRead') .'">';
                     echo "<td>".$notification->subject."</td>";

@@ -19,7 +19,7 @@ class Notification extends CI_Controller {
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/notification_view');
-            $this->load->view('templates/footer');
+            $this->load->view('templates/sticky-footer');
         //if user is not logged in : redirection to welcome page
         } else {  
             redirect('welcome', 'refresh');

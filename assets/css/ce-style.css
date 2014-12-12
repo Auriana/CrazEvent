@@ -96,6 +96,10 @@ body {
 
 }
 
+.container {
+		
+}
+
 .navbar li a {
 	text-shadow: none!important;
 }
@@ -229,6 +233,7 @@ ul.result_search li:first-child {
 }
 
 footer.sticky-footer {
+	z-index: -1; 
 	position: absolute;
 	bottom: 0;
 	width: 100%;
@@ -236,6 +241,7 @@ footer.sticky-footer {
 }
 
 footer {
+
 	height: 90px;
 	margin-top: 50px;
 	padding: 20px 0;
@@ -252,5 +258,14 @@ p.copyright {
 }
 
 .notification-notRead {
-    	background-color: green;
+    background-color: green;
+}
+
+.ui-widget-content {
+	border: 1px solid #fff!important;
+}
+
+.ui-state-default a,
+.ui-state-hover a{
+	color: #777!important;
 }
