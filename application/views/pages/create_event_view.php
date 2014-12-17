@@ -30,11 +30,6 @@
     }
     
 $(document).ready(function(){
-	
-	// ADDRESS PICKER
-    var addresspicker = $( "#inputPlace" ).addresspicker();
-	
-	
     // TIME PICKER
     //using JQueryUI with an add-on to handle date and time picking
     $('#inputDate').datetimepicker({
@@ -46,6 +41,8 @@ $(document).ready(function(){
        dateFormat: "yy-mm-dd",
 	   timeFormat: "HH:mm:ss"
     });
+	
+	
     
     //controls to modify the form
     var activityNbr = $('.inputActivity').length;
@@ -195,6 +192,9 @@ $(document).ready(function(){
             $(this).attr('id', "removeChecklistItem" + indexChecklistItem--);
         });
     });
+	
+	// ADDRESS PICKER
+    $('#inputPlace').addresspicker();
 });
 </script>
 
@@ -227,10 +227,9 @@ $(document).ready(function(){
 	
     <div class="form-group">
         <label for="inputDate" class="col-sm-4 control-label">Date de début</label>
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <input type="text" class="form-control" name="inputDate" id="inputDate" placeholder="">
         </div>
-        <!--<button type="button" class="btn btn-primary">Cal</button>-->
     </div>
     
     <div class="form-group">
@@ -350,10 +349,9 @@ $(document).ready(function(){
 
     <div class="form-group">
         <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
-        <div class="col-sm-6">
-            <input type="date" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="">
+        <div class="col-sm-3">
+            <input type="text" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="">
         </div>
-        <!--<button type="button" class="btn btn-primary">Cal</button>-->
     </div>
 	
 	<div class="form-group">

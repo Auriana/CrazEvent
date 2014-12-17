@@ -54,7 +54,7 @@
 					<ul class="nav navbar-nav">
 					<!-- search through the appli here -->
 						<li><a href="<?php echo base_url().'manage_user/creation'; ?>">Créer un compte</a></li>
-						<li><a href="<?php echo base_url().'welcome'; ?>">Connexion</a></li>
+						<!--<li><a href="">Connexion</a></li>-->
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!-- /.container -->
