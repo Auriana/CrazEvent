@@ -202,7 +202,7 @@ Class User extends CI_Model
            'sender' => $senderId,
            'recipient' => $recipientId,
            'date' => date('Y-m-d H:i:s'),
-           'read' => 0
+           'is_read' => 0
        );
        return $this->db->insert('user_inbox_message', $data);
     }
