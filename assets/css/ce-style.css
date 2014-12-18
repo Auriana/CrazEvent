@@ -273,3 +273,7 @@ p.copyright {
 .ui-state-hover a{
 	color: #777!important;
 }
+
+#control-event {
+	float: right;
+}

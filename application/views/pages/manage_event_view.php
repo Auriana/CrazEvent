@@ -1,5 +1,7 @@
 <script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
 <script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="<?php echo asset_url().'js/jquery.ui.addresspicker.js'; ?>"></script>
 <script>
     function validateForm() {
         var isValid = true;
@@ -185,6 +187,9 @@ $(document).ready(function(){
             $(this).attr('id', "removeChecklistItem" + indexChecklistItem--);
         });
     });
+	
+	// ADDRESS PICKER
+    $('#inputPlace').addresspicker();
 });
 </script>
 
@@ -229,7 +234,7 @@ $(document).ready(function(){
     </div>
 
     <div class="form-group">
-        <label for="inputPlace" class="col-sm-4 control-label">Lieu de début</label>
+        <label for="inputPlace" class="col-sm-4 control-label">Adresse de début</label>
         <div class="col-sm-6">
             <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="Entre un lieu" value="<?php echo $event->start_place; ?>">
 			<span id="placeError"></span>

@@ -78,20 +78,20 @@
 </script>
 <div class="container theme-showcase" role="main">
 <div class="col-md-12 white-bloc centred">
+	<?php
+        if($event->organizer == $id_user) {
+			echo '<div id="control-event">';
+            echo '<p><a class="" href="'.base_url().'manage_event/management/'.$event->id.'">Modifier l\'évènement</a></p>';
+            echo '<p><button class="" onclick="cancelEvent('.$event->id.')">Annuler l\'évènement</button></p>';
+			echo '</div>';
+			echo '<div class="clearer"></div>';
+        }
+    ?>
 	<h1 class="text-centred">
 		<?php echo $event->name; ?>
 	</h1>
-    <?php
-        if($event->organizer == $id_user) {
-            echo '<h5>
-                    <a href="'.base_url().'manage_event/management/'.$event->id.'">Modifier l\'évènement</a>
-                </h5>';
-            echo '<h5>
-                    <button onclick="cancelEvent('.$event->id.')" class="btn btn-primary">Annuler l\'évènement</button>
-                </h5>';
-        }
-    ?>
-	<h5>
+    
+	<h5 class="text-centred">
 		<?php echo ($event->private == 1 ? "Privé" : "Public" ); ?>
 	</h5>
 	<div id="link-answer">
