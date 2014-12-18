@@ -253,9 +253,14 @@ class Manage_Event extends CI_Controller {
                 $this->event->cancel($id);
                 
                 //sending a notification to participants
+<<<<<<< HEAD
                 foreach ($info_event['eventParticipants'] as $participant)
                 {
                     send_notification("Annulation de l’évènement : " . $info_event['event']->name, 'L\'événement '.$info_event['event']->name.' a été annulé ', $info_event['event']->organizer, $participant->id, true);
+=======
+                foreach ($info_event['eventParticipants'] as $participant) {
+                    send_notification("Annulation de l’évènement : " . $info_event['event']->name, '<p>L\'événement '.$info_event['event']->name.' a été annulé.</p>', $info_event['event']->organizer, $participant->id, true);
+>>>>>>> 7b670c96764e010689a1c436f3c40c1723ab23f4
                 }
             }
         }

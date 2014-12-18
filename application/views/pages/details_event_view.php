@@ -1,10 +1,24 @@
 <script>
-    function joinEvent(idUser, idEvent, private) {
+    var getContacts = function (idEvent) {
         $.ajax({
         type: "POST",
-        url: '/manage_user/join_event',
+        url: '/manage_user/get_invitable_contacts/' + idEvent,
+
+        success: function (obj, textstatus) {
+                      if( true ) {
+                          $('#contactList').html("<h5>Mes contacts</h5>" + obj);
+                      }
+                      else {
+                          console.log(obj.error);
+                      }
+                }
+        });
+    }
+    function joinEvent(idEvent, private) {
+        $.ajax({
+        type: "POST",
+        url: '/manage_user/join_event/' + idEvent + '/' + private,
         dataType: 'json',
-        data: {arguments: [idUser, idEvent, private]},
 
         success: function (obj, textstatus) {
                       if( !('error' in obj) ) {
@@ -41,6 +55,26 @@
             window.location.href="/manage_event/cancel/" + idEvent;
         }
     }
+    
+    function invite(idEvent, idUser) {
+        $.ajax({
+        type: "POST",
+        url: '/details_event/invite/' + idEvent + "/" + idUser,
+
+        success: function (obj, textstatus) {
+                      if( true ) {
+                          $('#inviteContact' + idUser).text("invitation envoyée");
+                      }
+                      else {
+                          console.log(obj.error);
+                      }
+                }
+        });
+    }
+    
+    function invitationList(idEvent) {
+        getContacts(idEvent);
+    }
 </script>
 <div class="container theme-showcase" role="main">
 <div class="col-md-12 white-bloc centred">
@@ -75,8 +109,7 @@
 		<b>Activités</b>
         <?php
             if(isset($eventActivities)) {
-                foreach ($eventActivities as $activity)
-                {
+                foreach ($eventActivities as $activity) {
                     echo '<li>'.$activity.'</li>';
                 }
             }
@@ -86,8 +119,7 @@
 		<b>Checklist</b>
         <?php
             if(isset($eventChecklist)) {
-                foreach ($eventChecklist as $checklistItem)
-                {
+                foreach ($eventChecklist as $checklistItem) {
                     echo '<li>'.$checklistItem.'</li>';
                 }
             }
@@ -100,18 +132,31 @@
     <ul class="bloc-info">
 		<b>Participants</b>
         <?php
-            foreach ($eventParticipants as $participant)
-            {
+            foreach ($eventParticipants as $participant) {
                 echo '<li>'.$participant->firstname.' '.$participant->surname.'</li>';
             }
         ?>
+	</ul>
+    <ul class="bloc-info">
+		<b>Invités</b>
+        <?php
+            foreach ($eventGuests as $guest) {
+                echo '<li>'.$guest->firstname.' '.$guest->surname.'</li>';
+            }
+            if($event->invitation_suggestion_allowed == 1 || $event->organizer == $id_user) {
+                echo '<h5>
+                        <button type="button" id="inviteUser" class="btn btn-primary" onclick="invitationList('.$event->id.')">Inviter quelqu\'un</button>
+                    </h5>';
+            }
+        ?>
+        <div id="contactList">
+        </div>
 	</ul>
 	<ul class="bloc-info">
 		<b>Keywords</b>
         <?php
             if(isset($eventKeywords)) {
-                foreach ($eventKeywords as $keyword)
-                {
+                foreach ($eventKeywords as $keyword) {
                     echo '<li>'.$keyword.'</li>';
                 }
             }

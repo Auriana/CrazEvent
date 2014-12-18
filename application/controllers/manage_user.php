@@ -56,11 +56,28 @@ class Manage_User extends CI_Controller {
         foreach($contacts as $row) {
           $contactTable .= "<div id='removeContact" . $row -> id . "'>";
           $contactTable .= "<li>" . $row -> firstname . " " . $row -> surname;
-          $contactTable .= "<div class='list_contact'><button class='btn btn-default btn-xs' onClick='removeContact(" . $row -> id . ")'>Retirer</a></button>";
+          $contactTable .= "<div class='list_contact'><button class='btn btn-default btn-xs' onClick='removeContact(" . $row -> id . ")'>Retirer</button>";
           $contactTable .= "</li></div>";
         }
         
-        $contactTable .=  "</ul";
+        $contactTable .=  "</ul>";
+        
+        echo $contactTable;
+    }
+    
+    function get_invitable_contacts($idEvent)
+    {
+        $contacts = $this->user->get_invitable_contacts($this->session->userdata('logged_in')['id'], $idEvent);
+        
+        $contactTable =  "<ul class='result_search'>";
+
+        foreach($contacts as $row) {
+          $contactTable .= "<li>" . $row -> firstname . " " . $row -> surname;
+          $contactTable .= "<div class='list_contact' id='inviteContact" . $row -> id . "'><button class='btn btn-default btn-xs' onClick='invite(" . $idEvent . ", " . $row -> id . ")'>Inviter</button>";
+          $contactTable .= "</li>";
+        }
+        
+        $contactTable .=  "</ul>";
         
         echo $contactTable;
     }
@@ -115,18 +132,10 @@ class Manage_User extends CI_Controller {
         echo json_encode($aResult);
     }
 
-    function join_event()
+    function join_event($id_event, $private)
     {
         $aResult = array();
-        if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
         if( !isset($aResult['error']) ) {
-               if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 3) ) {
-                   $aResult['error'] = 'Error in arguments!';
-               }
-               else {
-                   $id_user = $_POST['arguments'][0];
-                   $id_event = $_POST['arguments'][1];
-                   $private = $_POST['arguments'][2];
                    
                    if($private == 1) {
                         $result = $this->event->join_private_event($id_user, $id_event);

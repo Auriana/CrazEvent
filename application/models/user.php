@@ -83,8 +83,25 @@ Class User extends CI_Model
     
     function get_contacts($id_user)
     {
-        $query = $this->db->query("select user.id, firstname, surname from user inner join friendship on user_id1 = " . $id_user . " where user.id = friendship.user_id2");
+        $this->db->select('user.id, firstname, surname');
+        $this->db->from('user');
+        $this->db->join('friendship', 'user.id = friendship.user_id2', 'inner');
+        $this->db->where('user_id1', $id_user);
+        $query = $this->db->get();
 
+        return $query->result();
+    }
+    
+    function get_invitable_contacts($id_user, $id_event)
+    {
+        $this->db->select('user.id, firstname, surname');
+        $this->db->from('user');
+        $this->db->join('friendship', 'user.id = friendship.user_id2', 'inner');
+        $this->db->where('user_id1', $id_user);
+        //$this->db->where_not_in('friendship.user_id2','select user_id from participation where event_id = '.$id_event);
+        $this->db->where('friendship.user_id2 NOT IN (select user_id from participation where event_id = '.$id_event.')');
+        $query = $this->db->get();
+        
         return $query->result();
     }
     
