@@ -187,6 +187,23 @@ Class Event extends CI_Model {
     }
     
     /**
+    * Search the guests of an event in the database
+    * parameters :
+    *   id : event's guests to find's id
+    * Return the guests of the event.
+    */
+    function get_event_guests($id) {
+        $this->db->select('id, firstname, surname');
+        $this->db->from('user');
+        $this->db->join('invitation', 'invitation.user_id = user.id', 'inner');
+        $this->db->where('invitation.event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
+    /**
     * Search the checklist items of an event in the database
     * parameters :
     *   id : event's checklist items to find's id
@@ -242,6 +259,15 @@ Class Event extends CI_Model {
        $this->db->where('event_id', $id_event);
        $this->db->where('user_id', $id_user);
        $this->db->delete('participation');
+    }
+    
+    function send_invitation($id_user, $id_event) {
+       $data = array(
+           'user_id' => $id_user,
+           'event_id' => $id_event
+       );
+       $insertionResult = $this->db->insert('invitation', $data);
+       return $insertionResult;
     }
     
     /**
@@ -354,7 +380,7 @@ Class Event extends CI_Model {
     * Get all the details of an event.
     * parameters :
     *   id : id of the event
-    * return : array with event basic infos from get_event() plus activities, checklist, keywords, participants
+    * return : array with event basic infos from get_event() plus activities, checklist, keywords, participants, guests
     */
     function get_details($id) {
         $infoEvent['event'] = $this->event->get_event($id);
@@ -375,6 +401,8 @@ Class Event extends CI_Model {
         }
         
         $infoEvent['eventParticipants'] = $this->event->get_event_participants($id);
+        
+        $infoEvent['eventGuests'] = $this->event->get_event_guests($id);
 
         return $infoEvent;
     }

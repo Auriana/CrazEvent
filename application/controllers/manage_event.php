@@ -228,8 +228,7 @@ class Manage_Event extends CI_Controller {
 
                 //sending a notification to participants
                 $eventParticipants = $this->event->get_event_participants($id);
-                foreach ($eventParticipants as $participant)
-                {
+                foreach ($eventParticipants as $participant) {
                     send_notification("Modification d’un paramètre de l’évènement : " . $eventData['eventName'], '<p>L\'événement '.$eventData['eventName'].' a été modifié.</p><p><a href="'. base_url('details_event/index/' . $id) . '">Voir l\'évènement</a></p>', $this->session->userdata('logged_in')['id'], $participant->id, false);
                 }
             }
@@ -253,8 +252,7 @@ class Manage_Event extends CI_Controller {
                 $this->event->cancel($id);
                 
                 //sending a notification to participants
-                foreach ($info_event['eventParticipants'] as $participant)
-                {
+                foreach ($info_event['eventParticipants'] as $participant) {
                     send_notification("Annulation de l’évènement : " . $info_event['event']->name, '<p>L\'événement '.$info_event['event']->name.' a été annulé.</p>', $info_event['event']->organizer, $participant->id, true);
                 }
             }

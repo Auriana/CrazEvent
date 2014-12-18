@@ -111,9 +111,9 @@ if ( ! function_exists('get_participation_link')) {
         $participationLink = "";        
         if ($CI->event->is_participation($id_user, $id_event) == 0) {
             if ($private == 1) {
-                $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_user . ', ' . $id_event . ', 1)" alt="">Répondre à l\'invitation</a>';
+                $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_event . ', 1)" alt="">Répondre à l\'invitation</a>';
             } else {
-                $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_user . ', ' . $id_event . ', 0)" alt="">S\'inscrire</a>';
+                $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_event . ', 0)" alt="">S\'inscrire</a>';
             }
         } else {
             $participationLink = '<p>Vous êtes inscrit <a id="quitEvent" href="#" onClick="quitEvent(' . $id_user . ', ' . $id_event . ', ' . $private . ')" alt="">(se désinscrire)</a></p>';
@@ -160,13 +160,13 @@ if ( ! function_exists('get_region_scrollbox')) {
 if ( ! function_exists('send_notification')) {
     function send_notification($subject, $message, $senderUserId, $recipientUserId, $emailRequired) {
         $CI = get_instance();
-        
         $CI->load->model('user','',TRUE);
-        $recipientUser = $CI->user->get_user($recipientUserId);
         
         $CI->user->send_message($subject, $message, $senderUserId, $recipientUserId);
             
         if($emailRequired == true) {
+            $recipientUser = $CI->user->get_user($recipientUserId);
+            
             $CI->load->library('email');
 
             // Get full html:
