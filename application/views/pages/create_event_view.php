@@ -1,6 +1,6 @@
 <script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
 <script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>
-<script src="<?php echo asset_url().'js/jquery.ui.addresspicker.js'; ?>"></script>
+
 <script>
     function validateForm() {            
         var isValid = true;
@@ -194,7 +194,7 @@ $(document).ready(function(){
     });
 	
 	// ADDRESS PICKER
-    $('#inputPlace').addresspicker();
+    $('#addresspicker').addresspicker();
 });
 </script>
 
@@ -242,10 +242,11 @@ $(document).ready(function(){
     <div class="form-group">
         <label for="inputPlace" class="col-sm-4 control-label">Lieu de début</label>
         <div class="col-sm-6">
-            <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="Entre un lieu">
+            <input type="text" class="form-control" name="inputPlace" id="addresspicker" placeholder="Entre un lieu">
 			<span id="placeError"></span>
         </div>
     </div>
+	<script src="<?php echo asset_url().'js/jquery.ui.addresspicker.js'; ?>"></script>
     
     <div class="form-group">
         <label for="inputRegion" class="col-sm-4 control-label">Région</label>
