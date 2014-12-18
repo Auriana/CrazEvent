@@ -208,7 +208,7 @@ Class User extends CI_Model
     }
     
     function get_messages($userId) {        
-        $this->db->select('user_inbox_message.id AS messageId, subject, sender as senderId, firstname AS senderFirstname, surname AS senderSurname, date, is_read');
+        $this->db->select('user_inbox_message.id AS messageId, subject, content, sender as senderId, firstname AS senderFirstname, surname AS senderSurname, date, is_read');
         $this->db->from('user_inbox_message');
         $this->db->join('user', ' user_inbox_message.sender = user.id', 'inner');
         $this->db->where('user_inbox_message.recipient', $userId);

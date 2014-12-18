@@ -82,7 +82,7 @@ class Manage_User extends CI_Controller {
                    $result = $this->user->add_contact($id_user, $id_contact);
                    
                    if($this->user->is_friend($id_user, $id_contact) == 1) {
-                       send_notification("Ajout de contact : " . $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'], '<p>'.$this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' t\'as ajouté comme contact.</p>', $id_user, $id_contact, false);
+                       send_notification("Ajout de contact : " . $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'], $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' t\'as ajouté comme contact.', $id_user, $id_contact, false);
                    }
                    
                    $aResult['result'] = 'success';
@@ -137,7 +137,7 @@ class Manage_User extends CI_Controller {
                    //sending a notification to the organizer
                    if($this->event->is_participation($id_user, $id_event) == 1) {
                        $event = $this->event->get_event($id_event);
-                       send_notification("Inscription d'un participant : " . $event->name, '<p>'.$this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' s\'est inscrit à ton événement!.</p><p><a href="'. base_url('details_event/index/' . $event->id) . '">Voir l\'évènement</a></p>', $id_user, $event->organizer, false);
+                       send_notification("Inscription d'un participant : " . $event->name, $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' s\'est inscrit à ton événement!', $id_user, $event->organizer, false);
                    }
                    
                    $aResult['result'] = get_participation_link($id_user, $id_event, $private);

@@ -53,18 +53,17 @@
 		</h1>
         <?php
             if(isset($notifications)) {
-                echo "<table>";
-                echo "<tr><th>Sujet</th><th>Expéditeur</th><th>Date</th></tr>";
+				echo '<ul>';
 				foreach ($notifications as $notification) {
-                    echo '<tr onclick="readNotification('.$notification->messageId.')" class="'. ($notification->is_read == 1 ? 'notification-read' : 'notification-notRead') .'">';
-                    echo "<td>".$notification->subject."</td>";
-                    echo "<td>".$notification->senderFirstname." ".$notification->senderSurname."</td>";
-                    echo "<td>".$notification->date."</td>";
-                    echo "</tr>";
+					echo '<li class="'. ($notification->is_read == 1 ? 'notification-read' : 'notification-notRead').'">'.$notification->content." par ".$notification->senderFirstname." ".$notification->senderSurname;
+					echo ' le '.$notification->date.'</li>'; 
+					//echo '<p><a href="'. base_url('details_event/index/' . $id) . '">Voir l\'évènement</a></p>';
 				}
-                echo "</table>";
+				
+				
+				
+                echo "</ul>";
 			}
         ?>
-        <div id="notificationContent" style="border:1px solid black;">
         </div>
 	</div>
