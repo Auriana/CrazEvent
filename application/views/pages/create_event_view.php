@@ -195,7 +195,7 @@ $(document).ready(function(){
     });
 	
 	// ADDRESS PICKER
-    $('#addresspicker').addresspicker();
+    $('#inputPlace').addresspicker();
 });
 </script>
 
@@ -241,9 +241,9 @@ $(document).ready(function(){
     </div>
 
     <div class="form-group">
-        <label for="inputPlace" class="col-sm-4 control-label">Lieu de début</label>
+        <label for="inputPlace" class="col-sm-4 control-label">Adresse de début</label>
         <div class="col-sm-6">
-            <input type="text" class="form-control" name="inputPlace" id="addresspicker" placeholder="Entre un lieu">
+            <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="Entre un lieu">
 			<span id="placeError"></span>
         </div>
     </div>
