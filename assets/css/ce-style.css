@@ -261,6 +261,10 @@ p.copyright {
     background-color: green;
 }
 
+.notification-selected {
+    background-color: blue;
+}
+
 .ui-widget-content {
 	border: 1px solid #fff!important;
 }

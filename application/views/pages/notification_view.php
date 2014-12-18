@@ -1,5 +1,6 @@
 <script>
     var notificationsRead = new Object();
+    //retrieve the content of the notification
     function readNotification(idNotification) {
         //do not query the server if notification already received
         if(!(idNotification in notificationsRead)) {
@@ -25,8 +26,23 @@
     
     $(document).ready(function(){
         $('.notification-notRead').click(function() {
+            //special display of read notification
             $(this).addClass('notification-read');
             $(this).removeClass('notification-notRead');
+            
+            //special display of selected notification
+            $( ".notification-selected" ).each(function( index ) {
+                $(this).removeClass('notification-selected');
+            });
+            $(this).addClass('notification-selected');
+        });
+        
+        $('.notification-read').click(function() {
+            //special display of selected notification
+            $( ".notification-selected" ).each(function( index ) {
+                $(this).removeClass('notification-selected');
+            });
+            $(this).addClass('notification-selected');
         });
     });
 </script>
