@@ -1,6 +1,7 @@
 <script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
 <script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>
-
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="<?php echo asset_url().'js/jquery.ui.addresspicker.js'; ?>"></script>
 <script>
     function validateForm() {            
         var isValid = true;
@@ -246,7 +247,7 @@ $(document).ready(function(){
 			<span id="placeError"></span>
         </div>
     </div>
-	<script src="<?php echo asset_url().'js/jquery.ui.addresspicker.js'; ?>"></script>
+	
     
     <div class="form-group">
         <label for="inputRegion" class="col-sm-4 control-label">Région</label>
