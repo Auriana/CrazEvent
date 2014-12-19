@@ -24,7 +24,7 @@ class Search extends CI_Controller {
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);
             $this->load->view('pages/search_user_view', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/sticky-footer');
         //if user is not logged in : redirection to welcome page
         } else {  
             redirect('welcome', 'refresh');
@@ -58,8 +58,7 @@ class Search extends CI_Controller {
 				 $resultTable .=  "<div class='list_contact'>Déjà un contact!</div>";
 			} else {
                 $resultTable .=  "<div class='list_contact' id='addContact" . $row -> id . "'><button class='btn btn-default btn-xs' onClick='addContact(" . $id_user . ", " . $row -> id . ")'>Ajouter</a></button>";
-				$resultTable .=  "<div class='clearer'></div>";
-				$resultTable .=  "<div class='clearer'></div>";
+				$resultTable .=  "</div><div class='clearer'></div>";
             }
           $resultTable .=  "</li>";
         }
