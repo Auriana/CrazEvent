@@ -55,7 +55,7 @@
             if(isset($notifications)) {
 				echo '<ul class="result_search">';
 				foreach ($notifications as $notification) {
-					echo '<li onclick="readNotification('.$notification->messageId.')" class=" '.($notification->is_read == 1 ? 'star-t' : 'star-r').'">'.$notification->content." par ".$notification->senderFirstname." ".$notification->senderSurname;
+					echo '<li onclick="readNotification('.$notification->messageId.')" class="'.($notification->is_read == 1 ? 'star-t' : 'star-r').'">'.$notification->content." par ".$notification->senderFirstname." ".$notification->senderSurname;
 					echo ' ('.$notification->date.')'; 
 					echo '<a class="list_contact" href="'. base_url('details_event/index/' . $notification->messageId) . '">Voir l\'évènement</a><div class="clearer"></div></li>';
 				}		

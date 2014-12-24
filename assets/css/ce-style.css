@@ -29,6 +29,10 @@ h2 {
 	margin-top: 6px;
 }
 
+h3 {
+	margin-top: 8px;
+}
+
 .clearer {
 	clear: both;
 }
@@ -92,6 +96,14 @@ h2 {
 	border: none!important;
 }
 
+.bold {
+	font-weight: bold;
+}
+
+.rose {
+	color:#ff1f45!important;
+}
+
 ul li.star-t {
 	list-style-image: url(http://crazevent.com/assets/img/star-t.png)!important;
 	list-style-position: inside!important;
@@ -100,7 +112,6 @@ ul li.star-t {
 ul li.star-r {
 	list-style-image: url(http://crazevent.com/assets/img/star-r.png)!important;
 	list-style-position: inside!important;
-	font-weight: bold;
 }
 
 .navbar li a {
@@ -158,6 +169,12 @@ form {
 	border-bottom: 1px solid #ddd;
 	padding: 10px;
 }
+
+.bloc-info-r {
+	border-bottom: 1px solid #ff1f45;
+	padding: 10px;
+}
+
 
 #txtHint {
 	width: 80%;
