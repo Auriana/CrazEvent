@@ -5,7 +5,12 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="intro-message">
-					<h1>Organise ton événement, et propose-le à tes amis !</h1>
+					<p class="text-centred">Tu veux qu’un maximum de tes invités soit présent à ton événement ? <br />
+						Tu souhaites organiser un voyage, tout en déléguant certaines tâches ?</p>
+					<br />
+					<h1>Organise ton événement 
+						<br />et propose-le à tes amis !
+					</h1>
 				</div>
 			</div>
 			<div class="col-md-3 white-bloc">
@@ -46,24 +51,41 @@
 <div class="content-section-a">
 
 	<div class="container">
-
-		<div class="row">
-			<div class="col-lg-5 col-sm-6">
-				<h2 class="section-heading">Des fonctionnalités hors normes</h2>
-				<p class="lead">Tout a été minutieusement étudié pour te permettre de planifier dans les moindres détails ton événement. </p>
-			</div>
-			<div class="col-lg-5 col-lg-offset-2 col-sm-6">
-				<img class="img-responsive" src="img/ipad.png" alt="">
+		<div class="row mt centered">
+			<div class="col-lg-6 col-lg-offset-3">
+				<h1 class="text-centred">Des fonctionnalités hors normes</h2>
+				<p class="lead text-centred">Tout a été minutieusement étudié pour te permettre de planifier dans les moindres détails ton événement. </p>
 			</div>
 		</div>
+		<div class="row mt centered">
+			<div class="col-lg-4">
+				<!--<img src="assets/img/ser01.png" width="180" alt="">-->
+				<h4><span class="glyphicon glyphicon-star" aria-hidden="Checklist"></span> Options ouvertes</h4>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
+			</div>
+
+			<div class="col-lg-4">
+				<h4><span class="glyphicon glyphicon-star" aria-hidden="Checklist"></span> Propositions individuelles</h4>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
+
+			</div>
+
+			<div class="col-lg-4">
+				<h4><span class="glyphicon glyphicon-star" aria-hidden="Checklist"></span> Checklist</h4>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
+
+			</div>
+		</div><!-- /row -->
 	</div><!-- /.container -->
 </div><!-- /.content-section-a -->
 <div class="content-section-b">
 	<div class="container">
-		<p class="text-centred">Tu veux qu’un maximum de tes invités soit présent à ton événement ? </p>
-		<p class="text-centred">Tu souhaites organiser un voyage, tout en déléguant certaines tâches ?</p>
-		<p class="text-centred">Tu aimerais que tes potes n’oublient pas d’apporter leurs boissons lors de ton apéro  comme la dernière fois ?</p>
-		<p class="text-centred">Tu as envie d’organiser la meilleure fête de quartier sans voir arriver tes voisins de 12 ans ?</p>
+		<div class="col-lg-7">
+			<h1 class="text-centred">Inscris-toi, c'est gratuit !</h1>
+		</div>
+		<div class="col-lg-5">
+			<a class="btn btn-default btn-lg btn-special" href= "<?php echo base_url().'manage_user/creation'; ?>"><span class="glyphicon glyphicon-hand-right" aria-hidden="Inscription"></span> &nbsp; &Ccedil;a se passe ici !</a>
+		</div>
 	</div><!-- /.container -->
 </div><!-- /.content-section-b -->
 
