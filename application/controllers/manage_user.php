@@ -54,8 +54,7 @@ class Manage_User extends CI_Controller {
         $contactTable =  "<ul class='result_search'>";
 
         foreach($contacts as $row) {
-          $contactTable .= "<div id='removeContact" . $row -> id . "'>";
-          $contactTable .= "<li>" . $row -> firstname . " " . $row -> surname;
+          $contactTable .= "<li id='removeContact" . $row -> id . "'>" . $row -> firstname . " " . $row -> surname;
           $contactTable .= "<div class='list_contact'><button class='btn btn-default btn-xs' onClick='removeContact(" . $row -> id . ")'>Retirer</button>";
           $contactTable .= "</li></div>";
         }

@@ -47,6 +47,12 @@ h3 {
 	float: none;
 }
 
+
+#space {
+	display: block;
+	height: 140px;
+}
+
 .text-centred {
 	text-align: center;
 }
@@ -98,6 +104,7 @@ h3 {
 	background-color: #fff!important;
 	background-image: none!important;
 	border-color:#fff;
+	border-radius: 0px!important;
 }
 
 .navbar-fixed-top {

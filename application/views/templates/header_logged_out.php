@@ -46,7 +46,7 @@
 				<div class="navbar-collapse collapse">
 					<!-- Menu navigation -->
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href=""><span class="glyphicon glyphicon-log-in" aria-hidden="Connexion"></span> Connecte-toi</a></li>
+						<li><a href="<?php echo base_url().'welcome'; ?>"><span class="glyphicon glyphicon-log-in" aria-hidden="Connexion"></span> Connecte-toi</a></li>
 						<li><a href="<?php echo base_url().'manage_user/creation'; ?>"><span class="glyphicon glyphicon-record" aria-hidden="Home"></span> Crée un compte</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
