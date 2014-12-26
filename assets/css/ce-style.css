@@ -149,6 +149,10 @@ ul li.star-r {
 	color: #ff1a5c!important;
 }
 
+a.active {
+	color: #ff1a5c!important;
+}
+
 form {
 	margin-bottom: 0!important;
 }
