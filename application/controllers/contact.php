@@ -3,6 +3,7 @@ class Contact extends CI_Controller {
 
     function __construct() {
          parent::__construct();
+		 $this->load->model('user','',TRUE);
     }
 
     /**
@@ -11,11 +12,11 @@ class Contact extends CI_Controller {
     */
     function index() {
 		$data['title'] = 'Contact';
-
 		//$this->load->helper(array('form'));
-		
-		if($this->session->userdata('logged_in')) {
-            $this->load->view('templates/header_logged_in', $data);
+	
+		if($this->session->userdata('logged_in')) {	
+			$data['nb_notifications'] = $this->user->count_unread_message($this->session->userdata('logged_in')['id']);
+            $this->load->view('templates/header_logged_in', $data);	
         } else {         
             $this->load->view('templates/header_logged_out', $data);
 			// due to the fixed-top navbar :

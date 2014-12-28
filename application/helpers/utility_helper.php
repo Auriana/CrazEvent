@@ -97,6 +97,39 @@ if ( ! function_exists('get_my_events')) {
 	}
 }
 
+
+
+
+
+
+/**
+* Select the current events that a user organizes.
+* return : display list of the events.
+*/
+if ( ! function_exists('get_my_created_events')) {
+    function get_my_created_events($id_user) {
+         
+        // Get a reference to the controller object
+        $CI = get_instance();
+        $CI->load->model('user','',TRUE);
+
+        //query the database
+        $result = $CI->user->get_actual_organized_event($id_user, 10);
+        $eventsInfos = "";
+        if ($result) {
+            foreach($result as $row) {
+                $eventsInfos .= "<li><a class='event-link' href='details_event/index/" . $row->id . "'>" . $row->name . "</a></li>";
+            }
+        }
+
+        return $eventsInfos;
+	}
+}
+
+
+
+
+
 /**
 * return : a link to handle user participation to an event.
 */

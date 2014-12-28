@@ -15,6 +15,7 @@ class Manage_User extends CI_Controller {
         {
             $data['title'] = 'Mon compte';
             $session_data = $this->session->userdata('logged_in');
+			$data['nb_notifications'] = $this->user->count_unread_message($session_data['id']);
             $data['user'] = $session_data;
             $data['regions'] = get_region_scrollbox();
 
@@ -35,6 +36,7 @@ class Manage_User extends CI_Controller {
         {
             $data['title'] = 'Mes contacts';
             $session_data = $this->session->userdata('logged_in');
+			$data['nb_notifications'] = $this->user->count_unread_message($session_data['id']);
             $data['user'] = $session_data;
 
             $this->load->view('templates/header_logged_in', $data);

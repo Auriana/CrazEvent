@@ -244,7 +244,7 @@
         <div class="clearer"></div>
 		<div class="form-group multi-input"> 
 			<div class="form-group">
-        		<label id="actualBirthdate" for="changeBirthdate" class="col-sm-3 control-label"><?php echo "Date de naissance : " . $user['birthdate']; ?></label>
+        		<label id="actualBirthdate" for="changeBirthdate" class="col-sm-3 control-label"><?php echo "Date de naissance : <br/>" . $user['birthdate']; ?></label>
 				<div class="col-sm-8">
 					<div class="col-sm-2">
 						<select id="inputDay"  name="inputDay" class="form-control">

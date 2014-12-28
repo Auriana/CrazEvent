@@ -194,7 +194,24 @@ Class User extends CI_Model
         $this->db->order_by('start_date', 'asc');
         return $this->db->get()->result();
     }
+	
+
+	
+	/*
+    * get actual events where user is the organizer
+    */
+    function get_actual_organized_event($id_user, $limit) {
+        $this->db->select('*');
+        $this->db->from('event');
+		$this->db->where('organizer', $id_user);
+        $this->db->where('start_date >= NOW()');
+        $this->db->order_by('start_date', 'asc');
+		$this->db->limit($limit);
+        return $this->db->get()->result();
+    }
     
+		
+	
     /*
     * get events where user is a participant and are not in the past
     */
@@ -248,5 +265,22 @@ Class User extends CI_Model
         $this->db->where('user_inbox_message.id', $notificationId);
         return $this->db->get()->result()[0];
     }
+	
+	
+	/*
+    * Count the number of unread notifications
+    */
+    function count_unread_message($id_user) {    
+        $this->db->select('*');
+        $this->db->from('user_inbox_message');
+        $this->db->where('is_read', 0);
+		$this->db->where('user_inbox_message.recipient ', $id_user);
+		$query = $this->db->get();
+		$rowcount = $query->num_rows();
+        return $rowcount;
+    }
+	
+	
+	
 }
 ?>

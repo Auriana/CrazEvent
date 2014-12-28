@@ -20,6 +20,7 @@ class Search extends CI_Controller {
         if($this->session->userdata('logged_in')) {
             $data['title'] = 'Rechercher utilisateur';
             $session_data = $this->session->userdata('logged_in');
+			$data['nb_notifications'] = $this->user->count_unread_message($session_data['id']);
 
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);

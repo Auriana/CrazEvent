@@ -11,9 +11,15 @@
 			<p>
 				Les événements auxquels tu participes se situent ici.
 			</p>
-			<ul>
-				<?php echo $my_events; ?>
-			</ul>
+			<?php
+				if ($my_events == '') {
+					echo '<p>Pour l\'instant, tu ne participes à aucun événement.</p>';
+				} else {
+					echo '<ul>';
+					echo $my_events;
+					echo '</ul>';
+				}
+			?>
             <a href="calendar">Voir ton agenda</a>
 		</div>
 
@@ -23,9 +29,17 @@
 			</h2>
 			<p>
 				Les événements que tu organises se trouvent ici. 
-				<br />Pour l'instant, tu n'en as pas.
 			</p>
-			<a class="btn btn-danger" href="manage_event/creation">Crée-en un !</a>
+			<?php 
+				if ($my_created_events == '') {
+					echo '<p>Pour l\'instant, tu n\'en as pas.</p>';
+					echo '<a class="btn btn-danger" href="manage_event/creation">Crée-en un !</a>';
+				} else {
+					echo '<ul>';
+					echo $my_created_events;
+					echo '</ul>';
+				}
+			?>
 		</div>
 	</div>
 	
@@ -44,7 +58,7 @@
 				Actions
 			</h2>
 			<p>
-				Nous avons centralisé les actions possibles ici.
+				Nous avons centralisé les actions ici.
 			</p>
 			<p class="centred">
 				<a class="btn btn-danger small-marg width-loo" href="manage_event/creation">Créer un évènement !</a>

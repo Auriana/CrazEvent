@@ -5,6 +5,7 @@ class Manage_Event extends CI_Controller {
     {
          parent::__construct();
          $this->load->model('event','',TRUE);
+		 $this->load->model('user','',TRUE);
     }
 
     function index() {}
@@ -22,7 +23,7 @@ class Manage_Event extends CI_Controller {
             
             if($info_event['event']->organizer == $this->session->userdata('logged_in')['id']) {
                 $data['title'] = 'Modifier l\évènement';
-                
+                $data['nb_notifications'] = $this->user->count_unread_message($this->session->userdata('logged_in')['id']);
                 $info_event['regions'] = get_region_scrollbox_with_selected($info_event['event']->region);
 
                 $this->load->helper(array('form'));
