@@ -46,7 +46,7 @@ class Manage_Event extends CI_Controller {
     function creation() {    
         if($this->session->userdata('logged_in')) {
             $data['title'] = 'Créer évènement';
-            
+            $data['nb_notifications'] = $this->user->count_unread_message($this->session->userdata('logged_in')['id']);
             $data['regions'] = get_region_scrollbox();
 
             $this->load->helper(array('form'));

@@ -25,6 +25,7 @@ class Notification extends CI_Controller {
         //if user is not logged in : redirection to welcome page
         } else {  
             redirect('welcome', 'refresh');
+			
         }
     }
     
