@@ -21,6 +21,7 @@ class Calendar extends CI_Controller {
                 $data['selectedYear'] = date("Y");
             }
             $data['calendar'] = $this->draw_calendar($data['selectedMonth'],$data['selectedYear']);
+			$data['nb_notifications'] = $this->user->count_unread_message($this->session->userdata('logged_in')['id']);
 
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);

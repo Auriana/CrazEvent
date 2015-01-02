@@ -54,7 +54,7 @@
 
 <?php echo validation_errors(); ?>
 <?php echo form_open( 'manage_user/create', 'name="register" class="form-horizontal" role="form" onsubmit="return validateForm()"'); ?>
-<div class="container theme-showcase" role="main">
+<div class="container theme-showcase big-marg-top" role="main">
 <div class="col-md-6 white-bloc centred marg-top">
 	<h1 class="text-centred">
 		Crée ton compte

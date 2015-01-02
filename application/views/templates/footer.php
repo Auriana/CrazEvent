@@ -9,7 +9,7 @@
 
 			<li class="footer-menu-divider">&sdot;</li>
 			<li>
-				<a href="#contact">Contact</a>
+				<a href="/contact">Contact</a>
 			</li>
 		</ul>
 		<p class="copyright text-muted small">Copyright &copy; Craz'event 2014. All Rights Reserved</p>

@@ -51,20 +51,19 @@
 		<h1 class="text-centred">
 			Mes notifications
 		</h1>
+		<p>
+			<b>Pour valider la lecture d'une nouvelle notification, clique dessus !</b>
+		</p>
         <?php
             if(isset($notifications)) {
-                echo "<table>";
-                echo "<tr><th>Sujet</th><th>Expéditeur</th><th>Date</th></tr>";
+				echo '<ul class="result_search">';
 				foreach ($notifications as $notification) {
-                    echo '<tr onclick="readNotification('.$notification->messageId.')" class="'. ($notification->is_read == 1 ? 'notification-read' : 'notification-notRead') .'">';
-                    echo "<td>".$notification->subject."</td>";
-                    echo "<td>".$notification->senderFirstname." ".$notification->senderSurname."</td>";
-                    echo "<td>".$notification->date."</td>";
-                    echo "</tr>";
-				}
-                echo "</table>";
+					echo '<li onclick="readNotification('.$notification->messageId.')" class="'.($notification->is_read == 1 ? 'star-t' : 'star-r clickOn').'">'.$notification->content." par ".$notification->senderFirstname." ".$notification->senderSurname;
+					echo ' ('.$notification->date.')'; 
+					echo '<a class="list_contact" href="'. base_url('details_event/index/' . $notification->messageId) . '">Voir l\'évènement</a><div class="clearer"></div></li>';
+				}		
+                echo "</ul>";
 			}
         ?>
-        <div id="notificationContent" style="border:1px solid black;">
         </div>
 	</div>

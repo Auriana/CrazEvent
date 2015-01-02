@@ -6,27 +6,40 @@
 	<div class="row">
 		<div class="col-md-5 white-bloc col-2-blocs">
 			<h2>
-				Mes prochains événements
-                <ul>
-				    <?php echo $my_events; ?>
-			     </ul>
-                <a href="calendar">voir tous ses évènements</a>
+				Tes prochains événements 
 			</h2>
-			
+			<p>
+				Les événements auxquels tu participes se situent ici.
+			</p>
+			<?php
+				if ($my_events == '') {
+					echo '<p>Pour l\'instant, tu ne participes à aucun événement.</p>';
+				} else {
+					echo '<ul>';
+					echo $my_events;
+					echo '</ul>';
+				}
+			?>
+            <a href="calendar">Voir ton agenda</a>
 		</div>
+
 		<div class="col-md-5 white-bloc col-2-blocs">
 			<h2>
-				Actions
+				Evénements créés
 			</h2>
 			<p>
-				<a href="manage_event/creation">Créer un évènement</a> !
+				Les événements que tu organises se trouvent ici. 
 			</p>
-			<p>
-				<a href="search/user">Rechercher un utilisateur</a>
-			</p>
-            <p>
-				<a href="search/event">Rechercher un évènement</a>
-			</p>
+			<?php 
+				if ($my_created_events == '') {
+					echo '<p>Pour l\'instant, tu n\'en as pas.</p>';
+					echo '<a class="btn btn-danger" href="manage_event/creation">Crée-en un !</a>';
+				} else {
+					echo '<ul>';
+					echo $my_created_events;
+					echo '</ul>';
+				}
+			?>
 		</div>
 	</div>
 	
@@ -35,11 +48,27 @@
 			<h2>
 				Nouveaux événements 
 			</h2>
+			<p>Seuls les plus récents sont affichés.</p>
             <ul>
 				<?php echo $new_events; ?>
 			</ul>
-            Seul les plus récents sont affichés.
+		</div>
+		<div class="col-md-5 white-bloc col-2-blocs">
+			<h2>
+				Actions
+			</h2>
+			<p>
+				Nous avons centralisé les actions ici.
+			</p>
+			<p class="centred">
+				<a class="btn btn-danger small-marg width-loo" href="manage_event/creation">Créer un évènement !</a>
+				<br />
+				<a class="btn btn-default small-marg width-loo" href="search/user">Rechercher un utilisateur</a>
+				<br />
+				<a class="btn btn-default width-loo" href="search/event">Rechercher un évènement</a>
+			</p>
 		</div>
 	</div>
+	
 </div>
 

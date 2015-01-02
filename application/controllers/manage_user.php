@@ -15,6 +15,7 @@ class Manage_User extends CI_Controller {
         {
             $data['title'] = 'Mon compte';
             $session_data = $this->session->userdata('logged_in');
+			$data['nb_notifications'] = $this->user->count_unread_message($session_data['id']);
             $data['user'] = $session_data;
             $data['regions'] = get_region_scrollbox();
 
@@ -35,6 +36,7 @@ class Manage_User extends CI_Controller {
         {
             $data['title'] = 'Mes contacts';
             $session_data = $this->session->userdata('logged_in');
+			$data['nb_notifications'] = $this->user->count_unread_message($session_data['id']);
             $data['user'] = $session_data;
 
             $this->load->view('templates/header_logged_in', $data);
@@ -54,8 +56,7 @@ class Manage_User extends CI_Controller {
         $contactTable =  "<ul class='result_search'>";
 
         foreach($contacts as $row) {
-          $contactTable .= "<div id='removeContact" . $row -> id . "'>";
-          $contactTable .= "<li>" . $row -> firstname . " " . $row -> surname;
+          $contactTable .= "<li id='removeContact" . $row -> id . "'>" . $row -> firstname . " " . $row -> surname;
           $contactTable .= "<div class='list_contact'><button class='btn btn-default btn-xs' onClick='removeContact(" . $row -> id . ")'>Retirer</button>";
           $contactTable .= "</li></div>";
         }
@@ -99,7 +100,7 @@ class Manage_User extends CI_Controller {
                    $result = $this->user->add_contact($id_user, $id_contact);
                    
                    if($this->user->is_friend($id_user, $id_contact) == 1) {
-                       send_notification("Ajout de contact : " . $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'], '<p>'.$this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' t\'as ajouté comme contact.</p>', $id_user, $id_contact, false);
+                       send_notification("Ajout de contact : " . $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'], $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' t\'as ajouté comme contact.', $id_user, $id_contact, false);
                    }
                    
                    $aResult['result'] = 'success';
@@ -134,23 +135,25 @@ class Manage_User extends CI_Controller {
 
     function join_event($id_event, $private)
     {
+		$id_user = $session_data = $this->session->userdata('logged_in')['id'];
         $aResult = array();
         if( !isset($aResult['error']) ) {
                    
-           if($private == 1) {
-                $result = $this->event->join_private_event($this->session->userdata('logged_in')['id'], $id_event);
-           } else {
-               $result = $this->event->join_public_event($this->session->userdata('logged_in')['id'], $id_event);
-           }
+			   if($private == 1) {
+					$result = $this->event->join_private_event($id_user, $id_event);
+			   } else {
+				   $result = $this->event->join_public_event($id_user, $id_event);
+			   }
 
-           //sending a notification to the organizer
-           if($this->event->is_participation($this->session->userdata('logged_in')['id'], $id_event) == 1) {
-               $event = $this->event->get_event($id_event);
-               send_notification("Inscription d'un participant : " . $event->name, '<p>'.$this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' s\'est inscrit à ton événement!.</p><p><a href="'. base_url('details_event/index/' . $event->id) . '">Voir l\'évènement</a></p>', $this->session->userdata('logged_in')['id'], $event->organizer, false);
-           }
+			   //sending a notification to the organizer
+			   if($this->event->is_participation($id_user, $id_event) == 1) {
+				   $event = $this->event->get_event($id_event);
+				   send_notification("Inscription d'un participant : " . $event->name, $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' s\'est inscrit à ton événement!', $id_user, $event->organizer, false);
+			   }
 
-           $aResult['result'] = get_participation_link($this->session->userdata('logged_in')['id'], $id_event, $private);
-        }
+			   $aResult['result'] = get_participation_link($id_user, $id_event, $private);
+               }
+        
         echo json_encode($aResult);
     }
     

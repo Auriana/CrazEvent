@@ -58,7 +58,7 @@ $(document).ready(function(){
                     <input type="text" class="form-control inputActivity" id="inputActivity' + activityNbr + '" name="inputActivity' + activityNbr + '" placeholder="Entre une activité">\
                 </div>\
                 <div class="removeActivityContainer col-sm-2">\
-                    <button type="button" class="btn btn-primary removeActivity" id="removeActivity' + activityNbr + '" class="btn btn-primary">-</button>\
+                    <button type="button" class="btn btn-default removeActivity but-icon" id="removeActivity' + activityNbr + '"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>\
                 </div>\
             </div>');	
     });
@@ -106,7 +106,8 @@ $(document).ready(function(){
 			<input type="text" class="form-control" name="inputKeyword' + keywordNbr + '" id="inputKeyword' + keywordNbr + '" placeholder="Entre un mot-clé">\
 			</div>\
 			<div class="removeKeywordContainer col-sm-2">\
-			<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword' + keywordNbr + '" class="btn btn-primary">-</button>\
+			<button type="button" class="btn btn-default removeKeyword but-icon" id="removeKeyword' + keywordNbr + '">\
+			<span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>\
 			</div>\
 			</div>');
     });
@@ -153,7 +154,7 @@ $(document).ready(function(){
 			<input type="text" class="form-control inputChecklistItem" name="inputChecklistItem' + checklistItemNbr + '" id="inputChecklistItem' + checklistItemNbr + '" placeholder="Chose à faire/prendre">\
 			</div>\
 			<div class="removeChecklistContainer col-sm-2">\
-			<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem' + checklistItemNbr + '" class="btn btn-primary">-</button>\
+			<button type="button" class="btn btn-default removeChecklistItem but-icon" id="removeChecklistItem' + checklistItemNbr + '"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>\
 			</div>\
 			</div>');
     });
@@ -253,7 +254,7 @@ $(document).ready(function(){
     <div id ="activitySuperContainer" class="form-group">
         <label for="inputActivity" class="col-sm-4 control-label">*Activité(s)</label>
         <div id="addActivityContainer" class="col-sm-6">
-			<button type="button" id="addActivity" class="btn btn-primary">Ajouter une activité</button>
+			<button type="button" id="addActivity" class="btn btn-default">Ajouter une activité</button>
 		</div>
 		
 		<?php
@@ -268,7 +269,7 @@ $(document).ready(function(){
 					echo '<span id="activity1Error"></span>';
 					echo '</div>';
 					echo '<div class="removeActivityContainer col-sm-2">';
-					echo '<button type="button" class="btn btn-primary removeActivity" id="removeActivity'.$activityNumber.'" class="btn btn-primary">-</button>';
+					echo '<button type="button" class="btn btn-default removeActivity but-icon" id="removeActivity'.$activityNumber.'"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>';
 					echo '</div>';
 					echo '</div>';
 					++$activityNumber;
@@ -288,7 +289,7 @@ $(document).ready(function(){
     <div id ="keywordSuperContainer" class="form-group">
         <label for="inputKeyword" class="col-sm-4 control-label">Mot(s)-clé(s)</label>
         <div id="addKeywordContainer" class="col-sm-6">
-			<button type="button" id="addKeyword" class="btn btn-primary">Ajouter un mot-clé</button>
+			<button type="button" id="addKeyword" class="btn btn-default">Ajouter un mot-clé</button>
 		</div>
 		
 		<?php
@@ -302,7 +303,7 @@ $(document).ready(function(){
 					echo '<input type="text" class="form-control inputKeyword" name="inputKeyword'.$keywordNumber.'" id="inputKeyword'.$keywordNumber.'" placeholder="Entre un mot-clé" value="'.$keyword.'">';
 				echo '</div>';
 				echo '<div class="removeKeywordContainer col-sm-2">';
-					echo '<button type="button" class="btn btn-primary removeKeyword" id="removeKeyword'.$keywordNumber.'" class="btn btn-primary">-</button>';
+					echo '<button type="button" class="btn btn-default removeKeyword but-icon" id="removeKeyword'.$keywordNumber.'"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>';
 					echo '</div>';
 					echo '</div>';
 					++$keywordNumber;
@@ -314,7 +315,7 @@ $(document).ready(function(){
     <div id ="checklistSuperContainer" class="form-group">
         <label for="inputChecklist" class="col-sm-4 control-label">Checklist</label>
         <div id="addChecklistContainer" class="col-sm-6">
-			 <button type="button" id="addChecklistItem" class="btn btn-primary">Ajouter une chose à faire/prendre</button>
+			 <button type="button" id="addChecklistItem" class="btn btn-default">Ajouter une chose à faire/prendre</button>
 		</div>            
 		<?php
 			if(isset($eventChecklist)) {
@@ -327,7 +328,7 @@ $(document).ready(function(){
 					echo '<input type="text" class="form-control inputChecklistItem"; name="inputChecklistItem'.$checklistItemNumber.'" id="inputChecklistItem'.$checklistItemNumber.'" placeholder="Entre une chose à faire/prendre" value="'.$checklistItem.'">';
 					echo '</div>';
 					echo '<div class="removeChecklistContainer col-sm-2">';
-					echo '<button type="button" class="btn btn-primary removeChecklistItem" id="removeChecklistItem'.$checklistItemNumber.'" class="btn btn-primary">-</button>';
+					echo '<button type="button" class="btn btn-default removeChecklistItem but-icon" id="removeChecklistItem'.$checklistItemNumber.'"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>';
 					echo '</div>';
 					echo '</div>';
 					++$checklistItemNumber;
@@ -373,7 +374,7 @@ $(document).ready(function(){
 	
 	<div class="form-group">
 		<div class="col-sm-offset-4 col-sm-6">
-    		<button type="submit" class="btn btn-primary btn-lg">Modifier l'événement</button>
+    		<button type="submit" class="btn btn-default btn-lg">Modifier l'événement</button>
 		</div>
 	</div>
 

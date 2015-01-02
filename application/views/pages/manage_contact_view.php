@@ -24,7 +24,7 @@ function removeContact(idContact) {
 
     success: function (obj, textstatus) {
                   if( !('error' in obj) ) {
-                      $('#removeContact' + idContact).html('');
+                      $('#removeContact' + idContact).remove();
                   }
                   else {
                       console.log(obj.error);

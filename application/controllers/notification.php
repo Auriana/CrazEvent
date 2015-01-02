@@ -14,7 +14,9 @@ class Notification extends CI_Controller {
     function index() {
         if($this->session->userdata('logged_in')) {
             $data['title'] = 'Notifications';
-            $data['notifications'] = $this->user->get_messages($this->session->userdata('logged_in')['id']);
+			$session_data = $this->session->userdata('logged_in');
+            $data['notifications'] = $this->user->get_messages($session_data['id']);
+			$data['nb_notifications'] = $this->user->count_unread_message($session_data['id']);
             
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);
@@ -23,6 +25,7 @@ class Notification extends CI_Controller {
         //if user is not logged in : redirection to welcome page
         } else {  
             redirect('welcome', 'refresh');
+			
         }
     }
     

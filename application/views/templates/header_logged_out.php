@@ -36,25 +36,18 @@
 		
 		<!-- Fixed navbar -->
 		<div id="navbar-bloc no-marg">
-		<div class="navbar navbar-inverse navbar-fixed-top no-marg" role="navigation">
+		<div class="navbar-inverse navbar-fixed-top no-marg navbar" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
 					<a class="navbar-brand" href="/home">
-							<img src="<?php echo asset_url().'img/crazevent_small.png'; ?>" alt="Craz'event" />
+							<img src="<?php echo asset_url().'img/logo_crazevent.png'; ?>" alt="Craz'event" />
 					</a>
 				</div>
 				<div class="navbar-collapse collapse">
 					<!-- Menu navigation -->
-					<ul class="nav navbar-nav">
-					<!-- search through the appli here -->
-						<li><a href="<?php echo base_url().'manage_user/creation'; ?>">Créer un compte</a></li>
-						<!--<li><a href="">Connexion</a></li>-->
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="<?php echo base_url().'welcome'; ?>"><span class="glyphicon glyphicon-log-in" aria-hidden="Connexion"></span> Connecte-toi</a></li>
+						<li><a href="<?php echo base_url().'manage_user/creation'; ?>"><span class="glyphicon glyphicon-record" aria-hidden="Home"></span> Crée un compte</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!-- /.container -->

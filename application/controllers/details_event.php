@@ -4,6 +4,7 @@ class Details_Event extends CI_Controller {
     function __construct() {
          parent::__construct();
          $this->load->model('event','',TRUE);
+		$this->load->model('user','',TRUE);
     }
 
     /**
@@ -15,7 +16,7 @@ class Details_Event extends CI_Controller {
     function index($id) {
         if($this->session->userdata('logged_in')) {
 			$data['title'] = 'Détails de l\évènement';
-			
+			$data['nb_notifications'] = $this->user->count_unread_message($this->session->userdata('logged_in')['id']);
 
 			$info_event = $this->event->get_details($id);
             $session_data = $this->session->userdata('logged_in');
