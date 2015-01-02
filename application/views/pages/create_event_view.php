@@ -3,7 +3,7 @@
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="<?php echo asset_url().'js/jquery.ui.addresspicker.js'; ?>"></script>
 <script>
-    function validateForm() {            
+    function validateForm() {
         var isValid = true;
         if ($("#inputEventName").val() == "") {
             $("#nameError").text("Le nom est obligatoire");
