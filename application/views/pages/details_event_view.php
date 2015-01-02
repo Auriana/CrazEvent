@@ -72,8 +72,68 @@
         });
     }
     
+    function dealWithIndividualProposition(idIndividualProposition) {
+        $.ajax({
+        type: "POST",
+        url: '/details_event/deal_with_individual_proposition/' + idIndividualProposition,
+        dataType: 'json',
+
+        success: function (obj, textstatus) {
+                      if( !('error' in obj) ) {
+                          $('#dealWithIndividualProposition' + idIndividualProposition).html(' (Pris en charge par toi) <button type="button" class="btn btn-default" onclick="giveUpIndividualProposition(' + idIndividualProposition + ')">Ne plus prendre en charge</button>');
+                      }
+                      else {
+                          alert(obj.error);
+                          console.log(obj.error);
+                      }
+                }
+        });
+    }
+    
+    function giveUpIndividualProposition(idIndividualProposition) {
+        $.ajax({
+        type: "POST",
+        url: '/details_event/give_up_individual_proposition/' + idIndividualProposition,
+        dataType: 'json',
+
+        success: function (obj, textstatus) {
+                      if( !('error' in obj) ) {
+                          $('#dealWithIndividualProposition' + idIndividualProposition).html(' <button type="button" class="btn btn-default" onclick="dealWithIndividualProposition(' + idIndividualProposition + ')">Prendre en charge</button>');
+                      }
+                      else {
+                          console.log(obj.error);
+                      }
+                }
+        });
+    }
+    
     function invitationList(idEvent) {
         getContacts(idEvent);
+    }
+
+	
+    function addIndividualProposition(idEvent) {
+        $(document).ready(function(){
+            var individualProposition = $("#inputIndividualProposition").val();
+            $("#inputIndividualProposition").empty();
+
+            $.ajax({
+            type: "POST",
+            url: '/manage_event/add_individual_proposition/' + idEvent,
+            dataType: 'json',
+            data: {arguments: [individualProposition]},
+
+            success: function (obj, textstatus) {
+                          if( !('error' in obj) ) {
+                              $("#individualPropositionContainer").append(' <li class="star-r">' + individualProposition + '<span id=dealWithIndividualProposition' + obj.result + '><button type="button" class="btn btn-default" onclick="dealWithIndividualProposition(' + obj.result + ')">Prendre en charge</button></span></li>');
+
+                          }
+                          else {
+                              console.log(obj.error);
+                          }
+                    }
+            });      
+        });
     }
 </script>
 <div class="container theme-showcase" role="main">
@@ -156,6 +216,35 @@
             }
         ?>
 	</ul>
+    <div class="bloc-info"> 
+        <ul id="individualPropositionContainer">
+            <h3>Propositions individuelles</h3>
+            <?php
+                if(isset($eventIndividualPropositions)) {
+                    foreach ($eventIndividualPropositions as $individualProposition) {
+                        echo '<li class="star-r">'.$individualProposition->content;
+                        echo '<span id=dealWithIndividualProposition'. + $individualProposition->individual_proposition_id.'>';
+                        if($individualProposition->user_dealing_with_it == '') {
+                            echo ' <button type="button" class="btn btn-default" onclick="dealWithIndividualProposition('.$individualProposition->individual_proposition_id.')">Prendre en charge</button>';
+                        } else {
+                            echo ' (Pris en charge par : '.$individualProposition->firstname.' '.$individualProposition->surname.')';
+                            if($individualProposition->user_dealing_with_it == $id_user) {
+                                echo ' <button type="button" class="btn btn-default" onclick="giveUpIndividualProposition('.$individualProposition->individual_proposition_id.')">Ne plus prendre en charge</button>';
+                            }
+                        }
+                        echo '</span>';
+                        echo '</li>';
+                    }
+                }
+            ?>
+        </ul>
+        <?php
+            if($event->individual_proposition_suggestion_allowed == 1) {
+                echo '<input type="text" class="form-control inputIndividualProposition" name="inputIndividualProposition" id="inputIndividualProposition" placeholder="Entre une chose à faire/prendre">';
+                echo ' <button type="button" class="btn btn-default" onclick="addIndividualProposition('.$event->id.')">Créer une proposition individuelle</button>';
+            }
+        ?>
+    </div>
     <div>
         <?php
             if($event->invitation_suggestion_allowed == 1 || $event->organizer == $id_user) {

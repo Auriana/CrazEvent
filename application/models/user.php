@@ -68,7 +68,6 @@ Class User extends CI_Model
     
     function add_contact($id_user, $id_contact)
     {
-        //$query = $this->db->query("call add_friendship(" . $id_user . ", " . $id_contact . ")");
         $query = $this->db->query("call add_friendship(?,?)", array($id_user, $id_contact));
 		$returnValue = $query->result();
 		$this->db->freeDBResource($this->db->conn_id);
@@ -282,7 +281,32 @@ Class User extends CI_Model
         return $rowcount;
     }
 	
-	
-	
+    /**
+    * As a user, take charge of an individual proposition.
+    * params :
+    *    idUser : id of the user taking charge
+    *    idIndividualProposition : id of the individual proposition to take charge of
+    */
+	function deal_with_individual_proposition($idUser, $idIndividualProposition) {
+        $data = array(
+           'user_dealing_with_it' => $idUser
+       );
+       
+       $this->db->where('id', $idIndividualProposition);
+       $this->db->update('individual_proposition', $data);
+        // if the update is successful, return 1
+        return $this->db->affected_rows();
+    }
+    
+    /**
+    * As a user, give up the charge of an individual proposition.
+    * params :
+    *    idIndividualProposition : id of the individual proposition to give up charge of
+    */
+	function give_up_individual_proposition($idIndividualProposition) {       
+       $this->db->query('UPDATE individual_proposition SET user_dealing_with_it = NULL WHERE id = ?', $idIndividualProposition);
+        // if the update is successful, return 1
+        return $this->db->affected_rows();
+    }	
 }
 ?>

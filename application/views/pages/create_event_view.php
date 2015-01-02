@@ -232,7 +232,7 @@ $(document).ready(function(){
         });
         indexIndividualProposition = individualPropositionNbr;
         //the input text
-        $( ".individualProposition" ).each(function( index ) {
+        $( ".inputIndividualProposition" ).each(function( index ) {
             $(this).attr('id', "inputIndividualProposition" + indexIndividualProposition);
             $(this).attr('name', "inputIndividualProposition" + indexIndividualProposition);
             --indexIndividualProposition;
@@ -387,18 +387,18 @@ $(document).ready(function(){
 			</div>
 		</div>
     </div>
+    
+    <div class="form-group">
+        <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
+		<div class="col-sm-1">
+            <input type="checkbox" class="form-control" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" value="">
+		</div>
+    </div>
 	
     <div class="form-group">
         <label for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités</label>
 		<div class="col-sm-1">
             <input type="checkbox" class="form-control" name="inputInvitationAllowed" id="inputInvitationAllowed" value="">
-		</div>
-    </div>
-    
-	<div class="form-group">
-        <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
-		<div class="col-sm-1">
-            <input type="checkbox" class="form-control" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" value="">
 		</div>
     </div>
     

@@ -115,7 +115,21 @@ class Manage_Event extends CI_Controller {
         $eventData['eventDescription'] = $this->input->post('inputDescription', TRUE);
         $eventData['eventKeywords'] = $this->get_array_from_form('inputKeyword');
         $eventData['eventChecklistItems'] = $this->get_array_from_form('inputChecklistItem');
-        $eventData['eventIndividualPropositions'] = $this->get_array_from_form('inputIndividualProposition');
+        
+        $eventData['eventIndividualPropositions'] = array();
+        $i = 1;
+        while(($formValue = $this->input->post("inputIndividualProposition".$i++, TRUE)) != false) {
+           if($formValue != '') {
+               $array = array();
+               $array['content']  = $formValue;
+               if($this->input->post("inputIndividualPropositionUser".$i, TRUE) != false && $this->input->post("inputIndividualPropositionUser".$i, TRUE) != "") {
+                  $array['user_dealing_with_it'] = $this->input->post("inputIndividualPropositionUser".$i, TRUE);
+               }
+               
+               $eventData['eventIndividualPropositions'][] = $array;
+           }
+        }
+                
         $eventData['eventInvitationSuggestionAllowed'] = isset($_POST['inputInvitationAllowed']);
         $eventData['eventIndividualPropositionSuggestionAllowed'] = isset($_POST['inputIndividualPropositionAllowed']);
 
@@ -178,7 +192,7 @@ class Manage_Event extends CI_Controller {
                 $eventData = $this->extractEventDataFromForm();
 
                 //query the database              
-                $eventId = $this->event->update_event($id, $eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlace'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline']);
+                $eventId = $this->event->update_event($id, $eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlace'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventIndividualPropositions'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline']);
 
                 //sending a notification to participants
                 $eventParticipants = $this->event->get_event_participants($id);
@@ -215,6 +229,47 @@ class Manage_Event extends CI_Controller {
             }
         }
         redirect('home', 'refresh');
+    }
+    
+    /**
+    * Add an individual proposition to the event
+    * params :
+    *    id : id of the event
+    */
+    function add_individual_proposition($id) {
+        $aResult = array();
+
+        if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
+
+        if( !isset($aResult['error']) ) {
+           if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 1) ) {
+               $aResult['error'] = 'Error in arguments!';
+           }
+           else {
+               if($this->session->userdata('logged_in')) {
+                    if($this->event->is_participation($this->session->userdata('logged_in')['id'], $id) == 1) {
+                        $event = $this->event->get_event($id);
+                        if($event->individual_proposition_suggestion_allowed == 1) {
+                           $individualProposition = $_POST['arguments'][0];
+
+                           $result = $this->event->add_individual_proposition($id, $individualProposition);
+
+                           $aResult['result'] = $result;
+                            
+                            //sending a notification to the organizer
+                            send_notification("Nouvelle proposition individuelle par un participant : " . $event->name, '<p>'.$this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' a fait une proposition individuelle.', $this->session->userdata('logged_in')['id'], $event->organizer, false);
+                        } else {
+                            $aResult['error'] = 'non autorisé';
+                        }
+                    } else {
+                        $aResult['error'] = 'pas inscrit';
+                    }
+               } else {
+                   $aResult['error'] = 'pas connecté';
+               }
+           }
+        }
+        echo json_encode($aResult);
     }
 }
 

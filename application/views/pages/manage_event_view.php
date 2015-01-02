@@ -31,9 +31,7 @@
     }
     
 $(document).ready(function(){
-    /*
-    * script to handle form control
-    */
+    // TIME PICKER
     //using JQueryUI with an add-on to handle date and time picking
     $('#inputDate').datetimepicker({
        dateFormat: "yy-mm-dd",
@@ -44,10 +42,16 @@ $(document).ready(function(){
        dateFormat: "yy-mm-dd",
 	   timeFormat: "HH:mm:ss"
     });
+	
+	
     
+    //controls to modify the form
     var activityNbr = $('.inputActivity').length;
     var keywordNbr = $('.inputKeyword').length;
     var checklistItemNbr = $('.inputChecklistItem').length;
+    var individualPropositionNbr = $('.inputIndividualProposition').length;
+    
+    // ACTIVITY
     $("#addActivity").click(function(){
         ++activityNbr;
 		$("#activitySuperContainer").append(
@@ -62,6 +66,7 @@ $(document).ready(function(){
                 </div>\
             </div>');	
     });
+	
 	
     $('body').on('click', '.removeActivity', function() {
         var deletedActivityNbr = $(this).attr('id').substring(14);
@@ -96,6 +101,7 @@ $(document).ready(function(){
         });
     });
 	
+	// KEYWORDS
     $("#addKeyword").click(function(){
         ++keywordNbr;
         $("#keywordSuperContainer").append(
@@ -106,12 +112,11 @@ $(document).ready(function(){
 			<input type="text" class="form-control" name="inputKeyword' + keywordNbr + '" id="inputKeyword' + keywordNbr + '" placeholder="Entre un mot-clé">\
 			</div>\
 			<div class="removeKeywordContainer col-sm-2">\
-			<button type="button" class="btn btn-default removeKeyword but-icon" id="removeKeyword' + keywordNbr + '">\
-			<span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>\
+			<button type="button" class="btn btn-default removeKeyword but-icon" id="removeKeyword' + keywordNbr + '" class="btn btn-primary"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span> </button>\
 			</div>\
 			</div>');
     });
-		
+
     $('body').on('click', '.removeKeyword', function() {
         var deletedKeywordNbr = $(this).attr('id').substring(13);
         
@@ -143,7 +148,8 @@ $(document).ready(function(){
             $(this).attr('id', "removeKeyword" + indexKeyword--);
         });
     });	
-	
+    
+    // CHECKLIST
     $("#addChecklistItem").click(function(){
         ++checklistItemNbr;
         $("#checklistSuperContainer").append(
@@ -158,6 +164,7 @@ $(document).ready(function(){
 			</div>\
 			</div>');
     });
+	
     $('body').on('click', '.removeChecklistItem', function() {
         var deletedChecklistItemNbr = $(this).attr('id').substring(19);
         
@@ -186,6 +193,59 @@ $(document).ready(function(){
         indexChecklistItem = checklistItemNbr;
         $( ".removeChecklistItem" ).each(function( index ) {
             $(this).attr('id', "removeChecklistItem" + indexChecklistItem--);
+        });
+    });
+	
+	// INDIVIDUAL PROPOSITION
+    $("#addIndividualProposition").click(function(){
+        ++individualPropositionNbr;
+        $("#individualPropositionSuperContainer").append(
+			'<div id="clearI' + individualPropositionNbr + '" class="clearer clearerI"></div>\
+			<div id="individualProposition' + individualPropositionNbr + '" class="multi-input individualPropositionContainer">\
+			<div class="col-sm-4"></div>\
+			<div class="inputIndividualPropositionContainer col-sm-4">\
+			<input type="text" class="form-control inputIndividualProposition" name="inputIndividualProposition' + individualPropositionNbr + '" id="inputIndividualProposition' + individualPropositionNbr + '" placeholder="Chose à faire/prendre">\
+			<input type="hidden" class="form-control inputIndividualPropositionUser" name="inputIndividualPropositionUser' + individualPropositionNbr + '" id="inputIndividualPropositionUser' + individualPropositionNbr + '" value>\
+			</div>\
+			<div class="removeIndividualPropositionContainer col-sm-2">\
+			<button type="button" class="btn btn-default removeIndividualProposition but-icon" id="removeIndividualProposition' + individualPropositionNbr + '"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>\
+			</div>\
+			</div>');
+    });
+	
+    $('body').on('click', '.removeIndividualProposition', function() {
+        var deletedIndividualPropositionNbr = $(this).attr('id').substring(27);
+        
+        //delete the IndividualProposition
+		$("#clearI" + deletedIndividualPropositionNbr).remove();
+		$("#individualProposition" + deletedIndividualPropositionNbr).remove();
+		//renumber the other IndividualPropositions
+        --individualPropositionNbr;
+        var indexIndividualProposition = individualPropositionNbr;
+		//the clearer div
+		$( ".clearerI" ).each(function( index ) {
+            $(this).attr('id', "clearI" + indexIndividualProposition--);
+        });
+        indexIndividualProposition = individualPropositionNbr;
+		//the multi-input div
+		$( ".individualPropositionContainer" ).each(function( index ) {
+            $(this).attr('id', "individualProposition" + indexIndividualProposition--);
+        });
+        indexIndividualProposition = individualPropositionNbr;
+        //the input text
+        $( ".inputIndividualProposition" ).each(function( index ) {
+            $(this).attr('id', "inputIndividualProposition" + indexIndividualProposition);
+            $(this).attr('name', "inputIndividualProposition" + indexIndividualProposition);
+            --indexIndividualProposition;
+        });
+        $( ".inputIndividualPropositionUser" ).each(function( index ) {
+            $(this).attr('id', "inputIndividualPropositionUser" + indexIndividualProposition);
+            $(this).attr('name', "inputIndividualPropositionUser" + indexIndividualProposition);
+            --indexIndividualProposition;
+        });
+        indexIndividualProposition = individualPropositionNbr;
+        $( ".removeIndividualProposition" ).each(function( index ) {
+            $(this).attr('id', "removeIndividualProposition" + indexIndividualProposition--);
         });
     });
 	
@@ -325,7 +385,7 @@ $(document).ready(function(){
 					echo '<div id="checklist'.$checklistItemNumber.'" class="multi-input checklistContainer">';
 					echo '<div class="col-sm-4"></div>';
 					echo '<div class="inputChecklistContainer col-sm-4">';
-					echo '<input type="text" class="form-control inputChecklistItem"; name="inputChecklistItem'.$checklistItemNumber.'" id="inputChecklistItem'.$checklistItemNumber.'" placeholder="Entre une chose à faire/prendre" value="'.$checklistItem.'">';
+					echo '<input type="text" class="form-control inputChecklistItem" name="inputChecklistItem'.$checklistItemNumber.'" id="inputChecklistItem'.$checklistItemNumber.'" placeholder="Entre une chose à faire/prendre" value="'.$checklistItem.'">';
 					echo '</div>';
 					echo '<div class="removeChecklistContainer col-sm-2">';
 					echo '<button type="button" class="btn btn-default removeChecklistItem but-icon" id="removeChecklistItem'.$checklistItemNumber.'"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>';
@@ -336,18 +396,45 @@ $(document).ready(function(){
 			}
 		?>  
     </div>
+    
+    <div id ="individualPropositionSuperContainer" class="form-group">
+        <label for="inputIndividualProposition" class="col-sm-4 control-label">Propositions individuelles</label>
+        <div id="addIndividualPropositionContainer" class="col-sm-6">
+			<button type="button" id="addIndividualProposition" class="btn btn-default">Ajouter quelque chose</button>
+        </div>
+		
+        <?php
+			if(isset($eventIndividualPropositions)) {
+				$individualPropositionNumber = 1;
+				foreach ($eventIndividualPropositions as $individualProposition) {
+					echo '<div id="clearI'.$individualPropositionNumber.'" class="clearer clearerI"></div>';
+					echo '<div id="individualProposition'.$individualPropositionNumber.'" class="multi-input individualPropositionContainer">';
+					echo '<div class="col-sm-4"></div>';
+					echo '<div class="inputIndividualPropositionContainer col-sm-4">';
+					echo '<input type="text" class="form-control inputIndividualProposition" name="inputIndividualProposition'.$individualPropositionNumber.'" id="inputIndividualProposition'.$individualPropositionNumber.'" placeholder="Entre une chose à faire/prendre" value="'.$individualProposition->content.'">';
+                    echo '<input type="hidden" class="form-control inputIndividualPropositionUser" name="inputIndividualPropositionUser'.$individualPropositionNumber.'" id="inputIndividualPropositionUser'.$individualPropositionNumber.'" value="'.$individualProposition->user_dealing_with_it.'">';
+					echo '</div>';
+					echo '<div class="removeIndividualPropositionContainer col-sm-2">';
+					echo '<button type="button" class="btn btn-default removeIndividualProposition but-icon" id="removeIndividualProposition'.$individualPropositionNumber.'"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>';
+					echo '</div>';
+					echo '</div>';
+					++$individualPropositionNumber;
+				}
+			}
+		?>
+    </div>
+    
+    <div class="form-group">
+        <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
+		<div class="col-sm-1">
+            <input type="checkbox" class="form-control" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" <?php if($event->individual_proposition_suggestion_allowed == 1){echo "checked";} ?>>
+		</div>
+    </div>
 
     <div class="form-group">
         <label for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités</label>
 		<div class="col-sm-1">
             <input type="checkbox" class="form-control" name="inputInvitationAllowed" id="inputInvitationAllowed" <?php if($event->invitation_suggestion_allowed == 1){echo "checked";} ?>>
-		</div>
-    </div>
-    
-	<div class="form-group">
-        <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
-		<div class="col-sm-1">
-            <input type="checkbox" class="form-control" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" <?php if($event->individual_proposition_suggestion_allowed == 1){echo "checked";} ?>>
 		</div>
     </div>
     

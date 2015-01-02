@@ -35,6 +35,12 @@ class Details_Event extends CI_Controller {
         }
     }
     
+    /**
+    * As a participant, invite another user to an event
+    * params :
+    *    idEvent : id of the event to invite someone to
+    *    idGuest : id of the user to invite to the event
+    */
     function invite($idEvent, $idGuest) {
         if($this->session->userdata('logged_in')) {
             $event = $this->event->get_event($idEvent);
@@ -54,7 +60,56 @@ class Details_Event extends CI_Controller {
                 }
            }
         }
-        redirect('home', 'refresh');
+    }
+    
+    /**
+    * As a participant, take charge of the individual proposition.
+    * params :
+    *    idIndividualProposition : id of the individual proposition to take charge of
+    */
+    function deal_with_individual_proposition($idIndividualProposition) {
+        if($this->session->userdata('logged_in')) {
+            
+            $individual_proposition = get_individual_proposition($idIndividualProposition);
+            if($this->event->is_participation($this->session->userdata('logged_in')['id'], $individual_proposition->event_id) == 1) {
+                if($this->event->is_individual_proposition_dealt_with($idIndividualProposition) == 0) {
+                    $this->user->deal_with_individual_proposition($this->session->userdata('logged_in')['id'], $idIndividualProposition);
+                    $aResult['result'] = 'success';
+                } else {
+                 $aResult['error'] = 'déjà pris en charge';
+                }
+           } else {
+            $aResult['error'] = 'pas inscrit';
+           }
+        } else {
+            $aResult['error'] = 'pas connecté';
+        }
+        echo json_encode($aResult);
+    }
+    
+    /**
+    * As a participant, give up the charge of the individual proposition.
+    * params :
+    *    idIndividualProposition : id of the individual proposition to give up
+    */
+    function give_up_individual_proposition($idIndividualProposition) {
+        if($this->session->userdata('logged_in')) {
+            
+            $individual_proposition = get_individual_proposition($idIndividualProposition);
+            if($this->event->is_participation($this->session->userdata('logged_in')['id'], $individual_proposition->event_id) == 1) {
+                if($individual_proposition->user_dealing_with_it == $this->session->userdata('logged_in')['id']) {
+                    $this->user->give_up_individual_proposition($idIndividualProposition);
+                    $aResult['result'] = 'success';
+                } else {
+                 $aResult['error'] = 'pas pris en charge';
+                }
+           } else {
+            $aResult['error'] = 'pas inscrit';
+           }
+        } else {
+            $aResult['error'] = 'pas connecté';
+        }
+        echo json_encode($aResult);
     }
 }
 
