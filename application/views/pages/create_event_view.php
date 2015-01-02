@@ -49,6 +49,9 @@ $(document).ready(function(){
     var activityNbr = $('.inputActivity').length;
     var keywordNbr = $('.inputKeyword').length;
     var checklistItemNbr = $('.inputChecklistItem').length;
+    var individualPropositionNbr = $('.inputIndividualProposition').length;
+    
+    // ACTIVITY
     $("#addActivity").click(function(){
         ++activityNbr;
 		$("#activitySuperContainer").append(
@@ -65,7 +68,6 @@ $(document).ready(function(){
     });
 	
 	
-	// ACTIVITY
     $('body').on('click', '.removeActivity', function() {
         var deletedActivityNbr = $(this).attr('id').substring(14);
         
@@ -146,8 +148,8 @@ $(document).ready(function(){
             $(this).attr('id', "removeKeyword" + indexKeyword--);
         });
     });	
-	
-	// CHECKLIST
+    
+    // CHECKLIST
     $("#addChecklistItem").click(function(){
         ++checklistItemNbr;
         $("#checklistSuperContainer").append(
@@ -191,6 +193,53 @@ $(document).ready(function(){
         indexChecklistItem = checklistItemNbr;
         $( ".removeChecklistItem" ).each(function( index ) {
             $(this).attr('id', "removeChecklistItem" + indexChecklistItem--);
+        });
+    });
+	
+	// INDIVIDUAL PROPOSITION
+    $("#addIndividualProposition").click(function(){
+        ++individualPropositionNbr;
+        $("#individualPropositionSuperContainer").append(
+			'<div id="clearI' + individualPropositionNbr + '" class="clearer clearerI"></div>\
+			<div id="individualProposition' + individualPropositionNbr + '" class="multi-input individualPropositionContainer">\
+			<div class="col-sm-4"></div>\
+			<div class="inputIndividualPropositionContainer col-sm-4">\
+			<input type="text" class="form-control inputIndividualProposition" name="inputIndividualProposition' + individualPropositionNbr + '" id="inputIndividualProposition' + individualPropositionNbr + '" placeholder="Chose à faire/prendre">\
+			</div>\
+			<div class="removeIndividualPropositionContainer col-sm-2">\
+			<button type="button" class="btn btn-default removeIndividualProposition but-icon" id="removeIndividualProposition' + individualPropositionNbr + '"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>\
+			</div>\
+			</div>');
+    });
+	
+    $('body').on('click', '.removeIndividualProposition', function() {
+        var deletedIndividualPropositionNbr = $(this).attr('id').substring(27);
+        
+        //delete the IndividualProposition
+		$("#clearI" + deletedIndividualPropositionNbr).remove();
+		$("#individualProposition" + deletedIndividualPropositionNbr).remove();
+		//renumber the other IndividualPropositions
+        --individualPropositionNbr;
+        var indexIndividualProposition = individualPropositionNbr;
+		//the clearer div
+		$( ".clearerI" ).each(function( index ) {
+            $(this).attr('id', "clearI" + indexIndividualProposition--);
+        });
+        indexIndividualProposition = individualPropositionNbr;
+		//the multi-input div
+		$( ".individualPropositionContainer" ).each(function( index ) {
+            $(this).attr('id', "individualProposition" + indexIndividualProposition--);
+        });
+        indexIndividualProposition = individualPropositionNbr;
+        //the input text
+        $( ".individualProposition" ).each(function( index ) {
+            $(this).attr('id', "inputIndividualProposition" + indexIndividualProposition);
+            $(this).attr('name', "inputIndividualProposition" + indexIndividualProposition);
+            --indexIndividualProposition;
+        });
+        indexIndividualProposition = individualPropositionNbr;
+        $( ".removeIndividualProposition" ).each(function( index ) {
+            $(this).attr('id', "removeIndividualProposition" + indexIndividualProposition--);
         });
     });
 	
@@ -317,6 +366,24 @@ $(document).ready(function(){
 			</div>
 			<div class="removeChecklistContainer col-sm-2">
             	<button type="button" class="btn btn-default removeChecklistItem but-icon" id="removeChecklistItem1"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span> </button>
+			</div>
+		</div>
+    </div>
+    
+    <div id ="individualPropositionSuperContainer" class="form-group">
+        <label for="inputIndividualProposition" class="col-sm-4 control-label">Propositions individuelles</label>
+        <div id="addIndividualPropositionContainer" class="col-sm-6">
+			<button type="button" id="addIndividualProposition" class="btn btn-default">Ajouter quelque chose</button>
+        </div>
+		
+		<div id="clearI1" class="clearer clearerI"></div>
+		<div id="individualProposition1" class="multi-input individualPropositionContainer">
+			<div class="col-sm-4"></div>
+			<div class="inputIndividualPropositionContainer col-sm-4">
+				<input type="text" class="form-control inputIndividualProposition" name="inputIndividualProposition1" id="inputIndividualProposition1" placeholder="Chose à faire/prendre">
+			</div>
+			<div class="removeIndividualPropositionContainer col-sm-2">
+            	<button type="button" class="btn btn-default removeIndividualProposition but-icon" id="removeIndividualProposition1"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span> </button>
 			</div>
 		</div>
     </div>

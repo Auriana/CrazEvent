@@ -37,7 +37,8 @@ if ( ! function_exists('login_utility')) {
                 $CI->session->set_userdata('logged_in', $sess_array);
                 
                 //parametrize database
-                $CI->db->query("SET @connected_user_id := " . $row->id);
+                //$CI->db->query("SET @connected_user_id := " . $row->id);
+                $CI->db->query("SET @connected_user_id := ?", array($row->id));
             }
         }
 

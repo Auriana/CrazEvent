@@ -58,54 +58,6 @@ class Manage_Event extends CI_Controller {
             redirect('welcome', 'refresh');
         }
     }
- 
-     //function create() {
-       //This method will have the credentials validation
-       //$this->load->library('form_validation');
-
-         //TODO : useless car javascript validation
-         /*
-       $this->form_validation->set_rules('inputFirstName', 'inputFirstName', 'trim|required|xss_clean');
-       $this->form_validation->set_rules('inputSurname', 'inputSurname', 'trim|required|xss_clean');
-       $this->form_validation->set_rules('inputPassword', 'inputPassword', 'trim|required|xss_clean');
-       $this->form_validation->set_rules('inputBirthdate', 'inputBirthdate', 'required|xss_clean');
-       $this->form_validation->set_rules('inputRegion', 'inputRegion', 'xss_clean');
-       $this->form_validation->set_rules('inputEmail', 'inputEmail', 'trim|required|xss_clean');
-       */
-
-         /*
-        //Create new event
-         $creation = $this->create_event();
-
-         if ($creation == TRUE) {
-            redirect('welcome', 'refresh');
-         } else {
-             echo 'erreur à la création';
-            //TODO redirect to error page
-             //redirect('user_guide', 'refresh');
-         }
-         */
-
-         /*
-       if($this->form_validation->run() == FALSE) {
-         //Field validation failed.  User redirected to create_user page
-         //redirect('create_user', 'refresh'); //TODO
-           echo 'b';
-       }
-       else {
-         //Create new event
-         $creation = $this->create_event();
-
-         if ($creation == TRUE) {
-            redirect('welcome', 'refresh');
-         } else {
-             echo 'b';
-            //TODO redirect to error page
-             //redirect('user_guide', 'refresh');
-         }
-       }*/
-
-     //}
 
     /*
     * Retrieve an array from a form with an unkown number of input fields that give the same kind of data.
@@ -163,6 +115,7 @@ class Manage_Event extends CI_Controller {
         $eventData['eventDescription'] = $this->input->post('inputDescription', TRUE);
         $eventData['eventKeywords'] = $this->get_array_from_form('inputKeyword');
         $eventData['eventChecklistItems'] = $this->get_array_from_form('inputChecklistItem');
+        $eventData['eventIndividualPropositions'] = $this->get_array_from_form('inputIndividualProposition');
         $eventData['eventInvitationSuggestionAllowed'] = isset($_POST['inputInvitationAllowed']);
         $eventData['eventIndividualPropositionSuggestionAllowed'] = isset($_POST['inputIndividualPropositionAllowed']);
 
@@ -195,7 +148,7 @@ class Manage_Event extends CI_Controller {
         $eventData = $this->extractEventDataFromForm();
         
         //query the database              
-        $eventId = $this->event->create_event($eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlace'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline'], $this->session->userdata('logged_in')['id']);
+        $eventId = $this->event->create_event($eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlace'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventIndividualPropositions'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline'], $this->session->userdata('logged_in')['id']);
 
         //join the event
         //there is no invitation to remove from us even if the event is private

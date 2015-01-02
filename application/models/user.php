@@ -68,7 +68,8 @@ Class User extends CI_Model
     
     function add_contact($id_user, $id_contact)
     {
-        $query = $this->db->query("call add_friendship(" . $id_user . ", " . $id_contact . ")");
+        //$query = $this->db->query("call add_friendship(" . $id_user . ", " . $id_contact . ")");
+        $query = $this->db->query("call add_friendship(?,?)", array($id_user, $id_contact));
 		$returnValue = $query->result();
 		$this->db->freeDBResource($this->db->conn_id);
         return $returnValue;
@@ -107,7 +108,8 @@ Class User extends CI_Model
     
     function is_friend($id_user, $id_contact)
     {
-        $query = $this->db->query("select is_friendship(" . $id_user . ", " . $id_contact . ")");
+        //$query = $this->db->query("select is_friendship(" . $id_user . ", " . $id_contact . ")");
+        $query = $this->db->query("select is_friendship(?,?", array($id_user, $id_contact));
         
         $row = $query->row_array();
         
