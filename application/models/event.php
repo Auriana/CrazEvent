@@ -303,7 +303,6 @@ Class Event extends CI_Model {
     * Return result of the joining
     */
     function join_private_event($id_user, $id_event) {
-        //$query = $this->db->query("call join_private_event(" . $id_user . ", " . $id_event . ")");
         $query = $this->db->query("call join_private_event(?,?)", array($id_user, $id_event));
         $returnValue = $query->result();
         $this->db->freeDBResource($this->db->conn_id);
@@ -320,8 +319,8 @@ Class Event extends CI_Model {
        $this->db->where('event_id', $id_event);
        $this->db->where('user_id', $id_user);
        $this->db->delete('participation');
-        
-       $this->db->query('UPDATE individual_proposition SET user_dealing_with_it = NULL WHERE user_dealing_with_it = ? AND event_id = ?', $id_user, $id_event);
+        print_r("event " . $id_event);
+       $this->db->query('UPDATE individual_proposition SET user_dealing_with_it = NULL WHERE user_dealing_with_it = ? AND event_id = ?', array($id_user, $id_event));
     }
     
     function send_invitation($id_user, $id_event) {
@@ -340,7 +339,6 @@ Class Event extends CI_Model {
     * Return the events visible by the connected user
     */
     function get_visible_events($id_user) {
-        //$this->db->query("SET @connected_user_id := " . $id_user);
         $this->db->query("SET @connected_user_id := ?", array($id_user));
         
         $this -> db -> select("*");
@@ -356,7 +354,6 @@ Class Event extends CI_Model {
     * Return the events participable by the connected user
     */
     function get_participable_events($id_user, $limit) {
-        //$this->db->query("SET @connected_user_id := " . $id_user);
         $this->db->query("SET @connected_user_id := ?", array($id_user));
         
         $this -> db -> select("*");
@@ -373,7 +370,6 @@ Class Event extends CI_Model {
     * Return 1 if the user participate to the event, else 0
     */
     function is_participation($id_user, $id_event) {
-        //$query = $this->db->query("select is_participation(" . $id_user . ", " . $id_event . ")");
         $query = $this->db->query("select is_participation(?,?)", array($id_user, $id_event));
         
         $row = $query->row_array();
@@ -391,7 +387,6 @@ Class Event extends CI_Model {
     * return events that have at least 1 searchKeyowrd in them
     */
     function search_event($id_user, $searchKeywords) {        
-        //$this->db->query("SET @connected_user_id := " . $id_user);
         $this->db->query("SET @connected_user_id := ?", array($id_user));
         
         $this -> db -> select('*');
