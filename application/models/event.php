@@ -319,7 +319,7 @@ Class Event extends CI_Model {
        $this->db->where('event_id', $id_event);
        $this->db->where('user_id', $id_user);
        $this->db->delete('participation');
-        print_r("event " . $id_event);
+        
        $this->db->query('UPDATE individual_proposition SET user_dealing_with_it = NULL WHERE user_dealing_with_it = ? AND event_id = ?', array($id_user, $id_event));
     }
     

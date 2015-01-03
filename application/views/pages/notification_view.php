@@ -11,38 +11,21 @@
 
             success: function (obj, textstatus) {
                           if( !('error' in obj) ) {
-                              notificationsRead[idNotification] = obj.result.content;
-                              $('#notificationContent').html(obj.result.content);
+                              notificationsRead[idNotification] = 1;
                           }
                           else {
                               console.log(obj.error);
                           }
                     }
             });
-        } else {
-            $('#notificationContent').html(notificationsRead[idNotification]);
         }
     }
     
     $(document).ready(function(){
-        $('.notification-notRead').click(function() {
+        $('.star-r').click(function() {
             //special display of read notification
-            $(this).addClass('notification-read');
-            $(this).removeClass('notification-notRead');
-            
-            //special display of selected notification
-            $( ".notification-selected" ).each(function( index ) {
-                $(this).removeClass('notification-selected');
-            });
-            $(this).addClass('notification-selected');
-        });
-        
-        $('.notification-read').click(function() {
-            //special display of selected notification
-            $( ".notification-selected" ).each(function( index ) {
-                $(this).removeClass('notification-selected');
-            });
-            $(this).addClass('notification-selected');
+            $(this).addClass('star-t');
+            $(this).removeClass('star-r');
         });
     });
 </script>
@@ -58,9 +41,10 @@
             if(isset($notifications)) {
 				echo '<ul class="result_search">';
 				foreach ($notifications as $notification) {
-					echo '<li onclick="readNotification('.$notification->messageId.')" class="'.($notification->is_read == 1 ? 'star-t' : 'star-r clickOn').'">'.$notification->content." par ".$notification->senderFirstname." ".$notification->senderSurname;
-					echo ' ('.$notification->date.')'; 
-					echo '<a class="list_contact" href="'. base_url('details_event/index/' . $notification->messageId) . '">Voir l\'évènement</a><div class="clearer"></div></li>';
+					echo '<li onclick="readNotification('.$notification->messageId.')" class="'.($notification->is_read == 1 ? 'star-t' : 'star-r clickOn').'">';
+                    echo $notification->subject.'</br>'.$notification->content.'</br>par '.$notification->senderFirstname.' '.$notification->senderSurname.' ('.$notification->date.')'; 
+                    echo '<div class="clearer"></div>';
+                    echo '</li>';
 				}		
                 echo "</ul>";
 			}

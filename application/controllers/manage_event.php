@@ -198,7 +198,7 @@ class Manage_Event extends CI_Controller {
                 $eventParticipants = $this->event->get_event_participants($id);
                 foreach ($eventParticipants as $participant)
                 {
-                    send_notification("Modification d’un paramètre de l’évènement : " . $eventData['eventName'], 'L\'événement '.$eventData['eventName'].' a été modifié', $this->session->userdata('logged_in')['id'], $participant->id, false);
+                    send_notification("Modification d’un paramètre de l’évènement : " . $eventData['eventName'], 'L\'événement '.$eventData['eventName'].' a été modifié<a class="list_contact" href="'. base_url('details_event/index/'.$id) .'">Voir l\'évènement</a>', $this->session->userdata('logged_in')['id'], $participant->id, false);
                 }
             }
         }
@@ -257,7 +257,7 @@ class Manage_Event extends CI_Controller {
                            $aResult['result'] = $result;
                             
                             //sending a notification to the organizer
-                            send_notification("Nouvelle proposition individuelle par un participant : " . $event->name, '<p>'.$this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' a fait une proposition individuelle.', $this->session->userdata('logged_in')['id'], $event->organizer, false);
+                            send_notification("Nouvelle proposition individuelle par un participant : " . $event->name, $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' a fait une proposition individuelle<a class="list_contact" href="'. base_url('details_event/index/'.$id) .'">Voir l\'évènement</a>', $this->session->userdata('logged_in')['id'], $event->organizer, false);
                         } else {
                             $aResult['error'] = 'non autorisé';
                         }

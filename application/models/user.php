@@ -107,12 +107,11 @@ Class User extends CI_Model
     
     function is_friend($id_user, $id_contact)
     {
-        //$query = $this->db->query("select is_friendship(" . $id_user . ", " . $id_contact . ")");
-        $query = $this->db->query("select is_friendship(?,?", array($id_user, $id_contact));
+        $query = $this->db->query("select is_friendship(?,?)", array($id_user, $id_contact));
         
         $row = $query->row_array();
         
-        return $row["is_friendship(" . $id_user . ", " . $id_contact . ")"];
+        return $row["is_friendship('" . $id_user . "','" . $id_contact . "')"];
 
     }
     
@@ -252,7 +251,7 @@ Class User extends CI_Model
     }
     
     /*
-    * Set notification as read and return notification content
+    * Set notification as read
     */
     function read_message($notificationId) {
         $data = array(
@@ -261,10 +260,12 @@ Class User extends CI_Model
         $this->db->where('id', $notificationId);
         $this->db->update('user_inbox_message', $data);
         
+        /*
         $this->db->select('content, recipient');
         $this->db->from('user_inbox_message');
         $this->db->where('user_inbox_message.id', $notificationId);
         return $this->db->get()->result()[0];
+        */
     }
 	
 	

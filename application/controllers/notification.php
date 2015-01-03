@@ -33,7 +33,8 @@ class Notification extends CI_Controller {
         $notificationId = $_GET['id'];
         $result = $this->user->read_message($notificationId);
         if($this->session->userdata('logged_in')['id'] == $result->recipient) {
-            $aResult['result'] = $result;
+            //$aResult['result'] = $result;
+            $aResult['result'] = "success";
         } else {
             $aResult['error'] = 'Not allowed to read the notification'.' id = '.$notificationId.'content = '.$result->content;
         }

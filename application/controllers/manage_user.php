@@ -148,7 +148,7 @@ class Manage_User extends CI_Controller {
 			   //sending a notification to the organizer
 			   if($this->event->is_participation($id_user, $id_event) == 1) {
 				   $event = $this->event->get_event($id_event);
-				   send_notification("Inscription d'un participant : " . $event->name, $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' s\'est inscrit à ton événement!', $id_user, $event->organizer, false);
+				   send_notification("Inscription d'un participant : " . $event->name, $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' s\'est inscrit à ton événement!<a class="list_contact" href="'. base_url('details_event/index/'.$id_event) .'">Voir l\'évènement</a>', $id_user, $event->organizer, false);
 			   }
 
 			   $aResult['result'] = get_participation_link($id_user, $id_event, $private);
