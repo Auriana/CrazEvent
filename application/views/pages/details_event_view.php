@@ -217,7 +217,7 @@
         ?>
 	</ul>
     <div class="bloc-info"> 
-        <ul id="individualPropositionContainer">
+        <ul id="individualPropositionContainer" class="individual_proposition">
             <h3>Propositions individuelles</h3>
             <?php
                 if(isset($eventIndividualPropositions)) {

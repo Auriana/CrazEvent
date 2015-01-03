@@ -34,6 +34,16 @@
 		<h1 class="text-centred">
 			Mes notifications
 		</h1>
+        <div class="col-md-3 centred small-marg">
+            <?php
+                if($previousOffset >= 0) {
+                    echo '<a href="'.base_url().'notification/index/'.$previousOffset.'">Précédent</a> ';
+                }
+                if(true) {   
+                   echo '<a href="'.base_url().'notification/index/'.$nextOffset.'">Suivant</a>';
+                }
+            ?>
+	    </div>
 		<p>
 			<b>Pour valider la lecture d'une nouvelle notification, clique dessus !</b>
 		</p>

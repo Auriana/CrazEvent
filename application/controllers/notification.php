@@ -11,12 +11,14 @@ class Notification extends CI_Controller {
     * Access to the functionnality to view the user's notifications
     * Redirect to welcome page if not logged in.
     */
-    function index() {
+    function index($offset = 0) {
         if($this->session->userdata('logged_in')) {
             $data['title'] = 'Notifications';
 			$session_data = $this->session->userdata('logged_in');
-            $data['notifications'] = $this->user->get_messages($session_data['id']);
+            $data['notifications'] = $this->user->get_messages($session_data['id'], $offset, 5);
 			$data['nb_notifications'] = $this->user->count_unread_message($session_data['id']);
+            $data['nextOffset'] = $offset + 5;
+            $data['previousOffset'] = $offset - 5;
             
             $this->load->helper(array('form'));
             $this->load->view('templates/header_logged_in', $data);

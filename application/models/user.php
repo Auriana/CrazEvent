@@ -241,12 +241,13 @@ Class User extends CI_Model
        return $this->db->insert('user_inbox_message', $data);
     }
     
-    function get_messages($userId) {        
+    function get_messages($userId, $offset, $limit) {        
         $this->db->select('user_inbox_message.id AS messageId, subject, content, sender as senderId, firstname AS senderFirstname, surname AS senderSurname, date, is_read');
         $this->db->from('user_inbox_message');
         $this->db->join('user', ' user_inbox_message.sender = user.id', 'inner');
         $this->db->where('user_inbox_message.recipient', $userId);
         $this->db->order_by('date','desc');
+        $this->db->limit($limit, $offset);
         return $this->db->get()->result();
     }
     
