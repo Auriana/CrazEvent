@@ -276,7 +276,7 @@ $(document).ready(function(){
     </div>
 	
     <div class="form-group">
-        <label for="inputDate" class="col-sm-4 control-label">Date de début</label>
+        <label for="inputDate" class="col-sm-4 control-label">Date de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
         <div class="col-sm-3">
             <input type="text" class="form-control" name="inputDate" id="inputDate" placeholder="">
         </div>
@@ -290,7 +290,7 @@ $(document).ready(function(){
     </div>
 
     <div class="form-group">
-        <label for="inputPlace" class="col-sm-4 control-label">Adresse de début</label>
+        <label for="inputPlace" class="col-sm-4 control-label">Adresse de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
         <div class="col-sm-6">
             <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="Entre un lieu">
 			<span id="placeError"></span>
@@ -353,10 +353,11 @@ $(document).ready(function(){
     </div>	
 	
     <div id ="checklistSuperContainer" class="form-group">
-        <label for="inputChecklist" class="col-sm-4 control-label">Checklist</label>
+		<label for="inputChecklist" class="col-sm-4 control-label">Checklist <a class="link-help" alt="Aide" title="La checklist est une liste de choses que chaque participant doit faire ou prendre. Exemple : son pique-nique."><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
         <div id="addChecklistContainer" class="col-sm-6">
 			<button type="button" id="addChecklistItem" class="btn btn-default">Ajouter quelque chose</button>
         </div>
+		
 		
 		<div id="clearC1" class="clearer clearerC"></div>
 		<div id="checklist1" class="multi-input checklistContainer">
@@ -371,7 +372,7 @@ $(document).ready(function(){
     </div>
     
     <div id ="individualPropositionSuperContainer" class="form-group">
-        <label for="inputIndividualProposition" class="col-sm-4 control-label">Propositions individuelles</label>
+        <label for="inputIndividualProposition" class="col-sm-4 control-label">Propositions individuelles <a class="link-help" alt="Aide" title="Les propositions individuelles sont les choses à prendre/faire proposées soit par l’organisateur, soit par le participant. Elles sont individuelles pour chaque participant. Exemple: Réserver les billets d'avion"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
         <div id="addIndividualPropositionContainer" class="col-sm-6">
 			<button type="button" id="addIndividualProposition" class="btn btn-default">Ajouter quelque chose</button>
         </div>
