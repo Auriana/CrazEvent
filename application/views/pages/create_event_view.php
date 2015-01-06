@@ -255,6 +255,16 @@ $(document).ready(function(){
 	<h1 class="text-centred">
 		Crée ton événement
 	</h1>
+	<div class="text-centred">
+		<p>
+			Les champs avec l'astérisque (*) sont obligatoires (les autres, non). 
+		</p>
+		<p>
+			Si tu passes ta souris sur le point d'exclamation (<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span>), des informations au sujet du champ en question apparaîtront. 
+		</p>
+		<br/>
+	</div>
+	<div class="clearer"></div>
 
     <div class="form-group">
         <label for="inputEventName" class="col-sm-4 control-label">*Nom de l'événement</label>
@@ -276,30 +286,37 @@ $(document).ready(function(){
     </div>
 	
     <div class="form-group">
-        <label for="inputDate" class="col-sm-4 control-label">Date de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
+        <label for="inputDate" class="col-sm-4 control-label">*Date de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
         <div class="col-sm-3">
-            <input type="text" class="form-control" name="inputDate" id="inputDate" placeholder="">
+            <input type="text" class="form-control" name="inputDate" id="inputDate">
         </div>
     </div>
     
     <div class="form-group">
-        <label for="inputDuration" class="col-sm-4 control-label">Durée (jour)</label>
+        <label for="inputDuration" class="col-sm-4 control-label">Durée (par défaut 1 jour)</label>
         <div class="col-sm-1">
-            <input type="text" class="form-control" name="inputDuration" id="inputDuration">
+            <input type="text" class="form-control" name="inputDuration" id="inputDuration" placeholder="1">
         </div>
     </div>
 
     <div class="form-group">
-        <label for="inputPlace" class="col-sm-4 control-label">Adresse de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
+        <label for="inputPlace" class="col-sm-4 control-label">*Adresse de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
         <div class="col-sm-6">
             <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="Entre un lieu">
 			<span id="placeError"></span>
         </div>
     </div>
 	
+	<div class="form-group">
+        <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="">
+        </div>
+    </div>
+	
     
     <div class="form-group">
-        <label for="inputRegion" class="col-sm-4 control-label">Région</label>
+        <label for="inputRegion" class="col-sm-4 control-label">*Région</label>
         <div class="col-sm-6">
 			<select id="inputRegion" class="form-control" name="inputRegion">
             	<?php echo $regions; ?>
@@ -414,13 +431,6 @@ $(document).ready(function(){
         <label for="inputMinAge" class="col-sm-4 control-label">Age minimal requis</label>
         <div class="col-sm-1">
             <input type="text" class="form-control" name="inputMinAge" id="inputMinAge">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
-        <div class="col-sm-3">
-            <input type="text" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="">
         </div>
     </div>
 	

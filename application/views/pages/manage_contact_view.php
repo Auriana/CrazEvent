@@ -41,6 +41,9 @@ function removeContact(idContact) {
     
 <div class="clearer"></div>
 <div id="txtHint" class="centred"></div>
-		
-</div>
+<p class="text-centred">
+	Tu souhaites rechercher un utilisateur ? C'est <a class="" href="<?php echo base_url().'search/user'; ?>">ici</a>.
+</p>
+	
+	</div>
 </div>
