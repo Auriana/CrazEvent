@@ -47,7 +47,6 @@ Class Event extends CI_Model {
            $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
        }
        
-
        //insertion of Places open option
        if(sizeof($places) > 1) {
            $data = array();
@@ -59,12 +58,13 @@ Class Event extends CI_Model {
            }       
            $insertionResult = $this->db->insert_batch('start_place_open_option', $data);
        }
+
       //insertion of individual propositions
        if(!empty($individualPropositions)) {
            $data = array();
            foreach ($individualPropositions as $individualProposition){
                $data[] = array(
-                    'content' => $individualProposition,
+                    'content' => $individualProposition['content'],
                     'event_id' => $eventId
                );
            }       

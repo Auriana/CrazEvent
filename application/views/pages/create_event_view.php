@@ -353,11 +353,7 @@ $(document).ready(function(){
 
     <div class="form-group">
 
-        <label for="inputPlace" class="col-sm-4 control-label">*Adresse de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
-
-        <label for="inputPlace" class="col-sm-4 control-label">Adresse de début<br>(indique plusieurs lieus pour créer un sondage)</label>
-
-        <label for="inputPlace" class="col-sm-4 control-label">Adresse de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
+        <label for="inputPlace" class="col-sm-4 control-label">*Adresse de début <a class="link-help" alt="Aide" title="indique plusieurs lieus pour créer un sondage"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
         <div class="col-sm-6">
             <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="Entre un lieu">
 			<span id="placeError"></span>
