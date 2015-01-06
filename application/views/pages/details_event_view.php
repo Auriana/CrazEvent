@@ -62,8 +62,24 @@
         url: '/details_event/invite/' + idEvent + "/" + idUser,
 
         success: function (obj, textstatus) {
-                      if( true ) {
+                      if( !('error' in obj) ) {
                           $('#inviteContact' + idUser).text("invitation envoyée");
+                      }
+                      else {
+                          console.log(obj.error);
+                      }
+                }
+        });
+    }
+
+    function selectPlace(idEvent, place) {
+        $.ajax({
+        type: "POST",
+        url: '/manage_event/select_place/' + idEvent + "/" + place,
+
+        success: function (obj, textstatus) {
+                      if( true ) {
+                          $('#placeChoice').html("");
                       }
                       else {
                           console.log(obj.error);
@@ -105,7 +121,14 @@
 				echo '<p><b>S\'inscrire jusqu\'au </b>'.$event->inscription_deadline.'</p>';
 			}
 		?>
-		<p><b>Où: </b><?php echo $event->start_place; ?></p>
+		<p><b>Où: </b>
+            <div id="placeChoice"><?php
+            if(isset($eventPlaces)) {
+                foreach ($eventPlaces as $place) {
+                    echo '<li class="star-r">'.$place.'<button onclick=\'selectPlace('.$event->id.', "'.$place.'")\'>Choisir</button></li>';
+                }
+            }
+        ?></div></p>
 		<?php 
 			if($event->participant_max_nbr != '') {
 				echo '<p><b>Nombre maximum de participants: </b>'.$event->participant_max_nbr.'</p>';
