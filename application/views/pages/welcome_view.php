@@ -61,18 +61,18 @@
 			<div class="col-lg-4">
 				<!--<img src="assets/img/ser01.png" width="180" alt="">-->
 				<h4><span class="glyphicon glyphicon-star" aria-hidden="Checklist"></span> Options ouvertes</h4>
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-			</div>
-
-			<div class="col-lg-4">
-				<h4><span class="glyphicon glyphicon-star" aria-hidden="Checklist"></span> Propositions individuelles</h4>
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-
+				<p>Tu veux trouver une date ou un lieu idéal(e) pour tous tes invités ? Fais-leur plusieurs propositions !</p>
 			</div>
 
 			<div class="col-lg-4">
 				<h4><span class="glyphicon glyphicon-star" aria-hidden="Checklist"></span> Checklist</h4>
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
+				<p>Voici une façon simple de communiquer les choses à prendre avec soi lors de ton événement.</p>
+
+			</div>
+
+			<div class="col-lg-4">
+				<h4><span class="glyphicon glyphicon-star" aria-hidden="Checklist"></span> Propositions individuelles</h4>
+				<p>Distribue des tâches à faire ou des choses à prendre parmi les participants. Ceux-ci peuvent même t'aider à compléter cette liste !</p>
 
 			</div>
 		</div><!-- /row -->

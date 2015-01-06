@@ -240,6 +240,10 @@ form {
 	float: right;
 }
 
+ul.individual_proposition {
+    padding: 0;
+}
+
 ul.result_search {
 	padding: 0;
 }

@@ -37,12 +37,9 @@ if ( ! function_exists('login_utility')) {
                 $CI->session->set_userdata('logged_in', $sess_array);
                 
                 //parametrize database
-                $CI->db->query("SET @connected_user_id := " . $row->id);
+                $CI->db->query("SET @connected_user_id := ?", array($row->id));
             }
         }
-
-        //TODO return error if fails
-
         return $result;
 	}
 }
@@ -155,6 +152,7 @@ if ( ! function_exists('get_participation_link')) {
     }
 }
 
+
 if ( ! function_exists('get_region_scrollbox')) {
     /**
     * return : a display scrollbox of the available regions
@@ -230,4 +228,26 @@ if ( ! function_exists('send_notification')) {
         }
     }
 }
+
+
+if ( ! function_exists('get_individual_proposition')) {
+    /**
+    * parameters :
+    *   idIndividualProposition : the id of the individual proposition to get
+    * return : an individual propositio
+    */
+    function get_individual_proposition($idIndividualProposition) {
+                 
+        // Get a reference to the controller object
+        $CI = get_instance();
+        
+        //query the database
+        $CI->db->select('*');
+        $CI->db->from('individual_proposition');
+        $CI->db->where('id', $idIndividualProposition);
+        $result = $CI->db->get()->result();
+        return $result[0];
+    }
+}
+
 ?>

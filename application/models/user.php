@@ -68,7 +68,7 @@ Class User extends CI_Model
     
     function add_contact($id_user, $id_contact)
     {
-        $query = $this->db->query("call add_friendship(" . $id_user . ", " . $id_contact . ")");
+        $query = $this->db->query("call add_friendship(?,?)", array($id_user, $id_contact));
 		$returnValue = $query->result();
 		$this->db->freeDBResource($this->db->conn_id);
         return $returnValue;
@@ -107,11 +107,11 @@ Class User extends CI_Model
     
     function is_friend($id_user, $id_contact)
     {
-        $query = $this->db->query("select is_friendship(" . $id_user . ", " . $id_contact . ")");
+        $query = $this->db->query("select is_friendship(?,?)", array($id_user, $id_contact));
         
         $row = $query->row_array();
         
-        return $row["is_friendship(" . $id_user . ", " . $id_contact . ")"];
+        return $row["is_friendship('" . $id_user . "','" . $id_contact . "')"];
 
     }
     
@@ -241,17 +241,18 @@ Class User extends CI_Model
        return $this->db->insert('user_inbox_message', $data);
     }
     
-    function get_messages($userId) {        
+    function get_messages($userId, $offset, $limit) {        
         $this->db->select('user_inbox_message.id AS messageId, subject, content, sender as senderId, firstname AS senderFirstname, surname AS senderSurname, date, is_read');
         $this->db->from('user_inbox_message');
         $this->db->join('user', ' user_inbox_message.sender = user.id', 'inner');
         $this->db->where('user_inbox_message.recipient', $userId);
         $this->db->order_by('date','desc');
+        $this->db->limit($limit, $offset);
         return $this->db->get()->result();
     }
     
     /*
-    * Set notification as read and return notification content
+    * Set notification as read
     */
     function read_message($notificationId) {
         $data = array(
@@ -260,10 +261,12 @@ Class User extends CI_Model
         $this->db->where('id', $notificationId);
         $this->db->update('user_inbox_message', $data);
         
+        /*
         $this->db->select('content, recipient');
         $this->db->from('user_inbox_message');
         $this->db->where('user_inbox_message.id', $notificationId);
         return $this->db->get()->result()[0];
+        */
     }
 	
 	
@@ -280,7 +283,32 @@ Class User extends CI_Model
         return $rowcount;
     }
 	
-	
-	
+    /**
+    * As a user, take charge of an individual proposition.
+    * params :
+    *    idUser : id of the user taking charge
+    *    idIndividualProposition : id of the individual proposition to take charge of
+    */
+	function deal_with_individual_proposition($idUser, $idIndividualProposition) {
+        $data = array(
+           'user_dealing_with_it' => $idUser
+       );
+       
+       $this->db->where('id', $idIndividualProposition);
+       $this->db->update('individual_proposition', $data);
+        // if the update is successful, return 1
+        return $this->db->affected_rows();
+    }
+    
+    /**
+    * As a user, give up the charge of an individual proposition.
+    * params :
+    *    idIndividualProposition : id of the individual proposition to give up charge of
+    */
+	function give_up_individual_proposition($idIndividualProposition) {       
+       $this->db->query('UPDATE individual_proposition SET user_dealing_with_it = NULL WHERE id = ?', $idIndividualProposition);
+        // if the update is successful, return 1
+        return $this->db->affected_rows();
+    }	
 }
 ?>

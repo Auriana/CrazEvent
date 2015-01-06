@@ -3,7 +3,7 @@
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="<?php echo asset_url().'js/jquery.ui.addresspicker.js'; ?>"></script>
 <script>
-    function validateForm() {            
+    function validateForm() {
         var isValid = true;
         if ($("#inputEventName").val() == "") {
             $("#nameError").text("Le nom est obligatoire");
@@ -50,6 +50,7 @@ $(document).ready(function(){
     var activityNbr = $('.inputActivity').length;
     var keywordNbr = $('.inputKeyword').length;
     var checklistItemNbr = $('.inputChecklistItem').length;
+    var individualPropositionNbr = $('.inputIndividualProposition').length;
     
     // PLACE
     $("#addPlace").click(function(){
@@ -99,6 +100,7 @@ $(document).ready(function(){
             $(this).attr('id', "removePlace" + indexPlace--);
         });
     });
+
     
     // ACTIVITY
     $("#addActivity").click(function(){
@@ -116,6 +118,7 @@ $(document).ready(function(){
             </div>');	
     });
 	
+
     $('body').on('click', '.removeActivity', function() {
         var deletedActivityNbr = $(this).attr('id').substring(14);
         
@@ -196,8 +199,8 @@ $(document).ready(function(){
             $(this).attr('id', "removeKeyword" + indexKeyword--);
         });
     });	
-	
-	// CHECKLIST
+    
+    // CHECKLIST
     $("#addChecklistItem").click(function(){
         ++checklistItemNbr;
         $("#checklistSuperContainer").append(
@@ -244,6 +247,53 @@ $(document).ready(function(){
         });
     });
 	
+	// INDIVIDUAL PROPOSITION
+    $("#addIndividualProposition").click(function(){
+        ++individualPropositionNbr;
+        $("#individualPropositionSuperContainer").append(
+			'<div id="clearI' + individualPropositionNbr + '" class="clearer clearerI"></div>\
+			<div id="individualProposition' + individualPropositionNbr + '" class="multi-input individualPropositionContainer">\
+			<div class="col-sm-4"></div>\
+			<div class="inputIndividualPropositionContainer col-sm-4">\
+			<input type="text" class="form-control inputIndividualProposition" name="inputIndividualProposition' + individualPropositionNbr + '" id="inputIndividualProposition' + individualPropositionNbr + '" placeholder="Chose à faire/prendre">\
+			</div>\
+			<div class="removeIndividualPropositionContainer col-sm-2">\
+			<button type="button" class="btn btn-default removeIndividualProposition but-icon" id="removeIndividualProposition' + individualPropositionNbr + '"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>\
+			</div>\
+			</div>');
+    });
+	
+    $('body').on('click', '.removeIndividualProposition', function() {
+        var deletedIndividualPropositionNbr = $(this).attr('id').substring(27);
+        
+        //delete the IndividualProposition
+		$("#clearI" + deletedIndividualPropositionNbr).remove();
+		$("#individualProposition" + deletedIndividualPropositionNbr).remove();
+		//renumber the other IndividualPropositions
+        --individualPropositionNbr;
+        var indexIndividualProposition = individualPropositionNbr;
+		//the clearer div
+		$( ".clearerI" ).each(function( index ) {
+            $(this).attr('id', "clearI" + indexIndividualProposition--);
+        });
+        indexIndividualProposition = individualPropositionNbr;
+		//the multi-input div
+		$( ".individualPropositionContainer" ).each(function( index ) {
+            $(this).attr('id', "individualProposition" + indexIndividualProposition--);
+        });
+        indexIndividualProposition = individualPropositionNbr;
+        //the input text
+        $( ".inputIndividualProposition" ).each(function( index ) {
+            $(this).attr('id', "inputIndividualProposition" + indexIndividualProposition);
+            $(this).attr('name', "inputIndividualProposition" + indexIndividualProposition);
+            --indexIndividualProposition;
+        });
+        indexIndividualProposition = individualPropositionNbr;
+        $( ".removeIndividualProposition" ).each(function( index ) {
+            $(this).attr('id', "removeIndividualProposition" + indexIndividualProposition--);
+        });
+    });
+	
 	// ADDRESS PICKER
     $('#inputPlace').addresspicker();
 });
@@ -277,7 +327,7 @@ $(document).ready(function(){
     </div>
 	
     <div class="form-group">
-        <label for="inputDate" class="col-sm-4 control-label">Date de début</label>
+        <label for="inputDate" class="col-sm-4 control-label">Date de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
         <div class="col-sm-3">
             <input type="text" class="form-control" name="inputDate" id="inputDate" placeholder="">
         </div>
@@ -293,6 +343,8 @@ $(document).ready(function(){
     <!--
     <div class="form-group">
         <label for="inputPlace" class="col-sm-4 control-label">Adresse de début<br>(indique plusieurs lieus pour créer un sondage)</label>
+
+        <label for="inputPlace" class="col-sm-4 control-label">Adresse de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
         <div class="col-sm-6">
             <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="Entre un lieu">
 			<span id="placeError"></span>
@@ -376,10 +428,11 @@ $(document).ready(function(){
     </div>	
 	
     <div id ="checklistSuperContainer" class="form-group">
-        <label for="inputChecklist" class="col-sm-4 control-label">Checklist</label>
+		<label for="inputChecklist" class="col-sm-4 control-label">Checklist <a class="link-help" alt="Aide" title="La checklist est une liste de choses que chaque participant doit faire ou prendre. Exemple : son pique-nique."><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
         <div id="addChecklistContainer" class="col-sm-6">
 			<button type="button" id="addChecklistItem" class="btn btn-default">Ajouter quelque chose</button>
         </div>
+		
 		
 		<div id="clearC1" class="clearer clearerC"></div>
 		<div id="checklist1" class="multi-input checklistContainer">
@@ -392,18 +445,36 @@ $(document).ready(function(){
 			</div>
 		</div>
     </div>
+    
+    <div id ="individualPropositionSuperContainer" class="form-group">
+        <label for="inputIndividualProposition" class="col-sm-4 control-label">Propositions individuelles <a class="link-help" alt="Aide" title="Les propositions individuelles sont les choses à prendre/faire proposées soit par l’organisateur, soit par le participant. Elles sont individuelles pour chaque participant. Exemple: Réserver les billets d'avion"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
+        <div id="addIndividualPropositionContainer" class="col-sm-6">
+			<button type="button" id="addIndividualProposition" class="btn btn-default">Ajouter quelque chose</button>
+        </div>
+		
+		<div id="clearI1" class="clearer clearerI"></div>
+		<div id="individualProposition1" class="multi-input individualPropositionContainer">
+			<div class="col-sm-4"></div>
+			<div class="inputIndividualPropositionContainer col-sm-4">
+				<input type="text" class="form-control inputIndividualProposition" name="inputIndividualProposition1" id="inputIndividualProposition1" placeholder="Chose à faire/prendre">
+			</div>
+			<div class="removeIndividualPropositionContainer col-sm-2">
+            	<button type="button" class="btn btn-default removeIndividualProposition but-icon" id="removeIndividualProposition1"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span> </button>
+			</div>
+		</div>
+    </div>
+    
+    <div class="form-group">
+        <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
+		<div class="col-sm-1">
+            <input type="checkbox" class="form-control" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" value="">
+		</div>
+    </div>
 	
     <div class="form-group">
         <label for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités</label>
 		<div class="col-sm-1">
             <input type="checkbox" class="form-control" name="inputInvitationAllowed" id="inputInvitationAllowed" value="">
-		</div>
-    </div>
-    
-	<div class="form-group">
-        <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
-		<div class="col-sm-1">
-            <input type="checkbox" class="form-control" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" value="">
 		</div>
     </div>
     

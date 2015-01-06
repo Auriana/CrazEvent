@@ -5,8 +5,9 @@ Class Event extends CI_Model {
     * Creation of an event in the database
     * Return created event id.
     */
-   function create_event($name, $private, $date, $duration, $places, $region, $activities, $description, $keywords, $checklistItems, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline, $organizer) {
-       // insertion of the place if there is only one
+   function create_event($name, $private, $date, $duration, $places, $region, $activities, $description, $keywords, $checklistItems, $individualPropositions, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline, $organizer) {
+
+    // insertion of the place if there is only one
        if(sizeof($places) == 1) {
             $place = $places[0];
        } else {
@@ -46,6 +47,7 @@ Class Event extends CI_Model {
            $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
        }
        
+
        //insertion of Places open option
        if(sizeof($places) > 1) {
            $data = array();
@@ -57,15 +59,27 @@ Class Event extends CI_Model {
            }       
            $insertionResult = $this->db->insert_batch('start_place_open_option', $data);
        }
+      //insertion of individual propositions
+       if(!empty($individualPropositions)) {
+           $data = array();
+           foreach ($individualPropositions as $individualProposition){
+               $data[] = array(
+                    'content' => $individualProposition,
+                    'event_id' => $eventId
+               );
+           }       
+           $insertionResult = $this->db->insert_batch('individual_proposition', $data);
+
+       }
 
         //insertion of Activities
        foreach ($activities as $activity){
-           $insertionResult = $this->db->query("call insert_activity(" . $eventId . ", '" . $activity . "')");
+          $insertionResult = $this->db->query("call insert_activity(?,?)", array($eventId, $activity));
        }
 
        //insertion of Keywords
        foreach ($keywords as $keyword){
-           $insertionResult = $this->db->query("call insert_keyword(" . $eventId . ", '" . $keyword . "')");
+          $insertionResult = $this->db->query("call insert_keyword(?,?)", array($eventId, $keyword));
        }
 
        $this->db->trans_complete();
@@ -76,7 +90,7 @@ Class Event extends CI_Model {
     /**
     * Modification of an event in the database
     */
-   function update_event($eventId, $name, $private, $date, $duration, $place, $region, $activities, $description, $keywords, $checklistItems, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline) {
+   function update_event($eventId, $name, $private, $date, $duration, $place, $region, $activities, $description, $keywords, $checklistItems,  $individualPropositions, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline) {
        //insertion of Event
        $data = array(
            'name' => $name,
@@ -111,19 +125,50 @@ Class Event extends CI_Model {
            }           
            $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
        }
+       
+        //insertion of individual propositions
+       $this->db->where('event_id', $eventId);
+       $this->db->delete('individual_proposition');
+       
+       if(!empty($individualPropositions)) {
+           $data1 = array();
+           $data2 = array();
+           foreach ($individualPropositions as $individualProposition) {
+               
+               if(isset($individualProposition['user_dealing_with_it'])) {
+                   $data1[] = array(
+                    'content' => $individualProposition['content'],
+                    'event_id' => $eventId,
+                    'user_dealing_with_it' => $individualProposition['user_dealing_with_it']
+                    );
+               } else {
+                   $data2[] = array(
+                        'content' => $individualProposition['content'],
+                        'event_id' => $eventId
+                   );
+               }
+                  
+           }
+           if(!empty($data1)) {
+            $insertionResult = $this->db->insert_batch('individual_proposition', $data1);
+           }
+           if(!empty($data2)) {
+            $insertionResult = $this->db->insert_batch('individual_proposition', $data2);
+           }
+       }
 
         //insertion of Activities
        $this->db->where('event_id', $eventId);
        $this->db->delete('activity_specification');
        foreach ($activities as $activity) {
-           $insertionResult = $this->db->query("call insert_activity(" . $eventId . ", '" . $activity . "')");
+           $insertionResult = $this->db->query("call insert_activity(?,?)", array($eventId, $activity));
        }
 
        //insertion of Keywords
        $this->db->where('event_id', $eventId);
        $this->db->delete('keyword_specification');
        foreach ($keywords as $keyword) {
-           $insertionResult = $this->db->query("call insert_keyword(" . $eventId . ", '" . $keyword . "')");
+           $insertionResult = $this->db->query("call insert_keyword(?,?)", array($eventId, $keyword));
        }
 
        $this->db->trans_complete();
@@ -254,6 +299,24 @@ Class Event extends CI_Model {
         
         return $query->result();
     }
+        
+    /**
+    * Search the individual propositions of an event in the database
+    * parameters :
+    *   id : event's individual propositions to find's id
+    * Return the individual propositions of the event.
+    */
+    function get_event_individual_propositions($id) {
+		
+        $this->db->select('individual_proposition.id as individual_proposition_id, content, user_dealing_with_it, firstname, surname');
+        $this->db->from('individual_proposition');
+        $this->db->join('user', 'individual_proposition.user_dealing_with_it = user.id', 'left');
+        $this->db->where('event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
     
     /**
     * Join a public event.
@@ -263,7 +326,7 @@ Class Event extends CI_Model {
     * Return result of the joining
     */
     function join_public_event($id_user, $id_event) {
-        $query = $this->db->query("call join_public_event(" . $id_user . ", " . $id_event . ")");
+        $query = $this->db->query("call join_public_event(?,?)", array($id_user, $id_event));
         $returnValue = $query->result();
         $this->db->freeDBResource($this->db->conn_id);
         return $returnValue;
@@ -276,9 +339,8 @@ Class Event extends CI_Model {
     *   $id_event : id of the event to join
     * Return result of the joining
     */
-    function join_private_event($id_user, $id_event)
-    {
-        $query = $this->db->query("call join_private_event(" . $id_user . ", " . $id_event . ")");
+    function join_private_event($id_user, $id_event) {
+        $query = $this->db->query("call join_private_event(?,?)", array($id_user, $id_event));
         $returnValue = $query->result();
         $this->db->freeDBResource($this->db->conn_id);
         return $returnValue;
@@ -294,6 +356,8 @@ Class Event extends CI_Model {
        $this->db->where('event_id', $id_event);
        $this->db->where('user_id', $id_user);
        $this->db->delete('participation');
+        
+       $this->db->query('UPDATE individual_proposition SET user_dealing_with_it = NULL WHERE user_dealing_with_it = ? AND event_id = ?', array($id_user, $id_event));
     }
     
     function send_invitation($id_user, $id_event) {
@@ -311,8 +375,8 @@ Class Event extends CI_Model {
     *   id_user : id of the connected user
     * Return the events visible by the connected user
     */
-    function get_visible_events($id_user) {        
-        $this->db->query("SET @connected_user_id := " . $id_user);
+    function get_visible_events($id_user) {
+        $this->db->query("SET @connected_user_id := ?", array($id_user));
         
         $this -> db -> select("*");
         $this->db->from("visible_event");
@@ -327,8 +391,7 @@ Class Event extends CI_Model {
     * Return the events participable by the connected user
     */
     function get_participable_events($id_user, $limit) {
-        
-        $this->db->query("SET @connected_user_id := " . $id_user);
+        $this->db->query("SET @connected_user_id := ?", array($id_user));
         
         $this -> db -> select("*");
         $this->db->from("participable_event");
@@ -343,13 +406,12 @@ Class Event extends CI_Model {
     *   id_event : id of the event
     * Return 1 if the user participate to the event, else 0
     */
-    function is_participation($id_user, $id_event)
-    {
-        $query = $this->db->query("select is_participation(" . $id_user . ", " . $id_event . ")");
+    function is_participation($id_user, $id_event) {
+        $query = $this->db->query("select is_participation(?,?)", array($id_user, $id_event));
         
         $row = $query->row_array();
         
-        return $row["is_participation(" . $id_user . ", " . $id_event . ")"];
+        return $row["is_participation('" . $id_user . "','" . $id_event . "')"];
 
     }
     /*
@@ -361,9 +423,8 @@ Class Event extends CI_Model {
     *   searchKeywords : keywords used in the search
     * return events that have at least 1 searchKeyowrd in them
     */
-    function search_event($id_user, $searchKeywords)
-    {        
-        $this->db->query("SET @connected_user_id := " . $id_user);
+    function search_event($id_user, $searchKeywords) {        
+        $this->db->query("SET @connected_user_id := ?", array($id_user));
         
         $this -> db -> select('*');
         $this -> db -> from('visible_event');
@@ -415,7 +476,7 @@ Class Event extends CI_Model {
     * Get all the details of an event.
     * parameters :
     *   id : id of the event
-    * return : array with event basic infos from get_event() plus activities, checklist, keywords, participants, guests
+    * return : array with event basic infos from get_event() plus activities, checklist, individual propositions, keywords, participants, guests
     */
     function get_details($id) {
         $infoEvent['event'] = $this->event->get_event($id);
@@ -430,16 +491,22 @@ Class Event extends CI_Model {
             $infoEvent['eventChecklist'][] = $checklistItem->content;
         }
         
+
         $places = $this->event->get_event_places($id);
         foreach($places as $place) {
             $infoEvent['eventPlaces'][] = $place->start_place;
+        }
+        
+        $individualPropositions = $this->event->get_event_individual_propositions($id);
+        foreach($individualPropositions as $individualProposition) {
+            $infoEvent['eventIndividualPropositions'][] = $individualProposition;
         }
         
         $keywords = $this->event->get_event_keywords($id);
         foreach($keywords as $keyword) {
             $infoEvent['eventKeywords'][] = $keyword->content;
         }
-        
+                
         $infoEvent['eventParticipants'] = $this->event->get_event_participants($id);
         
         $infoEvent['eventGuests'] = $this->event->get_event_guests($id);
@@ -456,6 +523,7 @@ Class Event extends CI_Model {
         $this->db->delete('event');
     }
     
+
     function insert_choice_place($idUser, $idEvent, $place) {
         $data = array(
            'start_place_open_options_start_place' => $place,
@@ -463,6 +531,41 @@ Class Event extends CI_Model {
             'user_id' => $idUser
        );
         $insertionResult = $this->db->insert('start_place_open_option_agreeing_user', $data);
+    }
+    /**
+    * Return true if a user is in charge of the individual proposition.
+    *   id : id of the IndividualProposition
+    */
+    function is_individual_proposition_dealt_with($id) {
+        $this->db->from('individual_proposition');
+        $this->db->where('id',$id);
+        $this->db->where('user_dealing_with_it IS NOT NULL', null, false);
+        
+        $query = $this -> db -> get();
+
+		return $query -> num_rows() == 1;
+    }
+    
+    /**
+    * Add an individual proposition to the event
+    *   id : id of the event
+    *   individualProposition : content to add
+    * return : id of inserted individual proposition
+    */
+    function add_individual_proposition($id, $individualProposition) {
+       $data = array(
+           'content' => $individualProposition,
+           'event_id' => $id
+       );
+       
+       $this->db->trans_start();
+       
+       $insertionResult = $this->db->insert('individual_proposition', $data);
+       $propositionId = $this->db->insert_id();
+        
+       $this->db->trans_complete();
+        
+       return $propositionId;
     }
 }
 ?>

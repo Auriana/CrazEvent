@@ -58,54 +58,6 @@ class Manage_Event extends CI_Controller {
             redirect('welcome', 'refresh');
         }
     }
- 
-     //function create() {
-       //This method will have the credentials validation
-       //$this->load->library('form_validation');
-
-         //TODO : useless car javascript validation
-         /*
-       $this->form_validation->set_rules('inputFirstName', 'inputFirstName', 'trim|required|xss_clean');
-       $this->form_validation->set_rules('inputSurname', 'inputSurname', 'trim|required|xss_clean');
-       $this->form_validation->set_rules('inputPassword', 'inputPassword', 'trim|required|xss_clean');
-       $this->form_validation->set_rules('inputBirthdate', 'inputBirthdate', 'required|xss_clean');
-       $this->form_validation->set_rules('inputRegion', 'inputRegion', 'xss_clean');
-       $this->form_validation->set_rules('inputEmail', 'inputEmail', 'trim|required|xss_clean');
-       */
-
-         /*
-        //Create new event
-         $creation = $this->create_event();
-
-         if ($creation == TRUE) {
-            redirect('welcome', 'refresh');
-         } else {
-             echo 'erreur à la création';
-            //TODO redirect to error page
-             //redirect('user_guide', 'refresh');
-         }
-         */
-
-         /*
-       if($this->form_validation->run() == FALSE) {
-         //Field validation failed.  User redirected to create_user page
-         //redirect('create_user', 'refresh'); //TODO
-           echo 'b';
-       }
-       else {
-         //Create new event
-         $creation = $this->create_event();
-
-         if ($creation == TRUE) {
-            redirect('welcome', 'refresh');
-         } else {
-             echo 'b';
-            //TODO redirect to error page
-             //redirect('user_guide', 'refresh');
-         }
-       }*/
-
-     //}
 
     /*
     * Retrieve an array from a form with an unkown number of input fields that give the same kind of data.
@@ -158,6 +110,21 @@ class Manage_Event extends CI_Controller {
         $eventData['eventDescription'] = $this->input->post('inputDescription', TRUE);
         $eventData['eventKeywords'] = $this->get_array_from_form('inputKeyword');
         $eventData['eventChecklistItems'] = $this->get_array_from_form('inputChecklistItem');
+        
+        $eventData['eventIndividualPropositions'] = array();
+        $i = 1;
+        while(($formValue = $this->input->post("inputIndividualProposition".$i++, TRUE)) != false) {
+           if($formValue != '') {
+               $array = array();
+               $array['content']  = $formValue;
+               if($this->input->post("inputIndividualPropositionUser".$i, TRUE) != false && $this->input->post("inputIndividualPropositionUser".$i, TRUE) != "") {
+                  $array['user_dealing_with_it'] = $this->input->post("inputIndividualPropositionUser".$i, TRUE);
+               }
+               
+               $eventData['eventIndividualPropositions'][] = $array;
+           }
+        }
+                
         $eventData['eventInvitationSuggestionAllowed'] = isset($_POST['inputInvitationAllowed']);
         $eventData['eventIndividualPropositionSuggestionAllowed'] = isset($_POST['inputIndividualPropositionAllowed']);
 
@@ -190,8 +157,7 @@ class Manage_Event extends CI_Controller {
         $eventData = $this->extractEventDataFromForm();
         
         //query the database              
-        $eventId = $this->event->create_event($eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlaces'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline'], $this->session->userdata('logged_in')['id']);
-
+        $eventId = $this->event->create_event($eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlaces'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventIndividualPropositions'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline'], $this->session->userdata('logged_in')['id']);
         //join the event
         //there is no invitation to remove from us even if the event is private
         //therefor join_public_event is used
@@ -219,14 +185,14 @@ class Manage_Event extends CI_Controller {
 
                 $eventData = $this->extractEventDataFromForm();
 
-                //query the database              
-                $eventId = $this->event->update_event($id, $eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlaces'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline']);
+                //query the database    
+                $eventId = $this->event->update_event($id, $eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlaces'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventIndividualPropositions'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline']);
 
                 //sending a notification to participants
                 $eventParticipants = $this->event->get_event_participants($id);
                 foreach ($eventParticipants as $participant)
                 {
-                    send_notification("Modification d’un paramètre de l’évènement : " . $eventData['eventName'], 'L\'événement '.$eventData['eventName'].' a été modifié', $this->session->userdata('logged_in')['id'], $participant->id, false);
+                    send_notification("Modification d’un paramètre de l’évènement : " . $eventData['eventName'], 'L\'événement '.$eventData['eventName'].' a été modifié<a class="list_contact" href="'. base_url('details_event/index/'.$id) .'">Voir l\'évènement</a>', $this->session->userdata('logged_in')['id'], $participant->id, false);
                 }
             }
         }
@@ -263,6 +229,47 @@ class Manage_Event extends CI_Controller {
         $aResult = array();
         $idUser = $this->session->userdata('logged_in')['id'];
         $this->event->insert_choice_place($idUser, $idEvent, $place);
+        echo json_encode($aResult);
+    }
+
+    /**
+    * Add an individual proposition to the event
+    * params :
+    *    id : id of the event
+    */
+    function add_individual_proposition($id) {
+        $aResult = array();
+
+        if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
+
+        if( !isset($aResult['error']) ) {
+           if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 1) ) {
+               $aResult['error'] = 'Error in arguments!';
+           }
+           else {
+               if($this->session->userdata('logged_in')) {
+                    if($this->event->is_participation($this->session->userdata('logged_in')['id'], $id) == 1) {
+                        $event = $this->event->get_event($id);
+                        if($event->individual_proposition_suggestion_allowed == 1) {
+                           $individualProposition = $_POST['arguments'][0];
+
+                           $result = $this->event->add_individual_proposition($id, $individualProposition);
+
+                           $aResult['result'] = $result;
+                            
+                            //sending a notification to the organizer
+                            send_notification("Nouvelle proposition individuelle par un participant : " . $event->name, $this->session->userdata('logged_in')['firstname'].' '.$this->session->userdata('logged_in')['surname'].' a fait une proposition individuelle<a class="list_contact" href="'. base_url('details_event/index/'.$id) .'">Voir l\'évènement</a>', $this->session->userdata('logged_in')['id'], $event->organizer, false);
+                        } else {
+                            $aResult['error'] = 'non autorisé';
+                        }
+                    } else {
+                        $aResult['error'] = 'pas inscrit';
+                    }
+               } else {
+                   $aResult['error'] = 'pas connecté';
+               }
+           }
+        }
         
         echo json_encode($aResult);
     }
