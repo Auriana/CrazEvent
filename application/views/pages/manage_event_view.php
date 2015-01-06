@@ -51,6 +51,61 @@ $(document).ready(function(){
     var checklistItemNbr = $('.inputChecklistItem').length;
     var individualPropositionNbr = $('.inputIndividualProposition').length;
     
+    //controls to modify the form
+    var placeNbr = $('.inputPlace').length;
+    
+    // PLACE
+    $("#addPlace").click(function(){
+        ++placeNbr;
+		$("#placeSuperContainer").append(
+            '<div id="clearP' + placeNbr +'" class="clearer clearerP"></div>\
+            <div id="place' + placeNbr +'" class="multi-input  placeContainer">\
+                <div class="col-sm-4"></div>\
+                <div class="inputPlaceContainer col-sm-4">\
+                    <input type="text" class="form-control inputPlace" id="inputPlace' + placeNbr + '" name="inputPlace' + placeNbr + '" placeholder="Entre un lieu">\
+                </div>\
+                <div class="removePlaceContainer col-sm-2">\
+                    <button type="button" class="btn btn-default removePlace but-icon" id="removePlace' + placeNbr + '"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>\
+                </div>\
+            </div>');	
+    });
+	
+    $('body').on('click', '.removePlace', function() {
+        var deletedPlaceNbr = $(this).attr('id').substring(11);
+        
+        //delete the place
+		$("#clearP" + deletedPlaceNbr).remove();
+		$("#place" + deletedPlaceNbr).remove();
+        
+        //renumber the other places
+        --placeNbr;
+        var indexPlace = placeNbr;
+		//the clearer div
+		$( ".clearerP" ).each(function( index ) {
+            $(this).attr('id', "clearP" + indexPlace--);
+        });
+        indexPlace = placeNbr;
+		//the multi-input div
+		$( ".placeContainer" ).each(function( index ) {
+            $(this).attr('id', "place" + indexPlace--);
+        });
+        indexPlace = placeNbr;
+		//the input text
+        $( ".inputPlace" ).each(function( index ) {
+            $(this).attr('id', "inputPlace" + indexPlace);
+            $(this).attr('name', "inputPlace" + indexPlace);
+            --indexPlace;
+        });
+        indexPlace = placeNbr;
+		//the remove button
+        $( ".removePlace" ).each(function( index ) {
+            $(this).attr('id', "removePlace" + indexPlace--);
+        });
+    });
+    
+
+    
+    
     // ACTIVITY
     $("#addActivity").click(function(){
         ++activityNbr;
@@ -294,12 +349,34 @@ $(document).ready(function(){
         </div>
     </div>
 
+    <!--
     <div class="form-group">
-        <label for="inputPlace" class="col-sm-4 control-label">Adresse de début</label>
+        <label for="inputPlace" class="col-sm-4 control-label">Adresse de début<br>(indique plusieurs lieus pour créer un sondage)</label>
         <div class="col-sm-6">
-            <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="Entre un lieu" value="<?php echo $event->start_place; ?>">
+            <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="Entre un lieu">
 			<span id="placeError"></span>
         </div>
+    </div>
+    -->
+    
+    <div id ="placeSuperContainer" class="form-group">
+        <label for="inputPlace" class="col-sm-4 control-label">Lieu(s)</label>  
+		<div id="addPlaceContainer" class="col-sm-6">
+			<button type="button" id="addPlace" class="btn btn-default">Ajouter un lieu</button>
+            <span>(indique plusieurs lieus pour créer un sondage)</span>
+        </div>
+		
+		<div id="clearP1" class="clearer clearerP"></div>
+		<div id="place1" class="multi-input placeContainer">
+			<div class="col-sm-4"></div>
+			<div class="inputPlaceContainer col-sm-4">
+				<input type="text" class="form-control inputPlace" name="inputPlace1" id="inputPlace1" placeholder="Entre un lieu">
+				<span id="place1Error"></span>		
+			</div>
+			<div class="removePlaceContainer col-sm-2">
+				<button type="button" class="btn btn-default removePlace but-icon" id="removePlace1" class="btn btn-default"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>
+			</div>
+		</div>
     </div>
     
     <div class="form-group">

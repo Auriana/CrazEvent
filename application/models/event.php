@@ -5,7 +5,14 @@ Class Event extends CI_Model {
     * Creation of an event in the database
     * Return created event id.
     */
-   function create_event($name, $private, $date, $duration, $place, $region, $activities, $description, $keywords, $checklistItems, $individualPropositions, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline, $organizer) {
+   function create_event($name, $private, $date, $duration, $places, $region, $activities, $description, $keywords, $checklistItems, $individualPropositions, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline, $organizer) {
+
+    // insertion of the place if there is only one
+       if(sizeof($places) == 1) {
+            $place = $places[0];
+       } else {
+            $place = null;
+       }
        //insertion of Event
        $data = array(
            'name' => $name,
@@ -40,6 +47,18 @@ Class Event extends CI_Model {
            $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
        }
        
+
+       //insertion of Places open option
+       if(sizeof($places) > 1) {
+           $data = array();
+           foreach ($places as $place){
+               $data[] = array(
+                    'start_place' => $place,
+                    'event_id' => $eventId
+               );
+           }       
+           $insertionResult = $this->db->insert_batch('start_place_open_option', $data);
+       }
       //insertion of individual propositions
        if(!empty($individualPropositions)) {
            $data = array();
@@ -50,6 +69,7 @@ Class Event extends CI_Model {
                );
            }       
            $insertionResult = $this->db->insert_batch('individual_proposition', $data);
+
        }
 
         //insertion of Activities
@@ -188,6 +208,23 @@ Class Event extends CI_Model {
         $this->db->from('activity');
         $this->db->join('activity_specification', 'activity_specification.activity_id = activity.id', 'inner');
         $this->db->where('activity_specification.event_id', $id);
+
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    
+    /**
+    * Search the places of an event in the database
+    * parameters :
+    *   id : event's places to find's id
+    * Return the places of the event.
+    */
+    function get_event_places($id) {
+		
+        $this->db->select('start_place');
+        $this->db->from('start_place_open_option');
+        $this->db->where('start_place_open_option.event_id', $id);
 
         $query = $this->db->get();
         
@@ -454,6 +491,12 @@ Class Event extends CI_Model {
             $infoEvent['eventChecklist'][] = $checklistItem->content;
         }
         
+
+        $places = $this->event->get_event_places($id);
+        foreach($places as $place) {
+            $infoEvent['eventPlaces'][] = $place->start_place;
+        }
+        
         $individualPropositions = $this->event->get_event_individual_propositions($id);
         foreach($individualPropositions as $individualProposition) {
             $infoEvent['eventIndividualPropositions'][] = $individualProposition;
@@ -480,6 +523,15 @@ Class Event extends CI_Model {
         $this->db->delete('event');
     }
     
+
+    function insert_choice_place($idUser, $idEvent, $place) {
+        $data = array(
+           'start_place_open_options_start_place' => $place,
+            'start_place_open_options_event_id' => $idEvent,
+            'user_id' => $idUser
+       );
+        $insertionResult = $this->db->insert('start_place_open_option_agreeing_user', $data);
+    }
     /**
     * Return true if a user is in charge of the individual proposition.
     *   id : id of the IndividualProposition

@@ -104,12 +104,7 @@ class Manage_Event extends CI_Controller {
            $eventData['eventDuration'] = $this->input->post('inputDuration', TRUE);
         }
 
-        if($this->input->post('inputPlace', TRUE) == '') {
-           $eventData['eventPlace'] = null;
-        } else {
-           $eventData['eventPlace'] = $this->input->post('inputPlace', TRUE);
-        }
-
+        $eventData['eventPlaces'] = $this->get_array_from_form('inputPlace');
         $eventData['eventRegion'] = $this->input->post('inputRegion', TRUE);       
         $eventData['eventActivities'] = $this->get_array_from_form('inputActivity');
         $eventData['eventDescription'] = $this->input->post('inputDescription', TRUE);
@@ -162,8 +157,7 @@ class Manage_Event extends CI_Controller {
         $eventData = $this->extractEventDataFromForm();
         
         //query the database              
-        $eventId = $this->event->create_event($eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlace'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventIndividualPropositions'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline'], $this->session->userdata('logged_in')['id']);
-
+        $eventId = $this->event->create_event($eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlaces'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventIndividualPropositions'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline'], $this->session->userdata('logged_in')['id']);
         //join the event
         //there is no invitation to remove from us even if the event is private
         //therefor join_public_event is used
@@ -191,8 +185,8 @@ class Manage_Event extends CI_Controller {
 
                 $eventData = $this->extractEventDataFromForm();
 
-                //query the database              
-                $eventId = $this->event->update_event($id, $eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlace'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventIndividualPropositions'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline']);
+                //query the database    
+                $eventId = $this->event->update_event($id, $eventData['eventName'], $eventData['eventPrivate'], $eventData['eventDate'], $eventData['eventDuration'], $eventData['eventPlaces'], $eventData['eventRegion'], $eventData['eventActivities'], $eventData['eventDescription'], $eventData['eventKeywords'], $eventData['eventChecklistItems'], $eventData['eventIndividualPropositions'], $eventData['eventInvitationSuggestionAllowed'], $eventData['eventIndividualPropositionSuggestionAllowed'], $eventData['eventMaxParticipant'], $eventData['eventMinAge'], $eventData['eventInscriptionDeadline']);
 
                 //sending a notification to participants
                 $eventParticipants = $this->event->get_event_participants($id);
@@ -231,6 +225,13 @@ class Manage_Event extends CI_Controller {
         redirect('home', 'refresh');
     }
     
+    function select_place($idEvent, $place) {
+        $aResult = array();
+        $idUser = $this->session->userdata('logged_in')['id'];
+        $this->event->insert_choice_place($idUser, $idEvent, $place);
+        echo json_encode($aResult);
+    }
+
     /**
     * Add an individual proposition to the event
     * params :
@@ -269,6 +270,7 @@ class Manage_Event extends CI_Controller {
                }
            }
         }
+        
         echo json_encode($aResult);
     }
 }
