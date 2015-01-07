@@ -208,6 +208,9 @@
 				echo '<p><b>Age minimal requis: </b>'.$event->participant_minimum_age.'</p>';
 			}
 		?>
+        <?php 
+            echo '<p><b>Créateur de l\'évènement: </b>'.$event->organizerFirstname.' '.$event->organizerSurname.'</p>';
+		?>
 	</ul>
 	<div class="bloc-info"> 
 		<h3>Description</h3>

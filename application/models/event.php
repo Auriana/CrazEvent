@@ -202,9 +202,10 @@ Class Event extends CI_Model {
     * Return the infos about the event or false.
     */
 	function get_event($id) {
-		$this -> db ->select('event.id AS id, name, private, invitation_suggestion_allowed, description, start_date, inscription_deadline, duration, start_place, participant_max_nbr, participant_minimum_age, organizer, individual_proposition_suggestion_allowed, region.content AS region');
+		$this -> db ->select('event.id AS id, name, private, invitation_suggestion_allowed, description, start_date, inscription_deadline, duration, start_place, participant_max_nbr, participant_minimum_age, organizer, firstname as organizerFirstname, surname as organizerSurname, individual_proposition_suggestion_allowed, region.content AS region');
 		$this -> db -> from('event');
         $this->db->join('region', 'event.region_id = region.id', 'inner');
+        $this->db->join('user', 'event.organizer = user.id', 'inner');
 		$this -> db -> where('event.id', $id);
      	$this -> db -> limit(1);
 		
