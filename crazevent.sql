@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 07 Janvier 2015 à 21:08
+-- Généré le :  Mer 07 Janvier 2015 à 22:53
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `crazevent`
 --
-CREATE DATABASE IF NOT EXISTS `crazevent` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `crazevent`;
 
 DELIMITER $$
 --
@@ -147,14 +145,16 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
 
 --
 -- Contenu de la table `activity`
 --
 
 INSERT INTO `activity` (`id`, `content`) VALUES
-(26, 'a');
+(26, 'a'),
+(27, 'aaa'),
+(28, 's');
 
 -- --------------------------------------------------------
 
@@ -169,6 +169,14 @@ CREATE TABLE IF NOT EXISTS `activity_specification` (
   KEY `fk_activity_has_event_event1_idx` (`event_id`),
   KEY `fk_activity_has_event_activity1_idx` (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `activity_specification`
+--
+
+INSERT INTO `activity_specification` (`activity_id`, `event_id`) VALUES
+(27, 45),
+(28, 46);
 
 -- --------------------------------------------------------
 
@@ -194,7 +202,15 @@ CREATE TABLE IF NOT EXISTS `event` (
   PRIMARY KEY (`id`),
   KEY `FKOrganization_idx` (`organizer`),
   KEY `fk_event_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=47 ;
+
+--
+-- Contenu de la table `event`
+--
+
+INSERT INTO `event` (`id`, `name`, `private`, `invitation_suggestion_allowed`, `description`, `start_date`, `inscription_deadline`, `duration`, `start_place`, `participant_max_nbr`, `participant_minimum_age`, `organizer`, `individual_proposition_suggestion_allowed`, `region_id`) VALUES
+(45, 'caché', 1, 0, 'aaa', NULL, NULL, 1, NULL, 12, 0, 12, 0, 2),
+(46, 'test', 0, 0, 'aaa', '2015-01-08 00:00:00', NULL, 1, NULL, NULL, 0, 13, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -239,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `individual_proposition` (
   PRIMARY KEY (`id`),
   KEY `fk_individualProposition_event1_idx` (`event_id`),
   KEY `fk_individualProposition_user1_idx` (`user_dealing_with_it`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=92 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -265,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `keyword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -294,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `mandatory_checklist_item` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `mandatoryCheckListItemUnique` (`content`,`event_id`),
   KEY `fk_mandatoryCheckListItem_event1_idx` (`event_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=64 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -330,6 +346,14 @@ CREATE TABLE IF NOT EXISTS `participation` (
   KEY `fk_event_has_user_user1_idx` (`user_id`),
   KEY `fk_event_has_user_event1_idx` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `participation`
+--
+
+INSERT INTO `participation` (`event_id`, `user_id`) VALUES
+(45, 12),
+(46, 13);
 
 -- --------------------------------------------------------
 
@@ -524,7 +548,7 @@ CREATE TABLE IF NOT EXISTS `visible_event` (
 --
 DROP TABLE IF EXISTS `participable_event`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `participable_event` AS select `subquery`.`eventId` AS `eventId`,`subquery`.`name` AS `name`,`subquery`.`private` AS `private`,`subquery`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`subquery`.`description` AS `description`,`subquery`.`start_date` AS `start_date`,`subquery`.`inscription_deadline` AS `inscription_deadline`,`subquery`.`duration` AS `duration`,`subquery`.`start_place` AS `start_place`,`subquery`.`participant_max_nbr` AS `participant_max_nbr`,`subquery`.`participant_minimum_age` AS `participant_minimum_age`,`subquery`.`organizer` AS `organizer`,`subquery`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`subquery`.`region_id` AS `region_id` from `visible_event` `subquery` where (((`subquery`.`start_date` >= now()) and (`subquery`.`inscription_deadline` >= now()) and (`user_age`(`connected_user_id`()) >= `subquery`.`participant_minimum_age`)) or isnull(`subquery`.`start_date`) or isnull(`subquery`.`inscription_deadline`));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `participable_event` AS select `subquery`.`eventId` AS `eventId`,`subquery`.`name` AS `name`,`subquery`.`private` AS `private`,`subquery`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`subquery`.`description` AS `description`,`subquery`.`start_date` AS `start_date`,`subquery`.`inscription_deadline` AS `inscription_deadline`,`subquery`.`duration` AS `duration`,`subquery`.`start_place` AS `start_place`,`subquery`.`participant_max_nbr` AS `participant_max_nbr`,`subquery`.`participant_minimum_age` AS `participant_minimum_age`,`subquery`.`organizer` AS `organizer`,`subquery`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`subquery`.`region_id` AS `region_id` from `visible_event` `subquery` where (`can_participate`(`connected_user_id`(),`subquery`.`eventId`) = 1);
 
 -- --------------------------------------------------------
 
