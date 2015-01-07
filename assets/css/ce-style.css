@@ -25,6 +25,7 @@ a.event-link {
 
 h1 {
 	color: #ff1a5c;
+	margin-bottom: 20px;
 }
 
 h2 {
@@ -132,12 +133,12 @@ h3 {
 }
 
 ul li.star-t {
-	list-style-image: url(http://crazevent.com/assets/img/star-t.png)!important;
+	list-style-image: url(../img/star-t.png)!important;
 	list-style-position: inside!important;
 }
 
 ul li.star-r {
-	list-style-image: url(http://crazevent.com/assets/img/star-r.png)!important;
+	list-style-image: url(../img/star-r.png)!important;
 	list-style-position: inside!important;
 }
 
@@ -385,3 +386,10 @@ p.copyright {
 .clickOn {
 	cursor: pointer;
 }
+
+.next-prev {
+
+	font-size: 20px;
+	margin: 0 5px;
+}
+

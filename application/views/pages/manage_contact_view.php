@@ -36,7 +36,7 @@ function removeContact(idContact) {
 <div class="container theme-showcase" role="main">
 <div class="form-horizontal">
 <div class="col-md-6 white-bloc centred">
-	<h1 class="text-centred">Mes contacts</h1>
+	<h1 class="text-centred">Contacts</h1>
 	<div id="contactList"></div>
     
 <div class="clearer"></div>

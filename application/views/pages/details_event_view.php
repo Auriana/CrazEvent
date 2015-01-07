@@ -268,10 +268,10 @@
             }
         ?>
     </div>
-    <div>
+    <div class="bloc-info">
         <?php
             if($event->invitation_suggestion_allowed == 1 || $event->organizer == $id_user) {
-                echo '<button type="button" id="inviteUser" class="btn btn-default" onclick="invitationList('.$event->id.')">Suggérer l\'événement</button>';
+                echo '<button type="button" id="inviteUser" class="btn btn-default btn-lg" onclick="invitationList('.$event->id.')">'.($event->private == 1 ? "Inviter des contacts" : "Suggérer l\'événement" ).'</button>';
             }
         ?>
         <div id="contactList">

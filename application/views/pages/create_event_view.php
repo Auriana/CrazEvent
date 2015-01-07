@@ -324,6 +324,14 @@ $(document).ready(function(){
             <span id="nameError"></span>
         </div>
     </div>
+	
+	<div class="form-group">
+        <label class="col-sm-4 control-label">*Description</label>
+		<div class="col-sm-6">
+        	<textarea class="form-control" rows="5" name="inputDescription" id="inputDescription"></textarea>
+            <span id="descriptionError"></span>
+		</div>
+    </div>	
 
     <div class="form-group">
         <label class="radio-inline col-sm-2 col-md-offset-4">
@@ -414,14 +422,6 @@ $(document).ready(function(){
 			</div>
 		</div>
     </div>
-	
-    <div class="form-group">
-        <label class="col-sm-4 control-label">*Description</label>
-		<div class="col-sm-6">
-        	<textarea class="form-control" rows="5" name="inputDescription" id="inputDescription"></textarea>
-            <span id="descriptionError"></span>
-		</div>
-    </div>	
 	
     <div id ="keywordSuperContainer" class="form-group">
         <label for="inputKeyword" class="col-sm-4 control-label">Mot(s)-clé(s)</label>

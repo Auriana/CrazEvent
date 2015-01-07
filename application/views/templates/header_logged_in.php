@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/ce-calendar-style.css'; ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui.min.css'; ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui.structure.min.css'; ?>">
-		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui.theme.min.css'; ?>">
+		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui.theme.css'; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui-timepicker-addon.css'; ?>">
         
 		<script>

@@ -14,7 +14,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/ce-style.css'; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui.min.css'; ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui.structure.min.css'; ?>">
-		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui.theme.min.css'; ?>">
+		<link rel="stylesheet" type="text/css" href="<?php echo asset_url().'css/jquery-ui.theme.css'; ?>">
         <script>
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-57249666-2']);
