@@ -41,6 +41,7 @@ function searchEvent() {
     
 <div class="clearer"></div>
 <div id="txtHint" class="centred"></div>
-		
+	
+<div class="clearer"></div>	
 </div>
 </div>

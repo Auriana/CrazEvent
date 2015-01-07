@@ -350,6 +350,12 @@ $(document).ready(function(){
         </div>
     </div>
 
+	<div class="form-group">
+        <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="">
+        </div>
+    </div>
 
     <div class="form-group">
 
@@ -379,15 +385,7 @@ $(document).ready(function(){
 				<button type="button" class="btn btn-default removePlace but-icon" id="removePlace1" class="btn btn-default"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>
 			</div>
 		</div>
-    </div>
-	
-	<div class="form-group">
-        <label for="inputJoinDate" class="col-sm-4 control-label">Date de fin d'inscription</label>
-        <div class="col-sm-3">
-            <input type="text" class="form-control" name="inputJoinDate" id="inputJoinDate" placeholder="">
-        </div>
-    </div>
-	
+    </div>	
     
     <div class="form-group">
         <label for="inputRegion" class="col-sm-4 control-label">*Région</label>
