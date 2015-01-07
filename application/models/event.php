@@ -239,12 +239,11 @@ Class Event extends CI_Model {
     /**
     * Search the places of an event in the database
     * parameters :
-    *   id : event's places to find's id
+    *   idEvent : event's places to find's id
     * Return the places of the event.
     */
     function get_event_places($idEvent, $idUser) {
-		
-        $this->db->select('start_place');
+        $this->db->select('id, start_place');
         $this->db->from('start_place_open_option');
         $this->db->where('start_place_open_option.event_id', $idEvent);
 
@@ -256,17 +255,17 @@ Class Event extends CI_Model {
         foreach($result as $r) {
             $this->db->select('*');
             $this->db->from('start_place_open_option_agreeing_user');
-            $this->db->where('start_place_open_options_event_id', $idEvent);
-            $this->db->where('start_place_open_options_start_place', $r->start_place);
+            $this->db->where('start_place_open_option_id', $r->id);
             
+            $array[$counter]['id'] = $r->id;
             $array[$counter]['place'] = $r->start_place;
+            //the number of vote the place obtained
             $array[$counter]['count'] = $this->db->count_all_results();
             
             // check the vote of the user
             $this->db->select('*');
             $this->db->from('start_place_open_option_agreeing_user');
-            $this->db->where('start_place_open_options_event_id', $idEvent);
-            $this->db->where('start_place_open_options_start_place', $r->start_place);
+            $this->db->where('start_place_open_option_id', $r->id);
             $this->db->where('user_id', $idUser);
 
             $array[$counter]['vote'] = $this->db->count_all_results();
@@ -585,25 +584,22 @@ Class Event extends CI_Model {
     }
     
 
-    function change_choice_place($idUser, $idEvent, $place) {
+    function change_choice_place($idUser, $start_place_open_option_id) {
         $this->db->select('*');
         $this->db->from('start_place_open_option_agreeing_user');
-        $this->db->where('start_place_open_options_event_id', $idEvent);
-        $this->db->where('start_place_open_options_start_place', $place);
+        $this->db->where('start_place_open_option_id', $start_place_open_option_id);
         $this->db->where('user_id', $idUser);
 
         $nb = $this->db->count_all_results();
         
         if ($nb == 0) {
             $data = array(
-               'start_place_open_options_start_place' => $place,
-                'start_place_open_options_event_id' => $idEvent,
+                'start_place_open_option_id' => $start_place_open_option_id,
                 'user_id' => $idUser
             );
             $insertionResult = $this->db->insert('start_place_open_option_agreeing_user', $data);
         } else {
-            $this->db->where('start_place_open_options_event_id', $idEvent);
-            $this->db->where('start_place_open_options_start_place', $place);
+            $this->db->where('start_place_open_option_id', $start_place_open_option_id);
             $this->db->where('user_id', $idUser);
             $this->db->delete('start_place_open_option_agreeing_user');
         }

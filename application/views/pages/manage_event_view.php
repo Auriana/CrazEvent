@@ -310,7 +310,7 @@ $(document).ready(function(){
     });
 	
 	// ADDRESS PICKER
-    $('#inputPlace').addresspicker();
+    $('.inputPlace').addresspicker();
 });
 </script>
 

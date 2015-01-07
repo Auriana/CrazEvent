@@ -207,16 +207,14 @@ class Manage_Event extends CI_Controller {
     *    id : id of the event to cancel
     */
     function cancel($id) {
-        if($this->session->userdata('logged_in'))
-        {
+        if($this->session->userdata('logged_in')) {
 			$info_event = $this->event->get_details($id);
             if($info_event['event']->organizer == $this->session->userdata('logged_in')['id']) {
                 
                 $this->event->cancel($id);
                 
                 //sending a notification to participants
-                foreach ($info_event['eventParticipants'] as $participant)
-                {
+                foreach ($info_event['eventParticipants'] as $participant) {
                     send_notification("Annulation de l’évènement : " . $info_event['event']->name, 'L\'événement '.$info_event['event']->name.' a été annulé ', $info_event['event']->organizer, $participant->id, true);
 
                 }
@@ -225,10 +223,22 @@ class Manage_Event extends CI_Controller {
         redirect('home', 'refresh');
     }
     
-    function change_choice_place($idEvent, $place) {
+    function change_choice_place($idOpenOptionPlace, $idEvent) {
         $aResult = array();
-        $idUser = $this->session->userdata('logged_in')['id'];
-        $this->event->change_choice_place($idUser, $idEvent, $place);
+        
+       if($this->session->userdata('logged_in')) {
+            if($this->event->is_participation($this->session->userdata('logged_in')['id'], $idEvent) == 1) {
+
+                $this->event->change_choice_place($this->session->userdata('logged_in')['id'], $idOpenOptionPlace);
+
+                $aResult['result'] = 'success';
+            } else {
+                $aResult['error'] = 'pas inscrit';
+            }
+       } else {
+           $aResult['error'] = 'pas connecté';
+       }
+        
         echo json_encode($aResult);
     }
 
@@ -245,8 +255,7 @@ class Manage_Event extends CI_Controller {
         if( !isset($aResult['error']) ) {
            if( !is_array($_POST['arguments']) || (count($_POST['arguments']) < 1) ) {
                $aResult['error'] = 'Error in arguments!';
-           }
-           else {
+           } else {
                if($this->session->userdata('logged_in')) {
                     if($this->event->is_participation($this->session->userdata('logged_in')['id'], $id) == 1) {
                         $event = $this->event->get_event($id);

@@ -73,20 +73,28 @@
         });
     }
 
-    function changeChoicePlace(idEvent, place) {
-        $.ajax({
-        type: "POST",
-        url: '/manage_event/change_choice_place/' + idEvent + "/" + place,
+    function changeChoicePlace(idEvent, idOpenOption) {
+        $(document).ready(function(){
 
-        success: function (obj, textstatus) {
-                    if ($('#placeButton' + place).html() == '+') {
-                        $('#placeCount' + place).html(parseInt($('#placeCount' + place).html()) + 1);
-                        $('#placeButton' + place).html("-");
-                    } else {
-                        $('#placeCount' + place).html(parseInt($('#placeCount' + place).html()) - 1);
-                        $('#placeButton' + place).html("+");
+            $.ajax({
+            type: "POST",
+            url: '/manage_event/change_choice_place/' + idOpenOption + '/' + idEvent,
+            dataType: 'json',
+            success: function (obj, textstatus) {
+                          if( !('error' in obj) ) {
+                            if ($('#placeButton' + idOpenOption).html() == '+') {
+                                $('#placeCount' + idOpenOption).html(parseInt($('#placeCount' + idOpenOption).html()) + 1);
+                                $('#placeButton' + idOpenOption).html("-");
+                            } else {
+                                $('#placeCount' + idOpenOption).html(parseInt($('#placeCount' + idOpenOption).html()) - 1);
+                                $('#placeButton' + idOpenOption).html("+");
+                            }
+                          }
+                          else {
+                              console.log(obj.error);
+                          }
                     }
-                }
+            });
         });
     }
     
@@ -155,7 +163,7 @@
 </script>
 <div class="container theme-showcase" role="main">
 <div class="col-md-10 white-bloc centred">
-	<?php
+	<?php        print_r($event);
         if($event->organizer == $id_user) {
 			echo '<div id="control-event">';
             echo '<a class="btn btn-default" href="'.base_url().'manage_event/management/'.$event->id.'">Modifier</a>';
@@ -188,7 +196,7 @@
                 echo $event->start_place;
             } else if(isset($eventPlaces)) {
                 foreach ($eventPlaces as $place) {
-                    echo '<li class="star-r">'.$place['place'].' => <span id="placeCount'.$place['place'].'">'.$place['count'].'</span> choix <button id="placeButton'.$place['place'].'" onclick=\'changeChoicePlace('.$event->id.', "'.$place['place'].'")\'>';
+                    echo '<li class="star-r">'.$place['place'].' => <span id="placeCount'.$place['id'].'">'.$place['count'].'</span> choix <button id="placeButton'.$place['id'].'" onclick=\'changeChoicePlace('.$event->id.', '.$place['id'].')\'>';
                         if ($place['vote'] == 0) {
                             echo '+';
                         } else {
