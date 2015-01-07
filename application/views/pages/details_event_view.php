@@ -188,7 +188,7 @@
             } else if(isset($eventPlaces)) {
                 echo '<div id="placeChoice">';
                 foreach ($eventPlaces as $place) {
-                    echo '<li class="star-r">'.$place.'<button onclick=\'selectPlace('.$event->id.', "'.$place.'")\'>Choisir</button></li>';
+                    echo '<li class="star-r">'.$place['place'].$place['count'].'<button onclick=\'selectPlace('.$event->id.', "'.$place['place'].'")\'>Choisir</button></li>';
                 }
                 echo '</div>';
             }

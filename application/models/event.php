@@ -247,9 +247,23 @@ Class Event extends CI_Model {
         $this->db->from('start_place_open_option');
         $this->db->where('start_place_open_option.event_id', $id);
 
-        $query = $this->db->get();
+        $result = $this->db->get()->result();
         
-        return $query->result();
+        $array = array();
+        $counter = 0;
+        
+        foreach($result as $r) {
+            $this->db->select('*');
+            $this->db->from('start_place_open_option_agreeing_user');
+            $this->db->where('start_place_open_options_event_id', $id);
+            $this->db->where('start_place_open_options_start_place', $r->start_place);
+            
+            $array[$counter]['place'] = $r->start_place;
+            $array[$counter]['count'] = $this->db->count_all_results();
+            $counter++;
+        }
+        
+        return $array;
     }
     
     /**
@@ -515,7 +529,7 @@ Class Event extends CI_Model {
 
         $places = $this->event->get_event_places($id);
         foreach($places as $place) {
-            $infoEvent['eventPlaces'][] = $place->start_place;
+            $infoEvent['eventPlaces'][] = $place;
         }
         
         $individualPropositions = $this->event->get_event_individual_propositions($id);
