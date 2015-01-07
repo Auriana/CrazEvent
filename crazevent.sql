@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 04 Janvier 2015 à 19:56
+-- Généré le :  Mer 07 Janvier 2015 à 21:08
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -89,13 +89,16 @@ END$$
 --
 -- Fonctions
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `connected_user_age`() RETURNS int(11)
+CREATE DEFINER=`root`@`localhost` FUNCTION `can_participate`(id_user int, id_event int) RETURNS int(11)
 BEGIN
-	DECLARE age INT;
-    DECLARE birth_date DATE;
-    SELECT birthdate INTO birth_date FROM user WHERE id = connected_user_id();
-	SELECT DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birth_date, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(birth_date, '00-%m-%d')) INTO age;
-RETURN age;
+DECLARE participant_count INT;
+SELECT COUNT(user_id) INTO participant_count FROM participation WHERE event_id = id_event;
+
+if (SELECT EXISTS(SELECT * FROM event WHERE id = id_event and ((start_date >= now()) or isnull(start_date))  and (user_age(id_user) >= participant_minimum_age) and ((1 < participant_max_nbr) or isnull(participant_max_nbr)))) then
+	return 1;
+else
+	return 0;
+end if;
 END$$
 
 CREATE DEFINER=`root`@`localhost` FUNCTION `connected_user_id`() RETURNS int(11)
@@ -123,6 +126,15 @@ else
 end if;
 END$$
 
+CREATE DEFINER=`root`@`localhost` FUNCTION `user_age`(id_user int) RETURNS int(11)
+BEGIN
+	DECLARE age INT;
+    DECLARE birth_date DATE;
+    SELECT birthdate INTO birth_date FROM user WHERE id = id_user;
+	SELECT DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birth_date, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(birth_date, '00-%m-%d')) INTO age;
+RETURN age;
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -135,7 +147,14 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+
+--
+-- Contenu de la table `activity`
+--
+
+INSERT INTO `activity` (`id`, `content`) VALUES
+(26, 'a');
 
 -- --------------------------------------------------------
 
@@ -175,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   PRIMARY KEY (`id`),
   KEY `FKOrganization_idx` (`organizer`),
   KEY `fk_event_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
 
 -- --------------------------------------------------------
 
@@ -323,15 +342,15 @@ CREATE TABLE IF NOT EXISTS `region` (
   `content` varchar(60) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `content_UNIQUE` (`content`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Contenu de la table `region`
 --
 
 INSERT INTO `region` (`id`, `content`) VALUES
-(1, 'Aucune'),
 (2, 'Aigle'),
+(1, 'Aucune'),
 (21, 'Berne'),
 (20, 'Bienne'),
 (3, 'Echallens'),
@@ -430,7 +449,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `fk_user_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+
+--
+-- Contenu de la table `user`
+--
+
+INSERT INTO `user` (`id`, `firstname`, `surname`, `password`, `birthdate`, `email`, `region_id`, `is_admin`, `active`) VALUES
+(12, 'Dominique', 'Jollien', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-20', 'dominiquejollien@hotmail.com', 17, 0, 1),
+(13, 'Auriana', 'Hug', '1a1dc91c907325c69271ddf0c944bc72', '1900-01-01', 'auriana.hug@heig-vd.ch', 14, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -449,7 +476,25 @@ CREATE TABLE IF NOT EXISTS `user_inbox_message` (
   PRIMARY KEY (`id`),
   KEY `FKSender_idx` (`sender`),
   KEY `FKRecepient_idx` (`recipient`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=98 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=110 ;
+
+--
+-- Contenu de la table `user_inbox_message`
+--
+
+INSERT INTO `user_inbox_message` (`id`, `subject`, `content`, `sender`, `recipient`, `date`, `is_read`) VALUES
+(98, 'Modification d’un paramètre de l’évènement : test', 'L''événement test a été modifié<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 20:18:16', 0),
+(99, 'Inscription d''un participant : test', 'Auriana Hug s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 13, 12, '2015-01-07 20:19:00', 0),
+(100, 'Modification d’un paramètre de l’évènement : test', 'L''événement test a été modifié<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 20:50:49', 0),
+(101, 'Modification d’un paramètre de l’évènement : test', 'L''événement test a été modifié<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 13, '2015-01-07 20:50:49', 0),
+(102, 'Modification d’un paramètre de l’évènement : test', 'L''événement test a été modifié<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 13, '2015-01-07 20:51:05', 0),
+(103, 'Inscription d''un participant : test', 'Dominique Jollien s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 20:52:19', 0),
+(104, 'Inscription d''un participant : test', 'Dominique Jollien s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 21:05:44', 0),
+(105, 'Inscription d''un participant : test', 'Dominique Jollien s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 21:05:56', 0),
+(106, 'Inscription d''un participant : test', 'Dominique Jollien s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 21:06:15', 0),
+(107, 'Inscription d''un participant : test', 'Dominique Jollien s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 21:08:02', 0),
+(108, 'Annulation de l’évènement : test', 'L''événement test a été annulé ', 12, 12, '2015-01-07 21:08:06', 0),
+(109, 'Annulation de l’évènement : test', 'L''événement test a été annulé ', 12, 13, '2015-01-07 21:08:09', 0);
 
 -- --------------------------------------------------------
 
@@ -479,7 +524,7 @@ CREATE TABLE IF NOT EXISTS `visible_event` (
 --
 DROP TABLE IF EXISTS `participable_event`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `participable_event` AS select `subquery`.`eventId` AS `eventId`,`subquery`.`name` AS `name`,`subquery`.`private` AS `private`,`subquery`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`subquery`.`description` AS `description`,`subquery`.`start_date` AS `start_date`,`subquery`.`inscription_deadline` AS `inscription_deadline`,`subquery`.`duration` AS `duration`,`subquery`.`start_place` AS `start_place`,`subquery`.`participant_max_nbr` AS `participant_max_nbr`,`subquery`.`participant_minimum_age` AS `participant_minimum_age`,`subquery`.`organizer` AS `organizer`,`subquery`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`subquery`.`region_id` AS `region_id` from `visible_event` `subquery` where (((`subquery`.`start_date` >= now()) and (`subquery`.`inscription_deadline` >= now()) and (`connected_user_age`() >= `subquery`.`participant_minimum_age`)) or isnull(`subquery`.`start_date`) or isnull(`subquery`.`inscription_deadline`));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `participable_event` AS select `subquery`.`eventId` AS `eventId`,`subquery`.`name` AS `name`,`subquery`.`private` AS `private`,`subquery`.`invitation_suggestion_allowed` AS `invitation_suggestion_allowed`,`subquery`.`description` AS `description`,`subquery`.`start_date` AS `start_date`,`subquery`.`inscription_deadline` AS `inscription_deadline`,`subquery`.`duration` AS `duration`,`subquery`.`start_place` AS `start_place`,`subquery`.`participant_max_nbr` AS `participant_max_nbr`,`subquery`.`participant_minimum_age` AS `participant_minimum_age`,`subquery`.`organizer` AS `organizer`,`subquery`.`individual_proposition_suggestion_allowed` AS `individual_proposition_suggestion_allowed`,`subquery`.`region_id` AS `region_id` from `visible_event` `subquery` where (((`subquery`.`start_date` >= now()) and (`subquery`.`inscription_deadline` >= now()) and (`user_age`(`connected_user_id`()) >= `subquery`.`participant_minimum_age`)) or isnull(`subquery`.`start_date`) or isnull(`subquery`.`inscription_deadline`));
 
 -- --------------------------------------------------------
 
