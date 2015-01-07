@@ -139,14 +139,16 @@ if ( ! function_exists('get_participation_link')) {
         $CI->load->model('event','',TRUE);
 
         $participationLink = "";        
-        if ($CI->event->is_participation($id_user, $id_event) == 0) {
-            if ($private == 1) {
-                $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_event . ', 1)" alt="">Répondre à l\'invitation</a>';
+        if($CI->event->can_participate($id_user, $id_event) == 1) {
+            if ($CI->event->is_participation($id_user, $id_event) == 0) {
+                if ($private == 1) {
+                    $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_event . ', 1)" alt="">Répondre à l\'invitation</a>';
+                } else {
+                    $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_event . ', 0)" alt="">S\'inscrire</a>';
+                }
             } else {
-                $participationLink = '<a id="joinEvent" href="#" onClick="joinEvent(' . $id_event . ', 0)" alt="">S\'inscrire</a>';
+                $participationLink = '<p>Vous êtes inscrit <a id="quitEvent" href="#" onClick="quitEvent(' . $id_user . ', ' . $id_event . ', ' . $private . ')" alt="">(se désinscrire)</a></p>';
             }
-        } else {
-            $participationLink = '<p>Vous êtes inscrit <a id="quitEvent" href="#" onClick="quitEvent(' . $id_user . ', ' . $id_event . ', ' . $private . ')" alt="">(se désinscrire)</a></p>';
         }
         return $participationLink;
     }

@@ -11,7 +11,7 @@ class Manage_User extends CI_Controller {
     function index()
     {
         //if user is not logged in : redirection to welcome page
-        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
+        if($this->session->userdata('logged_in'))
         {
             $data['title'] = 'Mon compte';
             $session_data = $this->session->userdata('logged_in');
@@ -32,7 +32,7 @@ class Manage_User extends CI_Controller {
     function contact()
     {
         //if user is not logged in : redirection to welcome page
-        if($this->session->userdata('logged_in')) //TODO : moyen sûr de check login ?
+        if($this->session->userdata('logged_in'))
         {
             $data['title'] = 'Mes contacts';
             $session_data = $this->session->userdata('logged_in');
@@ -138,6 +138,7 @@ class Manage_User extends CI_Controller {
 		$id_user = $session_data = $this->session->userdata('logged_in')['id'];
         $aResult = array();
         if( !isset($aResult['error']) ) {
+            if($this->event->can_participate($id_user, $id_event) == 1) {
                    
 			   if($private == 1) {
 					$result = $this->event->join_private_event($id_user, $id_event);
@@ -152,7 +153,10 @@ class Manage_User extends CI_Controller {
 			   }
 
 			   $aResult['result'] = get_participation_link($id_user, $id_event, $private);
-               }
+            } else {
+                $aResult['error'] = 'Inscription non-autorisée';
+            }
+        }
         
         echo json_encode($aResult);
     }

@@ -25,6 +25,7 @@
                           $('#link-answer').html(obj.result);
                       }
                       else {
+                          alert(obj);
                           console.log(obj.error);
                       }
                 }

@@ -325,6 +325,34 @@ CREATE TABLE IF NOT EXISTS `region` (
   UNIQUE KEY `content_UNIQUE` (`content`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
+--
+-- Contenu de la table `region`
+--
+
+INSERT INTO `region` (`id`, `content`) VALUES
+(1, 'Aucune'),
+(2, 'Aigle'),
+(21, 'Berne'),
+(20, 'Bienne'),
+(3, 'Echallens'),
+(18, 'Fribourg'),
+(12, 'Genève'),
+(14, 'La Chaux-de-Fonds'),
+(7, 'Lausanne'),
+(16, 'Martigny'),
+(11, 'Montreux'),
+(5, 'Morges'),
+(13, 'Neuchâtel'),
+(8, 'Nyon'),
+(4, 'Payerne'),
+(19, 'Romont'),
+(17, 'Sion'),
+(15, 'Ste-Croix'),
+(22, 'Vallée de Joux'),
+(10, 'Vallorbe'),
+(9, 'Vevey'),
+(6, 'Yverdon-les-Bains');
+
 -- --------------------------------------------------------
 
 --

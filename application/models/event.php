@@ -459,6 +459,21 @@ Class Event extends CI_Model {
         return $row["is_participation('" . $id_user . "','" . $id_event . "')"];
 
     }
+    
+    /**
+    * parameters :
+    *   id_user : id of the user
+    *   id_event : id of the event
+    * Return 1 if the user can participate to the event, else 0
+    */
+    function can_participate($id_user, $id_event) {
+        $query = $this->db->query("select can_participate(?,?)", array($id_user, $id_event));
+        
+        $row = $query->row_array();
+        
+        return $row["can_participate('" . $id_user . "','" . $id_event . "')"];
+    }
+    
     /*
     * Search for the keywords given in the : name, description, start_place, region, activities and keywords of events.
     * The searchKeywords can be a part of a word.
