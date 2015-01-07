@@ -1,5 +1,10 @@
 <script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>	
 <script src="<?php echo asset_url().'js/jquery-ui-timepicker-addon.js'; ?>"></script>
+
+<!--localization files for datePicker and timePicker-->
+<script src="<?php echo asset_url().'js/jquery-ui-timepicker-fr.js'; ?>"></script>
+<script src="<?php echo asset_url().'js/datepicker-fr-CH.js'; ?>"></script>
+
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="<?php echo asset_url().'js/jquery.ui.addresspicker.js'; ?>"></script>
 <script>
