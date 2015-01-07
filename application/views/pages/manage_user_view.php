@@ -264,7 +264,6 @@
 						</select> 
 					</div>
 
-
 					<div class="col-sm-4">
 						<button value="changeBirthdate" class="btn btn-default" onClick="changeBirthdate()">Modifier</button>
 					</div>

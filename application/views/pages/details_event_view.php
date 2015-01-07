@@ -96,7 +96,7 @@
 
         success: function (obj, textstatus) {
                       if( !('error' in obj) ) {
-                          $('#dealWithIndividualProposition' + idIndividualProposition).html(' (Pris en charge par toi) <button type="button" class="btn btn-default" onclick="giveUpIndividualProposition(' + idIndividualProposition + ')">Ne plus prendre en charge</button>');
+                          $('#dealWithIndividualProposition' + idIndividualProposition).html(' (Pris en charge par toi) <div class="individual-proposition-button"><button type="button" class="btn btn-spec" onclick="giveUpIndividualProposition(' + idIndividualProposition + ')"><span class="glyphicon glyphicon-remove-sign" aria-hidden="Ne plus prendre en charge"></button></div>');
                       }
                       else {
                           alert(obj.error);
@@ -114,7 +114,7 @@
 
         success: function (obj, textstatus) {
                       if( !('error' in obj) ) {
-                          $('#dealWithIndividualProposition' + idIndividualProposition).html(' <button type="button" class="btn btn-default" onclick="dealWithIndividualProposition(' + idIndividualProposition + ')">Prendre en charge</button>');
+                          $('#dealWithIndividualProposition' + idIndividualProposition).html(' <div class="individual-proposition-button"><button type="button" class="btn btn-spec" onclick="dealWithIndividualProposition(' + idIndividualProposition + ')"><span class="glyphicon glyphicon-ok-sign" aria-hidden="Prendre en charge"></span></button></div>');
                       }
                       else {
                           console.log(obj.error);
@@ -138,10 +138,9 @@
             url: '/manage_event/add_individual_proposition/' + idEvent,
             dataType: 'json',
             data: {arguments: [individualProposition]},
-
             success: function (obj, textstatus) {
                           if( !('error' in obj) ) {
-                              $("#individualPropositionContainer").append(' <li class="star-r">' + individualProposition + '<span id=dealWithIndividualProposition' + obj.result + '><button type="button" class="btn btn-default" onclick="dealWithIndividualProposition(' + obj.result + ')">Prendre en charge</button></span></li>');
+                              $("#individualPropositionContainer").append(' <li class="star-r individual-proposition">' + individualProposition + '<span id=dealWithIndividualProposition' + obj.result + '><div class="individual-proposition-button"><button type="button" class="btn btn-spec" onclick="dealWithIndividualProposition(' + obj.result + ')"><span class="glyphicon glyphicon-ok-sign" aria-hidden="Prendre en charge"></span></button></span></div></li>');
 
                           }
                           else {
@@ -244,35 +243,34 @@
         ?>
 	</ul>
     <div class="bloc-info"> 
-        <ul id="individualPropositionContainer" class="individual_proposition">
-            <h3>Propositions individuelles</h3>
+        <h3>Propositions individuelles</h3>
+		<ul id="individualPropositionContainer" class="list-individual-proposition col-md-7 ">
             <?php
                 if(isset($eventIndividualPropositions)) {
                     foreach ($eventIndividualPropositions as $individualProposition) {
-                        echo '<li class="star-r">'.$individualProposition->content;
+                        echo '<li class="star-r individual-proposition">'.$individualProposition->content;
                         echo '<span id=dealWithIndividualProposition'. + $individualProposition->individual_proposition_id.'>';
                         if($individualProposition->user_dealing_with_it == '') {
-                            echo ' <button type="button" class="btn btn-default" onclick="dealWithIndividualProposition('.$individualProposition->individual_proposition_id.')">Prendre en charge</button>';
+                            echo ' <div class="individual-proposition-button"><button type="button" class="btn btn-spec" onclick="dealWithIndividualProposition('.$individualProposition->individual_proposition_id.')"><span class="glyphicon glyphicon-ok-sign" aria-hidden="Prendre en charge"></span></button></div>';
                         } else {
                             echo ' (Pris en charge par : '.$individualProposition->firstname.' '.$individualProposition->surname.')';
                             if($individualProposition->user_dealing_with_it == $id_user) {
-                                echo ' <button type="button" class="btn btn-default" onclick="giveUpIndividualProposition('.$individualProposition->individual_proposition_id.')">Ne plus prendre en charge</button>';
+                                echo ' <div class="individual-proposition-button"><button type="button" class="btn btn-spec" onclick="giveUpIndividualProposition('.$individualProposition->individual_proposition_id.')"><span class="glyphicon glyphicon-remove-sign" aria-hidden="Ne plus prendre en charge"></span></button></div>';
                             }
                         }
-                        echo '</span>';
-                        echo '</li>';
                     }
                 }
             ?>
         </ul>
         <?php
             if($event->individual_proposition_suggestion_allowed == 1) {
-                echo '<input type="text" class="form-control inputIndividualProposition" name="inputIndividualProposition" id="inputIndividualProposition" placeholder="Entre une chose à faire/prendre">';
-                echo ' <button type="button" class="btn btn-default" onclick="addIndividualProposition('.$event->id.')">Créer une proposition individuelle</button>';
+                echo '<div class="col-sm-12"><div class="col-sm-5"><input type="text" class="form-control inputIndividualProposition" name="inputIndividualProposition" id="inputIndividualProposition" placeholder="Entre une chose à faire/prendre"></div>';
+                echo '<div class="col-sm-5"><button type="button" class="btn btn-default" onclick="addIndividualProposition('.$event->id.')">Créer une proposition individuelle</button></div></div>';
             }
         ?>
+		<div class="clearer"></div>
     </div>
-    <div class="bloc-info">
+    <div class="small-marg marg-top">
         <?php
             if($event->invitation_suggestion_allowed == 1 || $event->organizer == $id_user) {
                 echo '<button type="button" id="inviteUser" class="btn btn-default btn-lg" onclick="invitationList('.$event->id.')">'.($event->private == 1 ? "Inviter des contacts" : "Suggérer l\'événement" ).'</button>';

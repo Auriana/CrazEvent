@@ -48,7 +48,6 @@ h3 {
 	float: none;
 }
 
-
 #space {
 	display: block;
 	height: 140px;
@@ -241,10 +240,6 @@ form {
 	float: right;
 }
 
-ul.individual_proposition {
-    padding: 0;
-}
-
 ul.result_search {
 	padding: 0;
 }
@@ -257,6 +252,47 @@ ul.result_search li {
 
 ul.result_search li:first-child {
 	border-top: 1px solid #ccc;
+}
+
+ul.list-individual-proposition {
+    padding: 0;
+}
+
+ul.list-individual-proposition li {
+	height: 28px;
+	margin: 10px 0;
+}
+
+.individual-proposition-button {
+	display: inline-block;
+	float: right;	
+}
+
+.btn-spec {
+	padding: 2px 2px 2px 2px;
+	margin: 0;
+	background-color: #0072c2;
+	color: #fff;
+	border-radius: 0px;
+	font-size: 19px;
+}
+
+.btn-spec:focus,
+.btn-spec:hover {
+	/* For Safari 3.1 to 6.0 */
+	-webkit-transition-property: background;
+	-webkit-transition-duration: 0.3s;
+	-webkit-transition-timing-function: linear;
+	/* Standard syntax */
+	transition-property: background;
+	transition-duration: 0.4s;
+	transition-timing-function: linear;
+	background-color: #17d2d5!important;
+	color: #fff;
+}
+
+#contactList {
+	margin-top: 30px;
 }
 
 .form-login {
@@ -328,7 +364,6 @@ footer.sticky-footer {
 }
 
 footer {
-
 	height: 90px;
 	margin-top: 50px;
 	padding: 20px 0;
@@ -388,8 +423,8 @@ p.copyright {
 }
 
 .next-prev {
-
 	font-size: 20px;
 	margin: 0 5px;
 }
+
 
