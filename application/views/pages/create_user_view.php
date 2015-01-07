@@ -86,13 +86,13 @@
     <div class="form-group">
         <label for="inputBirthdate" class="col-sm-4 control-label">Date de naissance</label>
         <div class="col-sm-8">
-			<div class="col-sm-3">
+			<div class="col-sm-4">
 				<select id="inputDay"  name="inputDay" class="form-control">
 					<?php for ($i = 1; $i <= 31; $i++) { echo '<option>' . $i . '</option>'; } ?>      
 				</select>
 			</div>
 			
-			<div class="col-sm-3">
+			<div class="col-sm-4">
 				<select id="inputMonth" name="inputMonth" class="form-control"> 
 					<?php for ($i = 1; $i <= 12; $i++) { echo '<option>' . $i . '</option>'; } ?>       
 				</select> 
