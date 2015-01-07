@@ -99,7 +99,7 @@ class Manage_Event extends CI_Controller {
         }
 
         if($this->input->post('inputDuration', TRUE) == '') {
-           $eventData['eventDuration'] = null;
+           $eventData['eventDuration'] = 1;
         } else {
            $eventData['eventDuration'] = $this->input->post('inputDuration', TRUE);
         }
@@ -135,7 +135,7 @@ class Manage_Event extends CI_Controller {
         }
 
         if($this->input->post('inputMinAge', TRUE) == '') {
-           $eventData['eventMinAge'] = null;
+           $eventData['eventMinAge'] = 0;
         } else {
            $eventData['eventMinAge'] = $this->input->post('inputMinAge', TRUE);
         }
