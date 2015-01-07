@@ -16,9 +16,10 @@ class Details_Event extends CI_Controller {
     function index($id) {
         if($this->session->userdata('logged_in')) {
 			$data['title'] = 'Détails de l\évènement';
-			$data['nb_notifications'] = $this->user->count_unread_message($this->session->userdata('logged_in')['id']);
+            $idUser = $this->session->userdata('logged_in')['id'];
+			$data['nb_notifications'] = $this->user->count_unread_message($idUser);
 
-			$info_event = $this->event->get_details($id);
+			$info_event = $this->event->get_details($id, $idUser);
             $session_data = $this->session->userdata('logged_in');
             
             $info_event['id_user'] = $session_data['id'];

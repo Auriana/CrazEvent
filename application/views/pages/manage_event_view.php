@@ -388,7 +388,7 @@ $(document).ready(function(){
 					echo '<div id="place'.$placeNumber.'" class="multi-input placeContainer">';
 					echo '<div class="col-sm-4"></div>';
 					echo '<div class="inputPlaceContainer col-sm-4">';
-					echo '<input type="text" class="form-control inputPlace" name="inputPlace'.$placeNumber.'" id="inputPlace'.$placeNumber.'" placeholder="Entre un lieu" value="'.$place.'">';
+					echo '<input type="text" class="form-control inputPlace" name="inputPlace'.$placeNumber.'" id="inputPlace'.$placeNumber.'" placeholder="Entre un lieu" value="'.$place['place'].'">';
 					echo '<span id="place1Error"></span>';
 					echo '</div>';
 					echo '<div class="removePlaceContainer col-sm-2">';

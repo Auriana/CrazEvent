@@ -241,11 +241,11 @@ Class Event extends CI_Model {
     *   id : event's places to find's id
     * Return the places of the event.
     */
-    function get_event_places($id) {
+    function get_event_places($idEvent, $idUser) {
 		
         $this->db->select('start_place');
         $this->db->from('start_place_open_option');
-        $this->db->where('start_place_open_option.event_id', $id);
+        $this->db->where('start_place_open_option.event_id', $idEvent);
 
         $result = $this->db->get()->result();
         
@@ -255,11 +255,21 @@ Class Event extends CI_Model {
         foreach($result as $r) {
             $this->db->select('*');
             $this->db->from('start_place_open_option_agreeing_user');
-            $this->db->where('start_place_open_options_event_id', $id);
+            $this->db->where('start_place_open_options_event_id', $idEvent);
             $this->db->where('start_place_open_options_start_place', $r->start_place);
             
             $array[$counter]['place'] = $r->start_place;
             $array[$counter]['count'] = $this->db->count_all_results();
+            
+            // check the vote of the user
+            $this->db->select('*');
+            $this->db->from('start_place_open_option_agreeing_user');
+            $this->db->where('start_place_open_options_event_id', $idEvent);
+            $this->db->where('start_place_open_options_start_place', $r->start_place);
+            $this->db->where('user_id', $idUser);
+
+            $array[$counter]['vote'] = $this->db->count_all_results();
+            
             $counter++;
         }
         
@@ -513,7 +523,7 @@ Class Event extends CI_Model {
     *   id : id of the event
     * return : array with event basic infos from get_event() plus activities, checklist, individual propositions, keywords, participants, guests
     */
-    function get_details($id) {
+    function get_details($id, $idUser = 0) {
         $infoEvent['event'] = $this->event->get_event($id);
         
         $activities = $this->event->get_event_activities($id);
@@ -527,7 +537,7 @@ Class Event extends CI_Model {
         }
         
 
-        $places = $this->event->get_event_places($id);
+        $places = $this->event->get_event_places($id, $idUser);
         foreach($places as $place) {
             $infoEvent['eventPlaces'][] = $place;
         }
@@ -559,14 +569,30 @@ Class Event extends CI_Model {
     }
     
 
-    function insert_choice_place($idUser, $idEvent, $place) {
-        $data = array(
-           'start_place_open_options_start_place' => $place,
-            'start_place_open_options_event_id' => $idEvent,
-            'user_id' => $idUser
-       );
-        $insertionResult = $this->db->insert('start_place_open_option_agreeing_user', $data);
+    function change_choice_place($idUser, $idEvent, $place) {
+        $this->db->select('*');
+        $this->db->from('start_place_open_option_agreeing_user');
+        $this->db->where('start_place_open_options_event_id', $idEvent);
+        $this->db->where('start_place_open_options_start_place', $place);
+        $this->db->where('user_id', $idUser);
+
+        $nb = $this->db->count_all_results();
+        
+        if ($nb == 0) {
+            $data = array(
+               'start_place_open_options_start_place' => $place,
+                'start_place_open_options_event_id' => $idEvent,
+                'user_id' => $idUser
+            );
+            $insertionResult = $this->db->insert('start_place_open_option_agreeing_user', $data);
+        } else {
+            $this->db->where('start_place_open_options_event_id', $idEvent);
+            $this->db->where('start_place_open_options_start_place', $place);
+            $this->db->where('user_id', $idUser);
+            $this->db->delete('start_place_open_option_agreeing_user');
+        }
     }
+    
     /**
     * Return true if a user is in charge of the individual proposition.
     *   id : id of the IndividualProposition
