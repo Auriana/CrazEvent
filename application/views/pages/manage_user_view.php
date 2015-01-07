@@ -1,12 +1,4 @@
-<script src="<?php echo asset_url().'js/jquery-ui.min.js'; ?>"></script>
 <script>
-    $(document).ready(function(){
-        //using JQueryUI to handle date picking
-        $("#changeBirthdate").datepicker({
-           dateFormat: "yy-mm-dd"
-        });
-    });
-
     var idUser = <?php echo $user['id']; ?>;
     // informations fields must be flushed before performing a new action
     function flushInfos() {
