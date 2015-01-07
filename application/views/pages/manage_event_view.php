@@ -367,14 +367,28 @@ $(document).ready(function(){
         </div>
 		
 		<?php
-			if(isset($eventPlaces)) {
+            if($event->start_place != null) {
+                $placeNumber = 1;
+                echo '<div id="clearP'.$placeNumber.'" class="clearer clearerP"></div>';
+                echo '<div id="place'.$placeNumber.'" class="multi-input placeContainer">';
+                echo '<div class="col-sm-4"></div>';
+                echo '<div class="inputPlaceContainer col-sm-4">';
+                echo '<input type="text" class="form-control inputPlace" name="inputPlace'.$placeNumber.'" id="inputPlace'.$placeNumber.'" placeholder="Entre un lieu" value="'.$event->start_place.'">';
+                echo '<span id="place1Error"></span>';
+                echo '</div>';
+                echo '<div class="removePlaceContainer col-sm-2">';
+                echo '<button type="button" class="btn btn-default removePlace but-icon" id="removePlace'.$placeNumber.'"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>';
+                echo '</div>';
+                echo '</div>';
+                ++$placeNumber;
+            } else if(isset($eventPlaces)) {
 				$placeNumber = 1;
 				foreach ($eventPlaces as $place) {
 					echo '<div id="clearP'.$placeNumber.'" class="clearer clearerP"></div>';
 					echo '<div id="place'.$placeNumber.'" class="multi-input placeContainer">';
 					echo '<div class="col-sm-4"></div>';
 					echo '<div class="inputPlaceContainer col-sm-4">';
-					echo '<input type="text" class="form-control inputPlace" name="inputPlace'.$placeNumber.'" id="inputPlace'.$placeNumber.'" placeholder="Entre un lieu" value="'.$place.'">';
+					echo '<input type="text" class="form-control inputPlace" name="inputPlace'.$placeNumber.'" id="inputPlace'.$placeNumber.'" placeholder="Entre un lieu" value="'.$place['place'].'">';
 					echo '<span id="place1Error"></span>';
 					echo '</div>';
 					echo '<div class="removePlaceContainer col-sm-2">';

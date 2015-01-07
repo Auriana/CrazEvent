@@ -365,21 +365,12 @@ $(document).ready(function(){
         </div>
     </div>
 
-    <div class="form-group">
-
-        <label for="inputPlace" class="col-sm-4 control-label">*Adresse de début <a class="link-help" alt="Aide" title="indique plusieurs lieus pour créer un sondage"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" name="inputPlace" id="inputPlace" placeholder="Entre un lieu">
-			<span id="placeError"></span>
-        </div>
-    </div>
-
     
     <div id ="placeSuperContainer" class="form-group">
-        <label for="inputPlace" class="col-sm-4 control-label">Lieu(s)</label>  
+        <label for="inputPlace" class="col-sm-4 control-label">Lieu(x)<a class="link-help" alt="Aide" title="indique plusieurs lieux pour créer un sondage"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>  
 		<div id="addPlaceContainer" class="col-sm-6">
 			<button type="button" id="addPlace" class="btn btn-default">Ajouter un lieu</button>
-            <span>(indique plusieurs lieus pour créer un sondage)</span>
+            <span>(indique plusieurs lieux pour créer un sondage)</span>
         </div>
 		
 		<div id="clearP1" class="clearer clearerP"></div>

@@ -72,18 +72,19 @@
         });
     }
 
-    function selectPlace(idEvent, place) {
+    function changeChoicePlace(idEvent, place) {
         $.ajax({
         type: "POST",
-        url: '/manage_event/select_place/' + idEvent + "/" + place,
+        url: '/manage_event/change_choice_place/' + idEvent + "/" + place,
 
         success: function (obj, textstatus) {
-                      if( true ) {
-                          $('#placeChoice').html("");
-                      }
-                      else {
-                          console.log(obj.error);
-                      }
+                    if ($('#placeButton' + place).html() == '+') {
+                        $('#placeCount' + place).html(parseInt($('#placeCount' + place).html()) + 1);
+                        $('#placeButton' + place).html("-");
+                    } else {
+                        $('#placeCount' + place).html(parseInt($('#placeCount' + place).html()) - 1);
+                        $('#placeButton' + place).html("+");
+                    }
                 }
         });
     }
@@ -185,11 +186,15 @@
             if ($event->start_place != null) {
                 echo $event->start_place;
             } else if(isset($eventPlaces)) {
-                echo '<div id="placeChoice">';
                 foreach ($eventPlaces as $place) {
-                    echo '<li class="star-r">'.$place.'<button onclick=\'selectPlace('.$event->id.', "'.$place.'")\'>Choisir</button></li>';
+                    echo '<li class="star-r">'.$place['place'].' => <span id="placeCount'.$place['place'].'">'.$place['count'].'</span> choix <button id="placeButton'.$place['place'].'" onclick=\'changeChoicePlace('.$event->id.', "'.$place['place'].'")\'>';
+                        if ($place['vote'] == 0) {
+                            echo '+';
+                        } else {
+                            echo '-';
+                        }
+                        echo '</button></li>';
                 }
-                echo '</div>';
             }
         ?></p>
 		<?php 

@@ -225,10 +225,10 @@ class Manage_Event extends CI_Controller {
         redirect('home', 'refresh');
     }
     
-    function select_place($idEvent, $place) {
+    function change_choice_place($idEvent, $place) {
         $aResult = array();
         $idUser = $this->session->userdata('logged_in')['id'];
-        $this->event->insert_choice_place($idUser, $idEvent, $place);
+        $this->event->change_choice_place($idUser, $idEvent, $place);
         echo json_encode($aResult);
     }
 
