@@ -182,13 +182,17 @@
 			}
 		?>
 		<p><b>Où: </b>
-            <div id="placeChoice"><?php
-            if(isset($eventPlaces)) {
+            <?php
+            if ($event->start_place != null) {
+                echo $event->start_place;
+            } else if(isset($eventPlaces)) {
+                echo '<div id="placeChoice">';
                 foreach ($eventPlaces as $place) {
                     echo '<li class="star-r">'.$place.'<button onclick=\'selectPlace('.$event->id.', "'.$place.'")\'>Choisir</button></li>';
                 }
+                echo '</div>';
             }
-        ?></div></p>
+        ?></p>
 		<?php 
 			if($event->participant_max_nbr != '') {
 				echo '<p><b>Nombre maximum de participants: </b>'.$event->participant_max_nbr.'</p>';
