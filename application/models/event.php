@@ -90,7 +90,14 @@ Class Event extends CI_Model {
     /**
     * Modification of an event in the database
     */
-   function update_event($eventId, $name, $private, $date, $duration, $place, $region, $activities, $description, $keywords, $checklistItems,  $individualPropositions, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline) {
+   function update_event($eventId, $name, $private, $date, $duration, $places, $region, $activities, $description, $keywords, $checklistItems,  $individualPropositions, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline) {
+       // insertion of the place if there is only one
+       if(sizeof($places) == 1) {
+            $place = $places[0];
+       } else {
+            $place = null;
+       }
+       
        //insertion of Event
        $data = array(
            'name' => $name,
@@ -124,6 +131,20 @@ Class Event extends CI_Model {
                );
            }           
            $insertionResult = $this->db->insert_batch('mandatory_checklist_item', $data);
+       }
+       
+       //insertion of Places open option
+       $this->db->where('event_id', $eventId);
+       $this->db->delete('start_place_open_option');
+       if(sizeof($places) > 1) {
+           $data = array();
+           foreach ($places as $place){
+               $data[] = array(
+                    'start_place' => $place,
+                    'event_id' => $eventId
+               );
+           }       
+           $insertionResult = $this->db->insert_batch('start_place_open_option', $data);
        }
        
         //insertion of individual propositions
