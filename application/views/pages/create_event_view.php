@@ -302,7 +302,7 @@ $(document).ready(function(){
     });
 	
 	// ADDRESS PICKER
-    $('#inputPlace').addresspicker();
+    $('.inputPlace').addresspicker();
 });
 </script>
 
@@ -318,7 +318,7 @@ $(document).ready(function(){
 			Les champs avec l'astérisque (*) sont obligatoires (les autres, non). 
 		</p>
 		<p>
-			Si tu passes ta souris sur le point d'exclamation (<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span>), des informations au sujet du champ en question apparaîtront. 
+			Si tu passes ta souris sur le point d'question (<span class="glyphicon glyphicon-question-sign" aria-hidden="Aide"></span>), des informations au sujet du champ en question apparaîtront. 
 		</p>
 		<br/>
 	</div>
@@ -328,7 +328,7 @@ $(document).ready(function(){
         <label for="inputEventName" class="col-sm-4 control-label">*Nom de l'événement</label>
         <div class="col-sm-6">
             <input type="text" class="form-control" name="inputEventName" id="inputEventName" placeholder="Entre le nom de ton événement">
-            <span id="nameError"></span>
+            <span id="nameError" class="text-error"></span>
         </div>
     </div>
 	
@@ -336,23 +336,23 @@ $(document).ready(function(){
         <label class="col-sm-4 control-label">*Description</label>
 		<div class="col-sm-6">
         	<textarea class="form-control" rows="5" name="inputDescription" id="inputDescription"></textarea>
-            <span id="descriptionError"></span>
+            <span id="descriptionError" class="text-error"></span>
 		</div>
     </div>	
 
     <div class="form-group">
         <label class="radio-inline col-sm-2 col-md-offset-4">
             <input type="radio" name="privatePublic" id="privateRadio" value="private" checked>
-            *Privé
+            <b>*Privé</b>
         </label>
         <label class="radio-inline col-sm-2">
             <input type="radio" name="privatePublic" id="publicRadio" value="public">
-            *Public
+            <b>*Public</b>
         </label>
     </div>
 	
     <div class="form-group">
-        <label for="inputDate" class="col-sm-4 control-label">*Date de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
+        <label for="inputDate" class="col-sm-4 control-label">*Date de début <a class="link-help" alt="Aide" title="TEXTE ICI"><span class="glyphicon glyphicon-question-sign" aria-hidden="Aide"></span></a></label>
         <div class="col-sm-3">
             <input type="text" class="form-control" name="inputDate" id="inputDate">
         </div>
@@ -374,10 +374,9 @@ $(document).ready(function(){
 
     
     <div id ="placeSuperContainer" class="form-group">
-        <label for="inputPlace" class="col-sm-4 control-label">Lieu(x)<a class="link-help" alt="Aide" title="indique plusieurs lieux pour créer un sondage"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>  
+        <label for="inputPlace" class="col-sm-4 control-label">Lieu(x) <a class="link-help" alt="Aide" title="Plus d'un champ de lieu inséré crée automatiquement un sondage"><span class="glyphicon glyphicon-question-sign" aria-hidden="Aide"></span></a></label>  
 		<div id="addPlaceContainer" class="col-sm-6">
 			<button type="button" id="addPlace" class="btn btn-default">Ajouter un lieu</button>
-            <span>(indique plusieurs lieux pour créer un sondage)</span>
         </div>
 		
 		<div id="clearP1" class="clearer clearerP"></div>
@@ -385,7 +384,7 @@ $(document).ready(function(){
 			<div class="col-sm-4"></div>
 			<div class="inputPlaceContainer col-sm-4">
 				<input type="text" class="form-control inputPlace" name="inputPlace1" id="inputPlace1" placeholder="Entre un lieu">
-				<span id="place1Error"></span>		
+				<span id="place1Error" class="text-error"></span>		
 			</div>
 			<div class="removePlaceContainer col-sm-2">
 				<button type="button" class="btn btn-default removePlace but-icon" id="removePlace1" class="btn btn-default"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>
@@ -413,7 +412,7 @@ $(document).ready(function(){
 			<div class="col-sm-4"></div>
 			<div class="inputActivityContainer col-sm-4">
 				<input type="text" class="form-control inputActivity" name="inputActivity1" id="inputActivity1" placeholder="Entre une activité">
-				<span id="activity1Error"></span>		
+				<span id="activity1Error" class="text-error"></span>		
 			</div>
 			<div class="removeActivityContainer col-sm-2">
 				<button type="button" class="btn btn-default removeActivity but-icon" id="removeActivity1" class="btn btn-default"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>
@@ -422,7 +421,7 @@ $(document).ready(function(){
     </div>
 	
     <div id ="keywordSuperContainer" class="form-group">
-        <label for="inputKeyword" class="col-sm-4 control-label">Mot(s)-clé(s)</label>
+        <label for="inputKeyword" class="col-sm-4 control-label">Mot(s)-clé(s)  <a class="link-help" alt="Aide" title="Permet de meilleurs résultats de recherche"><span class="glyphicon glyphicon-question-sign" aria-hidden="Aide"></span></a></label>
         <div id="addKeywordContainer" class="col-sm-6"> 
 			<button type="button" id="addKeyword" class="btn btn-default">Ajouter un mot-clé</button>        
         </div>
@@ -440,7 +439,7 @@ $(document).ready(function(){
     </div>	
 	
     <div id ="checklistSuperContainer" class="form-group">
-		<label for="inputChecklist" class="col-sm-4 control-label">Checklist <a class="link-help" alt="Aide" title="La checklist est une liste de choses que chaque participant doit faire ou prendre. Exemple : son pique-nique."><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
+		<label for="inputChecklist" class="col-sm-4 control-label">Checklist <a class="link-help" alt="Aide" title="La checklist est une liste de choses que chaque participant doit faire ou prendre. Exemple : son pique-nique."><span class="glyphicon glyphicon-question-sign" aria-hidden="Aide"></span></a></label>
         <div id="addChecklistContainer" class="col-sm-6">
 			<button type="button" id="addChecklistItem" class="btn btn-default">Ajouter quelque chose</button>
         </div>
@@ -459,7 +458,7 @@ $(document).ready(function(){
     </div>
     
     <div id ="individualPropositionSuperContainer" class="form-group">
-        <label for="inputIndividualProposition" class="col-sm-4 control-label">Propositions individuelles <a class="link-help" alt="Aide" title="Les propositions individuelles sont les choses à prendre/faire proposées soit par l’organisateur, soit par le participant. Elles sont individuelles pour chaque participant. Exemple: Réserver les billets d'avion"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="Aide"></span></a></label>
+        <label for="inputIndividualProposition" class="col-sm-4 control-label">Propositions individuelles <a class="link-help" alt="Aide" title="Les propositions individuelles sont les choses à prendre/faire proposées soit par l’organisateur, soit par le participant. Elles sont individuelles pour chaque participant. Exemple: Réserver les billets d'avion"><span class="glyphicon glyphicon-question-sign" aria-hidden="Aide"></span></a></label>
         <div id="addIndividualPropositionContainer" class="col-sm-6">
 			<button type="button" id="addIndividualProposition" class="btn btn-default">Ajouter quelque chose</button>
         </div>
@@ -477,14 +476,14 @@ $(document).ready(function(){
     </div>
     
     <div class="form-group">
-        <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles</label>
+        <label  for="inputIndividualPropositionAllowed" class="col-sm-4 control-label">Autoriser les suggestions de propositions individuelles  <a class="link-help" alt="Aide" title="Les participants auront aussi le droit de proposer des choses à faire/prendre"><span class="glyphicon glyphicon-question-sign" aria-hidden="Aide"></span></a></label>
 		<div class="col-sm-1">
             <input type="checkbox" class="form-control" name="inputIndividualPropositionAllowed" id="inputIndividualPropositionAllowed" value="">
 		</div>
     </div>
 	
     <div class="form-group">
-        <label for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités</label>
+        <label for="inputInvitationAllowed" class="col-sm-4 control-label">Autoriser les suggestions d'invités  <a class="link-help" alt="Aide" title="Les participants pourront inviter leurs propres contacts"><span class="glyphicon glyphicon-question-sign" aria-hidden="Aide"></span></a></label>
 		<div class="col-sm-1">
             <input type="checkbox" class="form-control" name="inputInvitationAllowed" id="inputInvitationAllowed" value="">
 		</div>

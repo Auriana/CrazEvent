@@ -82,12 +82,12 @@
             dataType: 'json',
             success: function (obj, textstatus) {
                           if( !('error' in obj) ) {
-                            if ($('#placeButton' + idOpenOption).html() == '+') {
+                            if ($('#placeButton' + idOpenOption).html() == '<span class="glyphicon glyphicon-ok-sign" aria-hidden="+"></span>') {
                                 $('#placeCount' + idOpenOption).html(parseInt($('#placeCount' + idOpenOption).html()) + 1);
-                                $('#placeButton' + idOpenOption).html("-");
+                                $('#placeButton' + idOpenOption).html('<span class="glyphicon glyphicon-remove-sign" aria-hidden="-"></span>');
                             } else {
                                 $('#placeCount' + idOpenOption).html(parseInt($('#placeCount' + idOpenOption).html()) - 1);
-                                $('#placeButton' + idOpenOption).html("+");
+                                $('#placeButton' + idOpenOption).html('<span class="glyphicon glyphicon-remove-sign" aria-hidden="+"></span>');
                             }
                           }
                           else {
@@ -184,28 +184,31 @@
 	</div>
 	<ul class="bloc-info">
 		<h3 class="rose">Infos</h3>
-		<p><b>Quand: </b><?php echo $event->start_date; ?></p>
+		<p><b><span class="glyphicon glyphicon-map-marker" aria-hidden="Où"></span>Où: </b>
+            <?php
+            if ($event->start_place != null) {
+                echo $event->start_place;
+            } else if(isset($eventPlaces)) {
+				echo '<ul id="openOptionsContainer" class="list-open-option col-md-7">';
+                foreach ($eventPlaces as $place) {
+                    echo '<li class="star-r individual-proposition">'.$place['place'].' (<span id="placeCount'.$place['id'].'">'.$place['count'].'</span> choix) <div class="individual-proposition-button"><button id="placeButton'.$place['id'].'" class="btn btn-spec" onclick=\'changeChoicePlace('.$event->id.', "'.$place['id'].'")\'>';
+					if ($place['vote'] == 0) {
+						echo '<span class="glyphicon glyphicon-ok-sign" aria-hidden="+"></span>';
+					} else {
+						echo '<span class="glyphicon glyphicon-remove-sign" aria-hidden="-"></span>';
+					}
+					echo '</button></div></li>';
+                }
+				echo '</ul><div class="clearer">';
+            }
+        ?></p>
+		<p><b><span class="glyphicon glyphicon-time" aria-hidden="Quand"></span> Quand: </b><?php echo $event->start_date; ?></p>
 		<?php 
 			if($event->inscription_deadline != '') {
 				echo '<p><b>S\'inscrire jusqu\'au </b>'.$event->inscription_deadline.'</p>';
 			}
 		?>
-		<p><b>Où: </b>
-            <?php
-            if ($event->start_place != null) {
-                echo $event->start_place;
-            } else if(isset($eventPlaces)) {
-                foreach ($eventPlaces as $place) {
-                    echo '<li class="star-r">'.$place['place'].' => <span id="placeCount'.$place['id'].'">'.$place['count'].'</span> choix <button id="placeButton'.$place['id'].'" onclick=\'changeChoicePlace('.$event->id.', '.$place['id'].')\'>';
-                        if ($place['vote'] == 0) {
-                            echo '+';
-                        } else {
-                            echo '-';
-                        }
-                        echo '</button></li>';
-                }
-            }
-        ?></p>
+		
 		<?php 
 			if($event->participant_max_nbr != '') {
 				echo '<p><b>Nombre maximum de participants: </b>'.$event->participant_max_nbr.'</p>';
@@ -217,7 +220,7 @@
 			}
 		?>
         <?php 
-            echo '<p><b>Créateur de l\'évènement: </b>'.$event->organizerFirstname.' '.$event->organizerSurname.'</p>';
+            echo '<p><b>Organisateur: </b>'.$event->organizerFirstname.' '.$event->organizerSurname.'</p>';
 		?>
 	</ul>
 	<div class="bloc-info"> 
@@ -244,7 +247,7 @@
         <?php
             if(isset($eventActivities)) {
                 foreach ($eventActivities as $activity) {
-                    echo '<li class="star-r">'.$activity.'</li>';
+                    echo '<li class="star-t">'.$activity.'</li>';
                 }
             }
         ?>
@@ -254,7 +257,7 @@
         <?php
             if(isset($eventChecklist)) {
                 foreach ($eventChecklist as $checklistItem) {
-                    echo '<li class="star-r">'.$checklistItem.'</li>';
+                    echo '<li class="star-t">'.$checklistItem.'</li>';
                 }
             }
         ?>
@@ -265,7 +268,7 @@
             <?php
                 if(isset($eventIndividualPropositions)) {
                     foreach ($eventIndividualPropositions as $individualProposition) {
-                        echo '<li class="star-r individual-proposition">'.$individualProposition->content;
+                        echo '<li class="star-t individual-proposition">'.$individualProposition->content;
                         echo '<span id=dealWithIndividualProposition'. + $individualProposition->individual_proposition_id.'>';
                         if($individualProposition->user_dealing_with_it == '') {
                             echo ' <div class="individual-proposition-button"><button type="button" class="btn btn-spec" onclick="dealWithIndividualProposition('.$individualProposition->individual_proposition_id.')"><span class="glyphicon glyphicon-ok-sign" aria-hidden="Prendre en charge"></span></button></div>';
@@ -290,7 +293,7 @@
     <div class="small-marg marg-top">
         <?php
             if($event->invitation_suggestion_allowed == 1 || $event->organizer == $id_user) {
-                echo '<button type="button" id="inviteUser" class="btn btn-default btn-lg" onclick="invitationList('.$event->id.')">'.($event->private == 1 ? "Inviter des contacts" : "Suggérer l\'événement" ).'</button>';
+                echo '<button type="button" id="inviteUser" class="btn btn-default btn-lg" onclick="invitationList('.$event->id.')">'.($event->private == 1 ? "Inviter des contacts" : "Suggérer l'événement" ).'</button>';
             }
         ?>
         <div id="contactList">

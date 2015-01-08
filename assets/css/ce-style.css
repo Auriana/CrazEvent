@@ -254,11 +254,13 @@ ul.result_search li:first-child {
 	border-top: 1px solid #ccc;
 }
 
-ul.list-individual-proposition {
+ul.list-individual-proposition,
+ul.list-open-option {
     padding: 0;
 }
 
-ul.list-individual-proposition li {
+ul.list-individual-proposition li,
+ul.list-open-option li {
 	height: 28px;
 	margin: 10px 0;
 }
@@ -269,7 +271,7 @@ ul.list-individual-proposition li {
 }
 
 .btn-spec {
-	padding: 2px 2px 2px 2px;
+	padding: 2px 2px 3px 3px;
 	margin: 0;
 	background-color: #0072c2;
 	color: #fff;
@@ -390,6 +392,12 @@ p.copyright {
 
 .text-red {
     color: #ff1a5c!important;
+}
+
+.text-error {
+    color: #ff1a5c!important;
+	display: blocK;
+	margin: 8px 0;
 }
 
 .notification-notRead {
