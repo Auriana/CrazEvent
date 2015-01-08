@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 08 Janvier 2015 à 01:47
+-- Généré le :  Jeu 08 Janvier 2015 à 09:19
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -147,7 +147,18 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
+
+--
+-- Contenu de la table `activity`
+--
+
+INSERT INTO `activity` (`id`, `content`) VALUES
+(37, 'jib'),
+(38, 'freeride'),
+(39, 'Cosplay'),
+(40, 'Jeux-vidéo'),
+(41, 'Pic-Nic');
 
 -- --------------------------------------------------------
 
@@ -162,6 +173,17 @@ CREATE TABLE IF NOT EXISTS `activity_specification` (
   KEY `fk_activity_has_event_event1_idx` (`event_id`),
   KEY `fk_activity_has_event_activity1_idx` (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `activity_specification`
+--
+
+INSERT INTO `activity_specification` (`activity_id`, `event_id`) VALUES
+(37, 61),
+(38, 61),
+(39, 62),
+(40, 62),
+(41, 63);
 
 -- --------------------------------------------------------
 
@@ -187,7 +209,16 @@ CREATE TABLE IF NOT EXISTS `event` (
   PRIMARY KEY (`id`),
   KEY `FKOrganization_idx` (`organizer`),
   KEY `fk_event_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=60 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=64 ;
+
+--
+-- Contenu de la table `event`
+--
+
+INSERT INTO `event` (`id`, `name`, `private`, `invitation_suggestion_allowed`, `description`, `start_date`, `inscription_deadline`, `duration`, `start_place`, `participant_max_nbr`, `participant_minimum_age`, `organizer`, `individual_proposition_suggestion_allowed`, `region_id`) VALUES
+(61, 'Krypto Backcountry Contest & Night', 0, 0, 'Le 24 janvier prochain, Anzère accueille un nouvel événement de sports extrêmes: le Krypto Backcountry Contest. \r\n\r\nL’idée est de réunir des skieurs et snowboardeurs sur les pentes de l’arrière - pays (backcountry) d’Anzère, pour une compétition qui comprend 3 disciplines spécifiques : \r\n\r\n- le freeride (descente libre sur une pente naturelle)\r\n- le big air (figures sur un tremplin artificiel)\r\n- le jib (figures sur des éléments en métal et en bois (rail, wall…)\r\n\r\nLe départ est située dans un cadre spectaculaire, sur la pente de Tsa-La-Crêt (2522m) pour se terminer à Plan les Conches, à la hauteur du départ du télésiège du Bâté. \r\n\r\nCelui ou celle qui remportera le Trophée du Krypto 2014 devra maîtriser ces 3 disciplines, avoir une bonne condition physique, de la technique, du courage et le plus important, du style ! \r\n\r\nLe Krypto Backcountry Contest a aussi un but de prévention. Les organisateurs se sont entourés de professionnels de la montagne dont notemment Philippe Fardel, le chef de la sécurité de téléAnzère, Robert Bolognesi, spécialistes des avalanches chez Meteorisk et le guide de montagne David Fasel. Ils assureront la sécurité de la zone et des riders et chaque participant est équipé du matériel de base (arva-pelle-sonde). Le message est qu’on ne se lance pas dans une pente enneigée sans préparation, matériel et expérience. \r\n\r\nLe Krypto Backcountry Contest c’est un défi pour les riders et un show pour le spectateur. Les organisateurs ont prévu des démonstrations de sports aériens (si le temps le permets), des animations, des Dj’s. Le public pourra se réchauffer et se restaurer aux cantines avec des spécialités locales. Le soir, la Krypto Night aura lieu en station pour une soirée Electro-Ragga-Hip Hop Aya Waska, Electrypnose, Julian et DJ Didjé (plus d’infos à venir). \r\n\r\nINSCRIPTIONS AU CONTEST \r\n- Par mail à k@kryptonitehill.com\r\n- CHF 40.- à payer sur place dès 7h au bureau de course à la caisse du télécabine \r\n(sont compris l''abonnement, la participation au contest et l''entrée à la soirée)\r\n\r\nHORAIRE \r\n07h00 Ouverture du bureau de course à la caisse du télécabine \r\n07h45 Ouverture de la télécabine pour les riders\r\n08h15 Ouverture du télésiège du Bâté et du Check Point\r\n09h00 Début du contest\r\n12h00 Démos + animations sur le site du contest\r\n14h30 Remise des prix sur place\r\n\r\nINFOS\r\nAssociation Kryptonite Hill\r\nRoute d’Anzère 26\r\n1972 Anzère, Valais, Suisse\r\nPar mail info@kryptonitehill.com\r\nFacebook www.facebook.com/kryptonitehill', '2015-01-24 07:00:00', NULL, 1, 'Route d''Anzère 26, 1972 Anzère, Suisse', 500, 15, 12, 0, 2),
+(62, 'Japan Impact 2015 : 7ème édition', 0, 0, 'Et votre convention japonaise romande préférée revient pour sa 7ème édition en février 2015 !\r\n\r\nAvec, comme chaque année, un programme qui s''étoffe un peu plus. Et qui vous sera révélé au cours des prochains mois.\r\n\r\nPour faire court : \r\n- Des invités fantastiques, dont tous les noms ne sont pas encore décidés. (Vos propositions sont toujours les bienvenues. ;) )\r\n- Des activités diverses et variées pour régaler petits et grands l''espace d''un weekend et permettre à tout un chacun d''avoir sa dose de Japon !\r\n- Des surprises !\r\n\r\nPlus d''informations à venir, bien sûr.\r\n\r\n\r\nDes idées, des propositions, envie de faire partie du staff, du comité ? N''hésitez pas à nous contacter. ^^\r\n\r\nJapan Impact est organisé par PolyJapan, association estudiantine de l''EPFL à but non lucratif.', '2015-01-14 00:00:00', NULL, 2, 'École Polytechnique Fédérale de Lausanne, Route Cantonale, 1015 Lausanne, Suisse', 500, 0, 12, 0, 7),
+(63, 'Pic-nic des IL', 1, 1, 'Nous partons en Pic-Nic !', '2015-01-11 12:00:00', '2015-01-09 23:59:59', 1, NULL, 30, 0, 12, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -218,6 +249,14 @@ CREATE TABLE IF NOT EXISTS `friendship` (
   KEY `fk_user_has_user_user1_idx` (`user_id1`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `friendship`
+--
+
+INSERT INTO `friendship` (`user_id1`, `user_id2`) VALUES
+(12, 13),
+(12, 14);
+
 -- --------------------------------------------------------
 
 --
@@ -232,8 +271,15 @@ CREATE TABLE IF NOT EXISTS `individual_proposition` (
   PRIMARY KEY (`id`),
   KEY `fk_individualProposition_event1_idx` (`event_id`),
   KEY `fk_individualProposition_user1_idx` (`user_dealing_with_it`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
+--
+-- Contenu de la table `individual_proposition`
+--
+
+INSERT INTO `individual_proposition` (`id`, `content`, `event_id`, `user_dealing_with_it`) VALUES
+(15, 'Moussaka', 63, NULL),
+(16, 'Haut-parleurs', 63, 13);
 
 -- --------------------------------------------------------
 
@@ -249,6 +295,13 @@ CREATE TABLE IF NOT EXISTS `invitation` (
   KEY `fk_invitation_event1_idx` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `invitation`
+--
+
+INSERT INTO `invitation` (`user_id`, `event_id`) VALUES
+(14, 63);
+
 -- --------------------------------------------------------
 
 --
@@ -259,7 +312,21 @@ CREATE TABLE IF NOT EXISTS `keyword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Contenu de la table `keyword`
+--
+
+INSERT INTO `keyword` (`id`, `content`) VALUES
+(1, 'Neige'),
+(2, 'Concours'),
+(3, 'Japon'),
+(4, 'Ramen'),
+(5, 'Cosplay'),
+(6, 'Nourriture'),
+(7, 'Repas'),
+(8, 'IL');
 
 -- --------------------------------------------------------
 
@@ -275,6 +342,20 @@ CREATE TABLE IF NOT EXISTS `keyword_specification` (
   KEY `fk_event_has_keyword_event1_idx` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `keyword_specification`
+--
+
+INSERT INTO `keyword_specification` (`event_id`, `keyword_id`) VALUES
+(61, 1),
+(61, 2),
+(62, 3),
+(62, 4),
+(62, 5),
+(63, 6),
+(63, 7),
+(63, 8);
+
 -- --------------------------------------------------------
 
 --
@@ -288,7 +369,17 @@ CREATE TABLE IF NOT EXISTS `mandatory_checklist_item` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `mandatoryCheckListItemUnique` (`content`,`event_id`),
   KEY `fk_mandatoryCheckListItem_event1_idx` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Contenu de la table `mandatory_checklist_item`
+--
+
+INSERT INTO `mandatory_checklist_item` (`id`, `content`, `event_id`) VALUES
+(2, '40 .-', 61),
+(1, 'Affaires de ski', 61),
+(3, 'Bonne humeur', 62),
+(4, 'Son pic-nic', 63);
 
 -- --------------------------------------------------------
 
@@ -324,6 +415,16 @@ CREATE TABLE IF NOT EXISTS `participation` (
   KEY `fk_event_has_user_user1_idx` (`user_id`),
   KEY `fk_event_has_user_event1_idx` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `participation`
+--
+
+INSERT INTO `participation` (`event_id`, `user_id`) VALUES
+(61, 12),
+(62, 12),
+(63, 12),
+(63, 13);
 
 -- --------------------------------------------------------
 
@@ -407,8 +508,15 @@ CREATE TABLE IF NOT EXISTS `start_place_open_option` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `startPlaceOpenOptionUnique` (`start_place`,`event_id`),
   KEY `fk_startPlaceOpenOptions_event1_idx` (`event_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
+--
+-- Contenu de la table `start_place_open_option`
+--
+
+INSERT INTO `start_place_open_option` (`id`, `start_place`, `event_id`) VALUES
+(36, 'Place de la Riponne, Lausanne, Suisse', 63),
+(37, 'Route de Cheseaux 1, 1400 Yverdon-les-Bains, Suisse', 63);
 
 -- --------------------------------------------------------
 
@@ -443,7 +551,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `fk_user_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Contenu de la table `user`
@@ -451,7 +559,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `firstname`, `surname`, `password`, `birthdate`, `email`, `region_id`, `is_admin`, `active`) VALUES
 (12, 'Dominique', 'Jollien', '1a1dc91c907325c69271ddf0c944bc72', '1993-06-20', 'dominiquejollien@hotmail.com', 17, 0, 1),
-(13, 'Auriana', 'Hug', '1a1dc91c907325c69271ddf0c944bc72', '1900-01-01', 'auriana.hug@heig-vd.ch', 14, 0, 1);
+(13, 'Auriana', 'Hug', '1a1dc91c907325c69271ddf0c944bc72', '1900-01-01', 'auriana.hug@heig-vd.ch', 6, 0, 1),
+(14, 'Stéphane', 'Maillard', '1a1dc91c907325c69271ddf0c944bc72', '1989-08-16', 'stephane.maillard@heig-vd.ch', 9, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -470,7 +579,18 @@ CREATE TABLE IF NOT EXISTS `user_inbox_message` (
   PRIMARY KEY (`id`),
   KEY `FKSender_idx` (`sender`),
   KEY `FKRecepient_idx` (`recipient`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=130 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=155 ;
+
+--
+-- Contenu de la table `user_inbox_message`
+--
+
+INSERT INTO `user_inbox_message` (`id`, `subject`, `content`, `sender`, `recipient`, `date`, `is_read`) VALUES
+(142, 'Ajout de contact : Dominique Jollien', 'Dominique Jollien t''as ajouté comme contact.', 12, 13, '2015-01-08 09:00:50', 0),
+(143, 'Ajout de contact : Dominique Jollien', 'Dominique Jollien t''as ajouté comme contact.', 12, 14, '2015-01-08 09:00:51', 0),
+(144, 'Invitation : Pic-nic des IL', 'Tu as reçu une invitation à Pic-nic des IL<a class="list_contact" href="http://crazevent.com/details_event/index/63">Voir l''évènement</a>', 12, 13, '2015-01-08 09:00:56', 0),
+(145, 'Invitation : Pic-nic des IL', 'Tu as reçu une invitation à Pic-nic des IL<a class="list_contact" href="http://crazevent.com/details_event/index/63">Voir l''évènement</a>', 12, 14, '2015-01-08 09:01:33', 0),
+(154, 'Inscription d''un participant : Pic-nic des IL', 'Auriana Hug s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/63">Voir l''évènement</a>', 13, 12, '2015-01-08 09:17:56', 0);
 
 -- --------------------------------------------------------
 

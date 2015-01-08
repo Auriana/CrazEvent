@@ -301,8 +301,10 @@ $(document).ready(function(){
         });
     });
 	
-	// ADDRESS PICKER
-    $('.inputPlace').addresspicker();
+    // ADDRESS PICKER
+    $('body').on('focus',".inputPlace", function(){
+        $(this).addresspicker();
+    });
 });
 </script>
 

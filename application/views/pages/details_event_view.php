@@ -63,7 +63,7 @@
         url: '/details_event/invite/' + idEvent + "/" + idUser,
 
         success: function (obj, textstatus) {
-                      if( !('error' in obj) ) {
+                      if($.inArray('success', obj)) {
                           $('#inviteContact' + idUser).text("invitation envoyée");
                       }
                       else {
