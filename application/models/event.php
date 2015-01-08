@@ -9,7 +9,7 @@ Class Event extends CI_Model {
 
     // insertion of the place if there is only one
        if(sizeof($places) == 1) {
-            $place = $places[0];
+            $place = $places[0]['content'];
        } else {
             $place = null;
        }
