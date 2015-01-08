@@ -163,7 +163,7 @@
 </script>
 <div class="container theme-showcase" role="main">
 <div class="col-md-10 white-bloc centred">
-	<?php        print_r($event);
+	<?php
         if($event->organizer == $id_user) {
 			echo '<div id="control-event">';
             echo '<a class="btn btn-default" href="'.base_url().'manage_event/management/'.$event->id.'">Modifier</a>';

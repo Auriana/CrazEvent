@@ -52,7 +52,7 @@ Class Event extends CI_Model {
            $data = array();
            foreach ($places as $place){
                $data[] = array(
-                    'start_place' => $place,
+                    'start_place' => $place['content'],
                     'event_id' => $eventId
                );
            }       
@@ -93,7 +93,7 @@ Class Event extends CI_Model {
    function update_event($eventId, $name, $private, $date, $duration, $places, $region, $activities, $description, $keywords, $checklistItems,  $individualPropositions, $invitationSuggestionAllowed, $individualPropositionSuggestionAllowed, $maxParticipant, $minAge, $inscriptionDeadline) {
        // insertion of the place if there is only one
        if(sizeof($places) == 1) {
-            $place = $places[0];
+            $place = $places[0]['content'];
        } else {
             $place = null;
        }
@@ -134,18 +134,41 @@ Class Event extends CI_Model {
        }
        
        //insertion of Places open option
-       $this->db->where('event_id', $eventId);
-       $this->db->delete('start_place_open_option');
-       if(sizeof($places) > 1) {
-           $data = array();
-           foreach ($places as $place){
-               $data[] = array(
-                    'start_place' => $place,
+      if(sizeof($places) > 1) {
+           $newOpenOptions = array();
+           $openOptionsId = array();
+          
+           foreach ($places as $place) {
+               if(isset($place['id'])) {
+                    //update of old open options
+                    $updatedOpenOption = array(
+                    'start_place' => $place['content'],
                     'event_id' => $eventId
-               );
-           }       
-           $insertionResult = $this->db->insert_batch('start_place_open_option', $data);
-       }
+                    );
+                    $this->db->where('id', $place['id']);
+                    $this->db->update('start_place_open_option', $updatedOpenOption);
+                   
+                   $openOptionsId[] = $place['id'];
+               } else {
+                   $newOpenOptions[] = array(
+                    'start_place' => $place['content'],
+                    'event_id' => $eventId
+                   );
+               }
+           }
+          
+            //deletion of deleted open options
+           foreach ($openOptionsId as $id) {
+               $this->db->where_not_in('id', $openOptionsId);
+               $this->db->delete('start_place_open_option');
+           }
+          
+           //creation of new open options
+           if(!empty($newOpenOptions)) {
+            $insertionResult = $this->db->insert_batch('start_place_open_option', $newOpenOptions);
+           }
+      }
+       
        
         //insertion of individual propositions
        $this->db->where('event_id', $eventId);

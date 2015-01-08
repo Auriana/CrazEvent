@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 07 Janvier 2015 à 22:53
+-- Généré le :  Jeu 08 Janvier 2015 à 01:47
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `crazevent`
 --
+CREATE DATABASE IF NOT EXISTS `crazevent` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `crazevent`;
 
 DELIMITER $$
 --
@@ -145,16 +147,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
-
---
--- Contenu de la table `activity`
---
-
-INSERT INTO `activity` (`id`, `content`) VALUES
-(26, 'a'),
-(27, 'aaa'),
-(28, 's');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
 
 -- --------------------------------------------------------
 
@@ -169,14 +162,6 @@ CREATE TABLE IF NOT EXISTS `activity_specification` (
   KEY `fk_activity_has_event_event1_idx` (`event_id`),
   KEY `fk_activity_has_event_activity1_idx` (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `activity_specification`
---
-
-INSERT INTO `activity_specification` (`activity_id`, `event_id`) VALUES
-(27, 45),
-(28, 46);
 
 -- --------------------------------------------------------
 
@@ -202,15 +187,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   PRIMARY KEY (`id`),
   KEY `FKOrganization_idx` (`organizer`),
   KEY `fk_event_region_idx` (`region_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=47 ;
-
---
--- Contenu de la table `event`
---
-
-INSERT INTO `event` (`id`, `name`, `private`, `invitation_suggestion_allowed`, `description`, `start_date`, `inscription_deadline`, `duration`, `start_place`, `participant_max_nbr`, `participant_minimum_age`, `organizer`, `individual_proposition_suggestion_allowed`, `region_id`) VALUES
-(45, 'caché', 1, 0, 'aaa', NULL, NULL, 1, NULL, 12, 0, 12, 0, 2),
-(46, 'test', 0, 0, 'aaa', '2015-01-08 00:00:00', NULL, 1, NULL, NULL, 0, 13, 0, 2);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=60 ;
 
 -- --------------------------------------------------------
 
@@ -255,7 +232,8 @@ CREATE TABLE IF NOT EXISTS `individual_proposition` (
   PRIMARY KEY (`id`),
   KEY `fk_individualProposition_event1_idx` (`event_id`),
   KEY `fk_individualProposition_user1_idx` (`user_dealing_with_it`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+
 
 -- --------------------------------------------------------
 
@@ -347,14 +325,6 @@ CREATE TABLE IF NOT EXISTS `participation` (
   KEY `fk_event_has_user_event1_idx` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Contenu de la table `participation`
---
-
-INSERT INTO `participation` (`event_id`, `user_id`) VALUES
-(45, 12),
-(46, 13);
-
 -- --------------------------------------------------------
 
 --
@@ -403,11 +373,13 @@ INSERT INTO `region` (`id`, `content`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `start_date_open_option` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
   `event_id` int(11) NOT NULL,
-  PRIMARY KEY (`date`,`event_id`),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `open_option_unique` (`date`,`event_id`),
   KEY `fk_startDateOpenOptions_event1_idx` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -416,12 +388,10 @@ CREATE TABLE IF NOT EXISTS `start_date_open_option` (
 --
 
 CREATE TABLE IF NOT EXISTS `start_date_open_option_agreeing_user` (
-  `start_date_open_options_date` datetime NOT NULL,
-  `start_date_open_options_event_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`start_date_open_options_date`,`start_date_open_options_event_id`,`user_id`),
-  KEY `fk_startDateOpenOptions_has_user_user1_idx` (`user_id`),
-  KEY `fk_startDateOpenOptions_has_user_startDateOpenOptions1_idx` (`start_date_open_options_date`,`start_date_open_options_event_id`)
+  `start_date_open_option_id` int(11) NOT NULL,
+  PRIMARY KEY (`start_date_open_option_id`,`user_id`),
+  KEY `fk_startDateOpenOptions_has_user_user1_idx` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -431,12 +401,14 @@ CREATE TABLE IF NOT EXISTS `start_date_open_option_agreeing_user` (
 --
 
 CREATE TABLE IF NOT EXISTS `start_place_open_option` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `start_place` varchar(255) NOT NULL,
   `event_id` int(11) NOT NULL,
-  PRIMARY KEY (`start_place`,`event_id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `startPlaceOpenOptionUnique` (`start_place`,`event_id`),
   KEY `fk_startPlaceOpenOptions_event1_idx` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+
 
 -- --------------------------------------------------------
 
@@ -445,13 +417,11 @@ CREATE TABLE IF NOT EXISTS `start_place_open_option` (
 --
 
 CREATE TABLE IF NOT EXISTS `start_place_open_option_agreeing_user` (
-  `start_place_open_options_start_place` varchar(255) NOT NULL,
-  `start_place_open_options_event_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`start_place_open_options_start_place`,`start_place_open_options_event_id`,`user_id`),
-  UNIQUE KEY `startPlaceOpenOptionAgreeingUserUnique` (`start_place_open_options_start_place`,`start_place_open_options_event_id`,`user_id`),
+  `start_place_open_option_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`start_place_open_option_id`),
   KEY `fk_startPlaceOpenOptions_has_user_user1_idx` (`user_id`),
-  KEY `fk_startPlaceOpenOptions_has_user_startPlaceOpenOptions1_idx` (`start_place_open_options_start_place`,`start_place_open_options_event_id`)
+  KEY `fk_startPlaceOpenOptions_has_start_place_idx` (`start_place_open_option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -500,25 +470,7 @@ CREATE TABLE IF NOT EXISTS `user_inbox_message` (
   PRIMARY KEY (`id`),
   KEY `FKSender_idx` (`sender`),
   KEY `FKRecepient_idx` (`recipient`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=110 ;
-
---
--- Contenu de la table `user_inbox_message`
---
-
-INSERT INTO `user_inbox_message` (`id`, `subject`, `content`, `sender`, `recipient`, `date`, `is_read`) VALUES
-(98, 'Modification d’un paramètre de l’évènement : test', 'L''événement test a été modifié<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 20:18:16', 0),
-(99, 'Inscription d''un participant : test', 'Auriana Hug s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 13, 12, '2015-01-07 20:19:00', 0),
-(100, 'Modification d’un paramètre de l’évènement : test', 'L''événement test a été modifié<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 20:50:49', 0),
-(101, 'Modification d’un paramètre de l’évènement : test', 'L''événement test a été modifié<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 13, '2015-01-07 20:50:49', 0),
-(102, 'Modification d’un paramètre de l’évènement : test', 'L''événement test a été modifié<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 13, '2015-01-07 20:51:05', 0),
-(103, 'Inscription d''un participant : test', 'Dominique Jollien s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 20:52:19', 0),
-(104, 'Inscription d''un participant : test', 'Dominique Jollien s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 21:05:44', 0),
-(105, 'Inscription d''un participant : test', 'Dominique Jollien s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 21:05:56', 0),
-(106, 'Inscription d''un participant : test', 'Dominique Jollien s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 21:06:15', 0),
-(107, 'Inscription d''un participant : test', 'Dominique Jollien s''est inscrit à ton événement!<a class="list_contact" href="http://crazevent.com/details_event/index/44">Voir l''évènement</a>', 12, 12, '2015-01-07 21:08:02', 0),
-(108, 'Annulation de l’évènement : test', 'L''événement test a été annulé ', 12, 12, '2015-01-07 21:08:06', 0),
-(109, 'Annulation de l’évènement : test', 'L''événement test a été annulé ', 12, 13, '2015-01-07 21:08:09', 0);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=130 ;
 
 -- --------------------------------------------------------
 
@@ -635,7 +587,7 @@ ALTER TABLE `start_date_open_option`
 -- Contraintes pour la table `start_date_open_option_agreeing_user`
 --
 ALTER TABLE `start_date_open_option_agreeing_user`
-  ADD CONSTRAINT `fk_startDateOpenOptions_has_user_openOption` FOREIGN KEY (`start_date_open_options_date`, `start_date_open_options_event_id`) REFERENCES `start_date_open_option` (`date`, `event_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_startDateOpenOptions_has_start_date` FOREIGN KEY (`start_date_open_option_id`) REFERENCES `start_date_open_option` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_startDateOpenOptions_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -648,8 +600,8 @@ ALTER TABLE `start_place_open_option`
 -- Contraintes pour la table `start_place_open_option_agreeing_user`
 --
 ALTER TABLE `start_place_open_option_agreeing_user`
-  ADD CONSTRAINT `fk_startPlaceOpenOptions_has_user_openOption` FOREIGN KEY (`start_place_open_options_start_place`, `start_place_open_options_event_id`) REFERENCES `start_place_open_option` (`start_place`, `event_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_startPlaceOpenOptions_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_startPlaceOpenOptions_has_start_place` FOREIGN KEY (`start_place_open_option_id`) REFERENCES `start_place_open_option` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_startPlaceOpenOptions_has_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `user`

@@ -68,6 +68,7 @@ $(document).ready(function(){
                 <div class="col-sm-4"></div>\
                 <div class="inputPlaceContainer col-sm-4">\
                     <input type="text" class="form-control inputPlace" id="inputPlace' + placeNbr + '" name="inputPlace' + placeNbr + '" placeholder="Entre un lieu">\
+                    <input type="hidden" class="form-control inputPlaceId" name="inputPlaceId' + placeNbr + '" id="inputPlaceId' + placeNbr + '" value">\
                 </div>\
                 <div class="removePlaceContainer col-sm-2">\
                     <button type="button" class="btn btn-default removePlace but-icon" id="removePlace' + placeNbr + '"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>\
@@ -99,6 +100,13 @@ $(document).ready(function(){
         $( ".inputPlace" ).each(function( index ) {
             $(this).attr('id', "inputPlace" + indexPlace);
             $(this).attr('name', "inputPlace" + indexPlace);
+            --indexPlace;
+        });
+        indexPlace = placeNbr;
+        //the hidden id input
+        $( ".inputPlaceId" ).each(function( index ) {
+            $(this).attr('id', "inputPlaceId" + indexPlace);
+            $(this).attr('name', "inputPlaceId" + indexPlace);
             --indexPlace;
         });
         indexPlace = placeNbr;
@@ -310,7 +318,9 @@ $(document).ready(function(){
     });
 	
 	// ADDRESS PICKER
-    $('.inputPlace').addresspicker();
+    $('body').on('focus',".inputPlace", function(){
+        $(this).addresspicker();
+    });
 });
 </script>
 
@@ -395,6 +405,7 @@ $(document).ready(function(){
 					echo '<div class="inputPlaceContainer col-sm-4">';
 					echo '<input type="text" class="form-control inputPlace" name="inputPlace'.$placeNumber.'" id="inputPlace'.$placeNumber.'" placeholder="Entre un lieu" value="'.$place['place'].'">';
 					echo '<span id="place1Error"></span>';
+                    echo '<input type="hidden" class="form-control inputPlaceId" name="inputPlaceId'.$placeNumber.'" id="inputPlaceId'.$placeNumber.'" value="'.$place['id'].'">';
 					echo '</div>';
 					echo '<div class="removePlaceContainer col-sm-2">';
 					echo '<button type="button" class="btn btn-default removePlace but-icon" id="removePlace'.$placeNumber.'"><span class="glyphicon glyphicon-trash" aria-hidden="Supprimer"></span></button>';

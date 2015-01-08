@@ -26,6 +26,7 @@ class Manage_Event extends CI_Controller {
                 $data['nb_notifications'] = $this->user->count_unread_message($this->session->userdata('logged_in')['id']);
                 $info_event['regions'] = get_region_scrollbox_with_selected($info_event['event']->region);
 
+                
                 $this->load->helper(array('form'));
                 $this->load->view('templates/header_logged_in', $data);
                 $this->load->view('pages/manage_event_view', $info_event);
@@ -104,25 +105,39 @@ class Manage_Event extends CI_Controller {
            $eventData['eventDuration'] = $this->input->post('inputDuration', TRUE);
         }
 
-        $eventData['eventPlaces'] = $this->get_array_from_form('inputPlace');
         $eventData['eventRegion'] = $this->input->post('inputRegion', TRUE);       
         $eventData['eventActivities'] = $this->get_array_from_form('inputActivity');
         $eventData['eventDescription'] = $this->input->post('inputDescription', TRUE);
         $eventData['eventKeywords'] = $this->get_array_from_form('inputKeyword');
         $eventData['eventChecklistItems'] = $this->get_array_from_form('inputChecklistItem');
         
+        
+        $eventData['eventPlaces'] = array();
+        $i = 1;
+        while(($formValue = $this->input->post("inputPlace".$i, TRUE)) != false) {
+           if($formValue != '') {
+               $array = array();
+               $array['content']  = $formValue;
+               if($this->input->post("inputPlaceId".$i, TRUE) != false && $this->input->post("inputPlaceId".$i, TRUE) != "") {
+                  $array['id'] = $this->input->post("inputPlaceId".$i, TRUE);
+               }
+               $eventData['eventPlaces'][] = $array;
+           }
+           $i++;
+        }
+        
         $eventData['eventIndividualPropositions'] = array();
         $i = 1;
-        while(($formValue = $this->input->post("inputIndividualProposition".$i++, TRUE)) != false) {
+        while(($formValue = $this->input->post("inputIndividualProposition".$i, TRUE)) != false) {
            if($formValue != '') {
                $array = array();
                $array['content']  = $formValue;
                if($this->input->post("inputIndividualPropositionUser".$i, TRUE) != false && $this->input->post("inputIndividualPropositionUser".$i, TRUE) != "") {
                   $array['user_dealing_with_it'] = $this->input->post("inputIndividualPropositionUser".$i, TRUE);
                }
-               
                $eventData['eventIndividualPropositions'][] = $array;
            }
+           $i++;
         }
                 
         $eventData['eventInvitationSuggestionAllowed'] = isset($_POST['inputInvitationAllowed']);
